@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:background="#F7F7F7"
+
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/topbar"
+        android:id="@+id/list_linear">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="17.5dp"
+        android:src="@drawable/locate"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="31.5dp"
+        android:layout_marginLeft="17dp"
+        android:text="여기는 지역구"
+        android:id="@+id/listview_local"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/centerbar" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="22dp"
+            android:src="@drawable/pin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="32.5dp"
+            android:layout_marginLeft="17dp"
+            android:text="지역선택"
+            android:id="@+id/listview_localselect"
+            />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_below="@id/list_linear"
+        android:paddingRight="17.5dp"
+        android:paddingLeft="17.5dp"
+        android:paddingTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview2"
+        android:divider="@null"
+        android:dividerHeight="0dp"></ListView>
+
+</RelativeLayout>

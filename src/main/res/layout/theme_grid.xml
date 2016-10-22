@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:columnCount="2"
+    android:paddingTop="15dp"
+    android:rowCount="4"
+    android:background="#f7f7f7">
+
+    <ImageView
+    android:layout_width="159.3dp"
+    android:layout_height="131.6dp"
+    android:layout_marginRight="3.5dp"
+        android:id="@+id/theme1"
+
+        android:layout_marginBottom="8.2dp"/>
+
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginLeft="3.5dp"
+
+        android:id="@+id/theme2"
+       />
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginRight="3.5dp"
+        android:id="@+id/theme3"
+
+        android:layout_marginBottom="8.2dp"/>
+
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginLeft="3.5dp"
+
+        android:id="@+id/theme4"
+        />
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginRight="3.5dp"
+        android:id="@+id/theme5"
+
+        android:layout_marginBottom="8.2dp"/>
+
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginLeft="3.5dp"
+
+        android:id="@+id/theme6"
+        />
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginRight="3.5dp"
+        android:id="@+id/theme7"
+
+        android:layout_marginBottom="8.2dp"/>
+
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginLeft="3.5dp"
+
+        android:id="@+id/theme8"
+        />
+
+
+</GridLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
+    android:paddingLeft="70dp"
+    android:paddingRight="70dp"
+    android:gravity="bottom"
+
+
+    >
+
+
+    <Button
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:background="@drawable/local"
+        android:id="@+id/btn_location"
+        android:layout_marginTop="14.5dp"
+        android:layout_marginBottom="65dp"
+        />
+
+    <Button
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:background="@drawable/theme"
+        android:id="@+id/btn_theme"
+        android:layout_marginTop="12.5dp"
+        android:layout_above="@id/btn_location" />
+
+
+    <Button
+        android:layout_width="220dp"
+        android:layout_height="58.25dp"
+        android:background="@drawable/pick"
+        android:id="@+id/btn_masil"
+        android:layout_above="@id/btn_theme"
+        />
+
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오늘도 즐거운 산책해요!"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="45dp"
+        android:id="@+id/textmain"
+        android:textSize="17sp"
+        android:layout_above="@id/btn_masil"/>
+
+
+</RelativeLayout>

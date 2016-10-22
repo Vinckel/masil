@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="87.5dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:background="@drawable/bgbottom">
+        <Button
+            android:layout_marginTop="24.2dp"
+            android:layout_width="142.5dp"
+            android:layout_height="37.5dp"
+
+            android:background="@drawable/emptyb">
+
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:background="#f7f7f7"
+        android:layout_height="match_parent"
+        android:paddingTop="11dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="321.85dp"
+            android:layout_height="319.555dp"
+            android:id="@+id/map_view"
+            android:layout_marginLeft="17.5dp"
+            android:layout_marginRight="17.5dp"
+            android:layout_marginBottom="11dp"
+           />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="71.25dp"
+            android:background="@drawable/bgbar">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/halfline"
+                android:id="@+id/halfline1"
+                />
+      <ImageView
+          android:layout_centerVertical="true"
+          android:layout_width="24.42dp"
+          android:layout_height="27.75dp"
+          android:layout_alignParentLeft="true"
+          android:layout_marginLeft="41.562dp"
+          android:id="@+id/walkingtime"
+          android:src="@drawable/timer"
+          />
+            <TextView
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="20.25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/walkingtimetext"
+                android:layout_toEndOf="@id/walkingtime"
+
+                android:text="산책 시간"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00:00"
+                android:layout_below="@id/walkingtimetext"
+                android:layout_alignLeft="@id/walkingtimetext"
+                />
+
+
+            <ImageView
+                android:layout_width="29.42dp"
+                android:layout_height="30.16dp"
+                android:layout_alignLeft="@id/halfline1"
+                android:layout_marginLeft="23.1dp"
+                android:layout_centerVertical="true"
+
+                android:id="@+id/distance"
+                android:src="@drawable/distance"/>
+
+            <TextView
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="20.25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/walkingdistext"
+                android:layout_toEndOf="@id/distance"
+
+                android:text="산책 거리"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00.00km"
+                android:layout_below="@id/walkingdistext"
+                android:layout_alignLeft="@id/walkingdistext"
+                />
+
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="71.25dp"
+            android:background="@drawable/bgbar">
+            <ImageView
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            android:src="@drawable/halfline"
+            android:id="@+id/halfline2"
+            />
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="19.25dp"
+                android:layout_height="25.15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="44.13dp"
+                android:id="@+id/cal"
+                android:src="@drawable/burn"
+                />
+            <TextView
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="20.25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/caltext"
+                android:layout_toEndOf="@id/cal"
+
+                android:text="소모 칼로리"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00:00"
+                android:layout_below="@id/caltext"
+                android:layout_alignLeft="@id/caltext"
+                />
+
+
+            <ImageView
+                android:layout_width="20.19dp"
+                android:layout_height="4.55dp"
+                android:layout_alignLeft="@id/halfline2"
+                android:layout_marginLeft="23.1dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/leftdis"
+                android:src="@drawable/remain"/>
+
+            <TextView
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="20.25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/leftdistext"
+                android:layout_toEndOf="@id/leftdis"
+                android:text="남은 산책 거리"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00.00km"
+                android:layout_below="@id/leftdistext"
+                android:layout_alignLeft="@id/leftdistext"
+                />
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="86.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="12.5dp"
+            android:background="#45BECE"
+            android:id="@+id/underbar">
+            <Button
+                android:layout_width="144.75dp"
+                android:layout_height="41.06dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/filledb"
+                android:layout_marginBottom="24dp"
+                android:id="@+id/btn_finish"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

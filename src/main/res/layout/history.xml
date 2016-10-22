@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:orientation="vertical"
+    android:id="@+id/history"
+    android:paddingTop="15dp"
+    android:paddingBottom="12dp"
+    android:paddingLeft="17.5dp"
+    android:paddingRight="17.5dp"
+    android:layout_marginBottom="12dp"
+    android:background="#f7f7f7"
+    >
+
+    <RelativeLayout
+        android:layout_width="326dp"
+        android:layout_height="89.25dp"
+        android:background="@drawable/list"
+
+        >
+        <RatingBar
+            android:layout_width="80dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5.25dp"
+            android:layout_alignParentRight="true"/>
+
+        <ImageView
+            android:layout_width="117.25dp"
+            android:layout_height="86.25dp"
+            android:src="@drawable/photo"
+            android:id="@+id/history_img"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:text="WOWOWOWOWOWOW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5.25dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#727272"
+            android:id="@+id/history_name" />
+
+        <TextView
+            android:text="01:26:30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:id="@+id/history_time"
+            android:layout_above="@id/history_name"
+            android:layout_marginLeft="52.5dp"
+            android:layout_toEndOf="@+id/history_img"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_above="@id/history_time"
+            android:layout_marginBottom="4.5dp"
+            android:text="2016.01.01"
+            android:textColor="#AAAAAA"
+            android:textSize="12dp"/>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:layout_above="@id/history_name"
+            android:layout_toRightOf="@id/history_time"
+            android:layout_marginLeft="19.75dp"
+            android:text="|"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:layout_above="@id/history_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="19.75dp"
+            android:layout_marginRight="10dp"
+            android:text="65.00km"
+            android:textSize="12dp"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

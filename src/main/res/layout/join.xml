@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/joinbg"
+
+    >
+    
+    <Button
+        android:layout_width="213.15dp"
+        android:layout_height="56.15dp"
+        android:id="@+id/btn_joing"
+        android:background="@drawable/joing"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="317.5dp"
+        />
+
+    <Button
+        android:layout_width="213.15dp"
+        android:layout_height="56.15dp"
+        android:id="@+id/btn_joinm"
+        android:layout_marginTop="14.5dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/joinm"
+        android:layout_below="@id/btn_joing"
+        />
+
+
+</RelativeLayout>

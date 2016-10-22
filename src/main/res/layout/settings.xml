@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    android:paddingLeft="70dp"
+    android:paddingRight="70dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:background="@drawable/setbg"
+        android:layout_marginTop="4.75dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="51.5dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#727272"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="17.5dp"
+                android:layout_centerVertical="true"
+                android:text="산책 제안 알림 설정"/>
+            <ImageView
+                android:layout_width="42.5dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/on"
+                android:layout_marginRight="17.5dp"/>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="325dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17.5dp"
+            android:layout_marginRight="17.5dp"
+            android:background="@drawable/line"
+            android:layout_marginTop="51.5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="51.5dp"
+        android:layout_marginTop="51.5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="17.5dp"
+            android:layout_centerVertical="true"
+            android:text="스마트밴드 연동 설정"/>
+        <ImageView
+            android:layout_width="42.5dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/off"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="17.5dp"
+        />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17.5dp"
+        android:layout_marginRight="17.5dp"
+        android:background="@drawable/line"
+        android:layout_marginTop="103dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="51.5dp"
+        android:layout_marginTop="103dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="17.5dp"
+            android:layout_centerVertical="true"
+            android:text="로그아웃"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/power"
+            android:layout_marginRight="17.5dp"/>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17.5dp"
+        android:layout_marginRight="17.5dp"
+        android:background="@drawable/line"
+        android:layout_marginTop="154.5dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="51.5dp"
+        android:layout_marginTop="154.5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="17.5dp"
+            android:layout_centerVertical="true"
+            android:text="앱 정보"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="#45bece"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="17.5dp"
+            android:text="Ver.1"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="50.75dp"
+        android:background="@drawable/titlebar"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:id="@+id/txt_datebox"
+        android:gravity="center"
+        >
+    <TextView
+        android:textSize="17sp"
+        android:text="2016. 01. 01 산책"
+        android:textColor="#727272"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_date"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+         />
+    </LinearLayout>
+
+    <EditText
+        android:gravity="top"
+        android:layout_below="@id/txt_datebox"
+        android:layout_width="match_parent"
+        android:layout_height="396dp"
+        android:id="@+id/edit_diary"
+        android:background="#fcfcfc"
+        android:textSize="17sp"
+        android:paddingRight="17.5dp"
+        android:paddingLeft="17.5dp"
+        android:paddingTop="10dp"
+        android:textColorHint="#DDDDDD"
+        android:hint="오늘의 산책을 정리해보세요."/>
+
+    <Button
+        android:layout_below="@id/edit_diary"
+        android:layout_width="match_parent"
+        android:layout_height="53.25dp"
+        android:background="@drawable/add"
+        android:id="@+id/btn_addphoto"/>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="87.5dp"
+    android:layout_alignParentBottom="true"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bgbottom"
+    android:layout_centerHorizontal="true"
+    android:orientation="horizontal">
+    <Button
+        android:layout_width="125dp"
+        android:layout_height="37.5dp"
+        android:layout_marginTop="24.2dp"
+        android:id="@+id/btn_diary_no"
+        android:background="@drawable/later"
+
+         />
+
+    <Button
+        android:layout_width="127.25dp"
+        android:layout_height="41dp"
+        android:layout_marginLeft="10.8dp"
+        android:layout_marginTop="24.2dp"
+        android:textAlignment="center"
+        android:id="@+id/btn_diary_done"
+        android:background="@drawable/done"
+
+         />
+</LinearLayout>
+
+
+</RelativeLayout>

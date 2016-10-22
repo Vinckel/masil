@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="315dp"
+    android:layout_height="101.15dp"
+    android:orientation="vertical"
+    android:id="@+id/road_list_item"
+    android:paddingBottom="12dp"
+    android:layout_marginBottom="12dp">
+
+    <RelativeLayout
+        android:layout_width="315dp"
+        android:layout_height="89.15dp"
+        android:background="@drawable/list"
+
+        >
+
+        <ImageView
+            android:layout_width="117.5dp"
+            android:layout_height="86.25dp"
+            android:src="@drawable/photo"
+            android:id="@+id/road_img"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="9.5dp"
+            android:src="@drawable/marker"
+            android:id="@+id/marker"
+            android:layout_marginTop="41dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/road_img"
+            android:layout_marginStart="40.75dp" />
+
+        <TextView
+            android:text="WOWOWOWOWOWOW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="9.25dp"
+            android:textColor="#727272"
+            android:id="@+id/road_name" />
+
+        <TextView
+            android:text="LOCA"
+           android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:id="@+id/road_loca"
+            android:textSize="9sp"
+            android:layout_alignTop="@+id/marker"
+            android:layout_toEndOf="@+id/marker"
+            android:layout_marginStart="5dp"
+            />
+
+
+    </RelativeLayout>
+</LinearLayout>

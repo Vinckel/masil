@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="251.5dp"
+    android:layout_height="235dp"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:background="@drawable/dropdown">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="산책을 마친 후,\n지금 내 기분은 어때요?"
+        android:textColor="#727272"
+        android:textSize="17sp"
+        android:id="@+id/textView11"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal" />
+
+    <Spinner
+        android:layout_marginTop="19.5dp"
+        android:background="@drawable/btn_dropdown"
+        android:layout_width="129dp"
+        android:layout_height="22.5dp"
+        android:paddingLeft="40dp"
+        android:id="@+id/feelingspinner"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="127.5dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="48.5dp"
+        android:background="@drawable/next"
+        android:id="@+id/btn_diary_next"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

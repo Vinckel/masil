@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@drawable/conbg">
+
+    <TextView
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="211dp"
+        android:layout_width="match_parent"
+        android:layout_height="39.5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:text="오늘 마시리님의 컨디션과\n산책 가능시간은 어떻게 되시나요?"
+        android:id="@+id/textView"
+        android:textSize="16sp"
+        android:layout_marginBottom="103dp"
+        android:textColor="#FFFFFF"/>
+
+    <ImageView
+        android:id="@+id/battery"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
+        android:src="@drawable/battery"
+        android:layout_marginLeft="43.5dp"
+        android:layout_below="@id/textView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="나의 컨디션"
+        android:layout_marginLeft="10.625dp"
+        android:layout_below="@id/textView"
+        android:layout_toEndOf="@id/battery"
+        android:textSize="16sp"
+        android:textColor="#45BECE"
+        android:id="@+id/con_text"/>
+
+    <Spinner
+        android:layout_width="129dp"
+        android:layout_height="22.1dp"
+        android:id="@+id/conditionspinner"
+        android:background="@drawable/btn_dropdown"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignBottom="@id/battery"
+        android:layout_marginRight="48.25dp"
+        android:paddingLeft="37dp"
+        android:textAlignment="center"
+        android:layout_alignParentRight="true"/>
+
+
+
+    <ImageView
+        android:layout_width="26.75dp"
+        android:layout_height="30.25dp"
+        android:src="@drawable/timer"
+        android:id="@+id/timer"
+        android:layout_below="@id/battery"
+        android:layout_marginTop="45.25dp"
+        android:layout_marginLeft="43.5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="산책 가능시간"
+        android:textColor="#45BECE"
+        android:id="@+id/time_text"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/timer"
+       android:layout_marginTop="49.25dp"
+        android:layout_marginLeft="8dp"
+        android:layout_below="@id/con_text"/>
+
+
+    <Button
+        android:layout_width="189.75dp"
+        android:layout_height="40.625dp"
+        android:background="@drawable/pickb"
+        android:id="@+id/btn_masil_next"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22.25dp"
+        />
+
+    <Spinner
+        android:id="@+id/timespinner"
+        android:layout_width="129dp"
+        android:layout_height="22.1dp"
+        android:background="@drawable/btn_dropdown"
+        android:paddingLeft="37dp"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="48.25dp"
+        android:layout_alignBottom="@+id/timer"
+        android:layout_alignStart="@+id/conditionspinner" />
+
+</RelativeLayout>

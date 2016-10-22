@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp" android:layout_height="match_parent"
+    android:paddingRight="17.5dp" android:paddingLeft="17.5dp"
+    android:background="@drawable/bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25.5dp"
+        android:id="@+id/body"
+        android:textColor="#FFFFFF"
+        android:text="신체 정보"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="74.375dp"
+        android:background="@drawable/box1"
+        android:layout_below="@id/body"
+        android:id="@+id/body_view"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/height"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="14.5dp"
+            android:layout_marginBottom="10dp"
+            android:text="키"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:layout_below="@+id/height"
+            android:id="@+id/weight"
+            android:layout_marginLeft="25dp"
+            android:text="몸무게"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/height"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/heightspin" />
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/weight"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/weightspin" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/body_view"
+        android:layout_marginTop="35dp"
+        android:id="@+id/level"
+        android:textColor="#FFFFFF"
+        android:text="신체 정보"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49.5dp"
+        android:background="@drawable/box2"
+        android:layout_below="@id/level"
+        android:id="@+id/level_view"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/favor"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15.5dp"
+            android:layout_marginBottom="10dp"
+            android:text="산책로 선호 난이도"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/favor"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/favortspin" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/level_view"
+        android:layout_marginTop="34dp"
+        android:id="@+id/music"
+        android:textColor="#FFFFFF"
+        android:text="선호 음악"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:background="@drawable/box3"
+        android:layout_below="@id/music"
+        android:id="@+id/music_view"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/happy"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="기쁠 때"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/happy"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/happyspin" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/calm"
+            android:layout_below="@id/happy"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:text="평온할 때"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/calm"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/calmspin" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/bored"
+            android:layout_below="@id/calm"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:text="무료할 때"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bored"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/boredspin" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/sad"
+            android:layout_below="@id/bored"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:text="우울할 때"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/sad"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/sadspin" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#727272"
+            android:id="@+id/angry"
+            android:layout_below="@id/sad"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:text="짜증날 때"/>
+
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/angry"
+            android:layout_marginRight="30.25dp"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:id="@+id/angryspin" />
+
+    </RelativeLayout>
+    
+    <Button
+        android:layout_width="154.25dp"
+        android:layout_height="42.15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/music_view"
+        android:background="@drawable/fixfin"
+        android:layout_marginTop="49.5dp"/>
+
+</RelativeLayout>
