@@ -84,7 +84,6 @@ public class MasilRoadFrag extends Fragment implements View.OnClickListener {
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
-
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.top));
         txtTitle.setText("테마별 산책로");
 

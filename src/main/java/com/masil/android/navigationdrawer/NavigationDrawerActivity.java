@@ -205,7 +205,11 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
         switch (position)
         {
             case 0:
-                Toast.makeText(getApplicationContext(),"아직 아니야",Toast.LENGTH_SHORT).show();
+                ProfileFrag frag = new ProfileFrag();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_frame, frag);
+                ft.commit();
                 break;
             case 1:
                 Toast.makeText(getApplicationContext(),"아직 아니야",Toast.LENGTH_SHORT).show();
@@ -213,10 +217,6 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
             case 2:
                 Toast.makeText(getApplicationContext(),"아직 아니라고",Toast.LENGTH_SHORT).show();
                 break;
-            case 3:
-                Toast.makeText(getApplicationContext(),"아직 아니라니까",Toast.LENGTH_SHORT).show();
-                break;
-
         }
 
         // update selected item title, then close the drawer

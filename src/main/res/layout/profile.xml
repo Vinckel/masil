@@ -18,6 +18,8 @@
         android:background="@drawable/box1"
         android:layout_below="@id/body"
         android:id="@+id/body_view"
+        android:paddingTop="14.5dp"
+        android:paddingBottom="14.5dp"
         android:layout_marginTop="8dp">
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +27,6 @@
             android:textColor="#727272"
             android:id="@+id/height"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="14.5dp"
             android:layout_marginBottom="10dp"
             android:text="키"/>
         <TextView
@@ -37,7 +38,7 @@
             android:layout_marginLeft="25dp"
             android:text="몸무게"/>
 
-        <Spinner
+        <EditText
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/height"
@@ -45,7 +46,7 @@
             android:layout_alignParentRight="true"
             android:background="#dddddd"
             android:id="@+id/heightspin" />
-        <Spinner
+        <EditText
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/weight"
