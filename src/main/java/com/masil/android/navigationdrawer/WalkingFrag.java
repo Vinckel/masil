@@ -3,6 +3,7 @@ package com.masil.android.navigationdrawer;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -33,6 +34,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.navigationdrawer.R;
+import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
+import com.samsung.android.sdk.healthdata.HealthConstants;
+import com.samsung.android.sdk.healthdata.HealthDataService;
+import com.samsung.android.sdk.healthdata.HealthDataStore;
+import com.samsung.android.sdk.healthdata.HealthPermissionManager;
+import com.samsung.android.sdk.healthdata.HealthResultHolder;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPoint;
@@ -48,6 +55,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -58,10 +68,16 @@ public class WalkingFrag extends Fragment {
     String myJSON;
     JSONArray schkr = null;
     static double[][] mpolypoint;
+    public static final String APP_TAG = "Masil";
 
+    private final int MENU_ITEM_PERMISSION_SETTING = 1;
+    private static WalkingFrag mInstance = null;
+    private HealthDataStore mStore;
+    private HealthConnectionErrorResult mConnError;
+    private Set<HealthPermissionManager.PermissionKey> mKeySet;
+    private StepCountReporter mReporter;
 
-    static String startfeel,wktime,wklength,wkcount, calorie;
-
+    static String startfeel, wktime, wklength, wkcount, calorie;
 
     private static final String TAG_RESULTS = "result";
     private static final String db_id = "id";
@@ -74,7 +90,6 @@ public class WalkingFrag extends Fragment {
     private static final String ARG_PARAM3 = "wklength";
     private static final String ARG_PARAM4 = "wkcount";
     private static final String ARG_PARAM5 = "calorie";
-
 
     MapView mMapView;
     MapPolyline mPolyline;
@@ -96,13 +111,139 @@ public class WalkingFrag extends Fragment {
         return frag;
     }
 
+    public static WalkingFrag getInstance() {
+        return mInstance;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onDestroy() {
+        mStore.disconnectService();
+        super.onDestroy();
+    }
 
+    private final HealthDataStore.ConnectionListener mConnectionListener = new HealthDataStore.ConnectionListener() {
+
+        @Override
+        public void onConnected() {
+            Log.d(APP_TAG, "Health data service is connected.");
+            HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
+//            mReporter = new StepCountReporter(mStore);
+
+            try {
+                // Check whether the permissions that this application needs are acquired
+                Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = pmsManager.isPermissionAcquired(mKeySet);
+
+                if (resultMap.containsValue(Boolean.FALSE)) {
+                    // Request the permission for reading step counts if it is not acquired
+                    pmsManager.requestPermissions(mKeySet).setResultListener(mPermissionListener);
+                } else {
+                    // Get the current step count and display it
+                    mReporter.start();
+                }
+            } catch (Exception e) {
+                Log.e(APP_TAG, e.getClass().getName() + " - " + e.getMessage());
+                Log.e(APP_TAG, "Permission setting fails.");
+            }
+        }
+
+        @Override
+        public void onConnectionFailed(HealthConnectionErrorResult error) {
+            Log.d(APP_TAG, "Health data service is not available.");
+            showConnectionFailureDialog(error);
+        }
+
+        @Override
+        public void onDisconnected() {
+            Log.d(APP_TAG, "Health data service is disconnected.");
+        }
+    };
+
+    private void showConnectionFailureDialog(HealthConnectionErrorResult error) {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        mConnError = error;
+        String message = "Connection with S Health is not available";
+
+        if (mConnError.hasResolution()) {
+            switch(error.getErrorCode()) {
+                case HealthConnectionErrorResult.PLATFORM_NOT_INSTALLED:
+                    message = "Please install S Health";
+                    break;
+                case HealthConnectionErrorResult.OLD_VERSION_PLATFORM:
+                    message = "Please upgrade S Health";
+                    break;
+                case HealthConnectionErrorResult.PLATFORM_DISABLED:
+                    message = "Please enable S Health";
+                    break;
+                case HealthConnectionErrorResult.USER_AGREEMENT_NEEDED:
+                    message = "Please agree with S Health policy";
+                    break;
+                default:
+                    message = "Please make S Health available";
+                    break;
+            }
+        }
+
+        alert.setMessage(message);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                if (mConnError.hasResolution()) {
+                    mConnError.resolve(getActivity());
+                }
+            }
+        });
+
+        if (error.hasResolution()) {
+            alert.setNegativeButton("Cancel", null);
+        }
+
+        alert.show();
+    }
+
+    private final HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult> mPermissionListener =
+            new HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult>() {
+
+            @Override
+            public void onResult(HealthPermissionManager.PermissionResult result) {
+                Log.d(APP_TAG, "Permission callback is received.");
+                Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = result.getResultMap();
+
+                if (resultMap.containsValue(Boolean.FALSE)) {
+                    drawStepCount("");
+                    showPermissionAlarmDialog();
+                } else {
+                    // Get the current step count and display it
+                    mReporter.start();
+                }
+            }
+        };
+
+    private void showPermissionAlarmDialog() {
+//        if (isFinishing()) {
+//            return;
+//        }
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Notice");
+        alert.setMessage("All permissions should be acquired");
+        alert.setPositiveButton("OK", null);
+        alert.show();
+    }
+
+    public void drawStepCount(String count){
+
+        TextView stepCountTv = (TextView)getActivity().findViewById(R.id.calvaltext);
+
+        // Display the today step count so far
+        stepCountTv.setText(count);
     }
 
     @Nullable
@@ -112,127 +253,154 @@ public class WalkingFrag extends Fragment {
         View rootView = inflater.inflate(R.layout.walking_frag, container, false);
         walkingtimetext = (TextView)rootView.findViewById(R.id.walkingtimetext);
 
-        mMapView = new MapView(getActivity());
-        mPolyline = new MapPolyline();
-        mpolypoint = new double[2][12];
-
-
-        getPoint("http://condi.swu.ac.kr/schkr/receive_point.php");
-
-        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-        if (lastKnownLocation != null) {
-            lat = lastKnownLocation.getLatitude();
-            lon = lastKnownLocation.getLongitude();
+        mInstance = this;
+        mKeySet = new HashSet<HealthPermissionManager.PermissionKey>();
+        mKeySet.add(new HealthPermissionManager.PermissionKey(HealthConstants.StepCount.HEALTH_DATA_TYPE, HealthPermissionManager.PermissionType.READ));
+        HealthDataService healthDataService = new HealthDataService();
+        try {
+            healthDataService.initialize(getContext());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else {Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
 
-        mMapView.setDaumMapApiKey("a3df1310d2d475a4cca02b3a521dc8ab" );
-        ViewGroup mapViewContainer = (ViewGroup)rootView.findViewById(R.id.map_view);
+        // Create a HealthDataStore instance and set its listener
+        mStore = new HealthDataStore(getContext(), mConnectionListener);
+        // Request the connection to the health data store
+        mStore.connectService();
 
-        mMapView.setMapViewEventListener(new MapView.MapViewEventListener() {
-            @Override
-            public void onMapViewInitialized(MapView mapView) {
-
-                Log.d("123","initial 들어옴");
-                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
-                mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
-                mMapView.setDefaultCurrentLocationMarker();
-                mMapView.setShowCurrentLocationMarker(true);
-
-                mMapView.setCurrentLocationEventListener(new MapView.CurrentLocationEventListener() {
-                    @Override
-                    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
-                        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-                        mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
-
-                    }
-
-                    @Override
-                    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-
-                    }
-
-                    @Override
-                    public void onCurrentLocationUpdateFailed(MapView mapView) {
-
-                    }
-
-                    @Override
-                    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-
-                    }
-                });
+        HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
+        try {
+            // Show user permission UI for allowing user to change options
+            pmsManager.requestPermissions(mKeySet).setResultListener(mPermissionListener);
+        } catch (Exception e) {
+            Log.e(APP_TAG, e.getClass().getName() + " - " + e.getMessage());
+            Log.e(APP_TAG, "Permission setting fails.");
+        }
 
 
 
 
-
-              //  mMapView.addPolyline(mPolyline);
-
-
-            }
-
-            @Override
-            public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-
-            }
-
-            @Override
-            public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-
-            }
-
-            @Override
-            public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-
-            }
-
-            @Override
-            public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-
-            }
-
-            @Override
-            public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-
-            }
-
-            @Override
-            public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-
-            }
-
-            @Override
-            public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-
-            }
-
-            @Override
-            public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
-            }
-        });
-
-        mapViewContainer.addView(mMapView);
-
-        FeelingDialog mDialog = new FeelingDialog();
-        mDialog.show(getFragmentManager(),"MYTAG");
-
-
-
-
-
-        btn_finish = (Button)rootView.findViewById(R.id.btn_finish);
-        btn_finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FinishDialog mFDialog = new FinishDialog();
-                mFDialog.show(getFragmentManager(),"MYTAG");
-            }
-        });
+//        mMapView = new MapView(getActivity());
+//        mPolyline = new MapPolyline();
+//        mpolypoint = new double[2][12];
+//
+//
+//        getPoint("http://condi.swu.ac.kr/schkr/receive_point.php");
+//
+//        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//        String locationProvider = LocationManager.NETWORK_PROVIDER;
+//        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+//        if (lastKnownLocation != null) {
+//            lat = lastKnownLocation.getLatitude();
+//            lon = lastKnownLocation.getLongitude();
+//        }
+//        else {Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
+//
+//        mMapView.setDaumMapApiKey("a3df1310d2d475a4cca02b3a521dc8ab" );
+//        ViewGroup mapViewContainer = (ViewGroup)rootView.findViewById(R.id.map_view);
+//
+//        mMapView.setMapViewEventListener(new MapView.MapViewEventListener() {
+//            @Override
+//            public void onMapViewInitialized(MapView mapView) {
+//
+//                Log.d("123","initial 들어옴");
+//                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
+//                mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
+//                mMapView.setDefaultCurrentLocationMarker();
+//                mMapView.setShowCurrentLocationMarker(true);
+//
+//                mMapView.setCurrentLocationEventListener(new MapView.CurrentLocationEventListener() {
+//                    @Override
+//                    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
+//                        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+//                        mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
+//
+//                    }
+//
+//                    @Override
+//                    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCurrentLocationUpdateFailed(MapView mapView) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+//
+//                    }
+//                });
+//
+//
+//
+//
+//
+//              //  mMapView.addPolyline(mPolyline);
+//
+//
+//            }
+//
+//            @Override
+//            public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//
+//            @Override
+//            public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+//
+//            }
+//        });
+//
+//        mapViewContainer.addView(mMapView);
+//
+//        FeelingDialog mDialog = new FeelingDialog();
+//        mDialog.show(getFragmentManager(),"MYTAG");
+//
+//
+//
+//
+//
+//        btn_finish = (Button)rootView.findViewById(R.id.btn_finish);
+//        btn_finish.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                FinishDialog mFDialog = new FinishDialog();
+//                mFDialog.show(getFragmentManager(),"MYTAG");
+//            }
+//        });
 
 
         return rootView;

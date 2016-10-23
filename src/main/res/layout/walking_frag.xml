@@ -149,6 +149,7 @@
                 android:text="소모 칼로리"
                 />
             <TextView
+                android:id="@+id/calvaltext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00:00"
