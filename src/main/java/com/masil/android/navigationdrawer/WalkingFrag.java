@@ -3,6 +3,7 @@ package com.masil.android.navigationdrawer;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -35,6 +36,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.navigationdrawer.R;
+import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
+import com.samsung.android.sdk.healthdata.HealthConstants;
+import com.samsung.android.sdk.healthdata.HealthDataService;
+import com.samsung.android.sdk.healthdata.HealthDataStore;
+import com.samsung.android.sdk.healthdata.HealthPermissionManager;
+import com.samsung.android.sdk.healthdata.HealthResultHolder;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPoint;
@@ -50,26 +57,30 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
  * Created by heeye on 2016-09-21.
  */
 public class WalkingFrag extends Fragment {
-    @Override
-    public void onDestroy() {
-        mTimer.removeMessages(0);
-        super.onDestroy();
-    }
 
     String myJSON;
     JSONArray schkr = null;
     static double[][] mpolypoint;
+    public static final String APP_TAG = "Masil";
     ApplicationData appdata;
 
+    private final int MENU_ITEM_PERMISSION_SETTING = 1;
+    private static WalkingFrag mInstance = null;
+    private HealthDataStore mStore;
+    private HealthConnectionErrorResult mConnError;
+    private Set<HealthPermissionManager.PermissionKey> mKeySet;
+    private StepCountReporter mReporter;
 
-    static String startfeel,wktime,wklength,wkcount, calorie;
-
+    static String startfeel, wktime, wklength, wkcount, calorie;
 
     private static final String TAG_RESULTS = "result";
     private static final String db_id = "id";
@@ -111,13 +122,23 @@ public class WalkingFrag extends Fragment {
         return frag;
     }
 
+    public static WalkingFrag getInstance() {
+        return mInstance;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
         appdata = (ApplicationData) getActivity().getApplicationContext();
+    @Override
+    public void onDestroy() {
+        mStore.disconnectService();
+        mTimer.removeMessages(0);
+        super.onDestroy();
+    }
 
         Bundle extra = getArguments();
 
@@ -125,6 +146,123 @@ public class WalkingFrag extends Fragment {
         selectName = extra.getString("selectName");
 
        // Toast.makeText(getActivity(),"지금 넘버가 뭐냐면"+selectName,Toast.LENGTH_SHORT).show();
+    private final HealthDataStore.ConnectionListener mConnectionListener = new HealthDataStore.ConnectionListener() {
+
+        @Override
+        public void onConnected() {
+            Log.d(APP_TAG, "Health data service is connected.");
+            HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
+            mReporter = new StepCountReporter(mStore);
+
+            try {
+                // Check whether the permissions that this application needs are acquired
+                Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = pmsManager.isPermissionAcquired(mKeySet);
+
+                if (resultMap.containsValue(Boolean.FALSE)) {
+                    // Request the permission for reading step counts if it is not acquired
+                    pmsManager.requestPermissions(mKeySet).setResultListener(mPermissionListener);
+                } else {
+                    // Get the current step count and display it
+                    mReporter.start();
+                }
+            } catch (Exception e) {
+                Log.e(APP_TAG, e.getClass().getName() + " - " + e.getMessage());
+                Log.e(APP_TAG, "Permission setting fails.");
+            }
+        }
+
+        @Override
+        public void onConnectionFailed(HealthConnectionErrorResult error) {
+            Log.d(APP_TAG, "Health data service is not available.");
+            showConnectionFailureDialog(error);
+        }
+
+        @Override
+        public void onDisconnected() {
+            Log.d(APP_TAG, "Health data service is disconnected.");
+        }
+    };
+
+    private void showConnectionFailureDialog(HealthConnectionErrorResult error) {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        mConnError = error;
+        String message = "Connection with S Health is not available";
+
+        if (mConnError.hasResolution()) {
+            switch(error.getErrorCode()) {
+                case HealthConnectionErrorResult.PLATFORM_NOT_INSTALLED:
+                    message = "Please install S Health";
+                    break;
+                case HealthConnectionErrorResult.OLD_VERSION_PLATFORM:
+                    message = "Please upgrade S Health";
+                    break;
+                case HealthConnectionErrorResult.PLATFORM_DISABLED:
+                    message = "Please enable S Health";
+                    break;
+                case HealthConnectionErrorResult.USER_AGREEMENT_NEEDED:
+                    message = "Please agree with S Health policy";
+                    break;
+                default:
+                    message = "Please make S Health available";
+                    break;
+            }
+        }
+
+        alert.setMessage(message);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                if (mConnError.hasResolution()) {
+                    mConnError.resolve(getActivity());
+                }
+            }
+        });
+
+        if (error.hasResolution()) {
+            alert.setNegativeButton("Cancel", null);
+        }
+
+        alert.show();
+    }
+
+    private final HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult> mPermissionListener =
+            new HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult>() {
+
+            @Override
+            public void onResult(HealthPermissionManager.PermissionResult result) {
+                Log.d(APP_TAG, "Permission callback is received.");
+                Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = result.getResultMap();
+
+                if (resultMap.containsValue(Boolean.FALSE)) {
+                    drawStepCount("");
+                    showPermissionAlarmDialog();
+                } else {
+                    // Get the current step count and display it
+                    mReporter.start();
+                }
+            }
+        };
+
+    private void showPermissionAlarmDialog() {
+//        if (isFinishing()) {
+//            return;
+//        }
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Notice");
+        alert.setMessage("All permissions should be acquired");
+        alert.setPositiveButton("OK", null);
+        alert.show();
+    }
+
+    public void drawStepCount(String count){
+
+        TextView stepCountTv = (TextView)getActivity().findViewById(R.id.calvaltext);
+
+        // Display the today step count so far
+        stepCountTv.setText(count + " kcal");
     }
 
 
@@ -135,6 +273,33 @@ public class WalkingFrag extends Fragment {
 
         View rootView = inflater.inflate(R.layout.walking_frag, container, false);
         walkingtimer = (TextView)rootView.findViewById(R.id.walkingtimer);
+
+        mInstance = this;
+        mKeySet = new HashSet<HealthPermissionManager.PermissionKey>();
+        mKeySet.add(new HealthPermissionManager.PermissionKey(HealthConstants.StepCount.HEALTH_DATA_TYPE, HealthPermissionManager.PermissionType.READ));
+        HealthDataService healthDataService = new HealthDataService();
+        try {
+            healthDataService.initialize(getContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Create a HealthDataStore instance and set its listener
+        mStore = new HealthDataStore(getContext(), mConnectionListener);
+        // Request the connection to the health data store
+        mStore.connectService();
+
+        HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
+        try {
+            // Show user permission UI for allowing user to change options
+            pmsManager.requestPermissions(mKeySet).setResultListener(mPermissionListener);
+        } catch (Exception e) {
+            Log.e(APP_TAG, e.getClass().getName() + " - " + e.getMessage());
+            Log.e(APP_TAG, "Permission setting fails.");
+        }
+
+
+
 
         mMapView = new MapView(getActivity());
         mPolyline = new MapPolyline();

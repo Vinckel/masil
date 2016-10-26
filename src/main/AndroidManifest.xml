@@ -32,6 +32,10 @@
         android:name="com.masil.android.navigationdrawer.ApplicationData">
 
         <meta-data
+            android:name="com.samsung.android.health.permission.read"
+            android:value="com.samsung.health.step_count" />
+
+        <meta-data
             android:name="com.masil.android.navigationdrawer.MyGlideModule"
             android:value="GlideModule" />
 
