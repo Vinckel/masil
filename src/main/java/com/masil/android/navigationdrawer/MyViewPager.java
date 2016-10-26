@@ -47,11 +47,8 @@ public class MyViewPager extends Fragment {
     //static String[] id_list,name_list, loca_list, time_list,level_list,theme_list, length_list,detail_list;
 
 
-    static ImageView bigimg, img1, img2, img3, img4, img5;
-
-    static TextView nameView, detailView, tagView;
-
-    String txt_tag, txt_name, txt_detail;
+    private static final String ARG_PARAM1 = "selectId";
+    private static final String ARG_PARAM2 = "selectName";
 
     String user_condition, user_time;
 
@@ -76,7 +73,8 @@ public class MyViewPager extends Fragment {
     private LinearLayout mPageMark; //페이지 마크 (점 다섯개 그거)
     private MyPagerAdapter adapter;
 
-    int[] selectId;
+    int selectId;
+    String selectName;
 
     static double lat, lon;
 
@@ -93,7 +91,7 @@ public class MyViewPager extends Fragment {
         user_condition = extra.getString("param1");
         user_time = extra.getString("param2");
 
-        selectId = new int[5];
+
         //Toast.makeText(getActivity(),user_condition+user_time,Toast.LENGTH_SHORT).show();
     }
 
@@ -165,7 +163,10 @@ public class MyViewPager extends Fragment {
                 //아이템이 선택이 되었으면
                 mPageMark.getChildAt(mPrevPosition).setBackgroundResource(R.drawable.page_not);   //이전 페이지에 해당하는 페이지 표시 이미지 변경
                 mPageMark.getChildAt(position).setBackgroundResource(R.drawable.page_select);      //현재 페이지에 해당하는 페이지 표시 이미지 변경
-                mPrevPosition = position;            //이전 포지션 값을 현재로 변경
+                mPrevPosition = position;//이전 포지션 값을 현재로 변경
+
+                selectId = Integer.parseInt(roaddata.id_list[position]); //페이지 선택 값~~
+                selectName = roaddata.name_list[position];
             }
 
             @Override
@@ -180,9 +181,13 @@ public class MyViewPager extends Fragment {
             public void onClick(View v) {
                 // 사실은 넘어갈때 번들 같이 넘겨서 무슨 산책로인지 확인하고 디비 가서 새로 불러와야되는것임 ㅇㅅㅇ
 
-                //Toast.makeText()
-
                 WalkingFrag frag = new WalkingFrag();
+
+                Bundle args = new Bundle();
+                args.putInt(ARG_PARAM1,selectId);
+                args.putString(ARG_PARAM2,selectName);
+                frag.setArguments(args);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);

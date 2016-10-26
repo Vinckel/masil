@@ -65,6 +65,7 @@ public class WalkingFrag extends Fragment {
     String myJSON;
     JSONArray schkr = null;
     static double[][] mpolypoint;
+    ApplicationData appdata;
 
 
     static String startfeel,wktime,wklength,wkcount, calorie;
@@ -93,6 +94,10 @@ public class WalkingFrag extends Fragment {
     static long mBaseTime; //기준 타임
     static long mPauseTime; //일시정지 타임
 
+    int selectId;
+    String selectName;
+
+
 
     public static WalkingFrag newInstance(String param1, String param2, String param3, String param4, String param5){
         WalkingFrag frag = new WalkingFrag();
@@ -112,7 +117,14 @@ public class WalkingFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        appdata = (ApplicationData) getActivity().getApplicationContext();
 
+        Bundle extra = getArguments();
+
+        selectId = extra.getInt("selectId");
+        selectName = extra.getString("selectName");
+
+       // Toast.makeText(getActivity(),"지금 넘버가 뭐냐면"+selectName,Toast.LENGTH_SHORT).show();
     }
 
 
@@ -128,7 +140,8 @@ public class WalkingFrag extends Fragment {
         mPolyline = new MapPolyline();
         mpolypoint = new double[2][12];
 
-        getPoint("http://condi.swu.ac.kr/schkr/receive_point.php");
+        String str = "http://condi.swu.ac.kr/schkr/receive_point.php?id="+selectId;
+        getPoint(str);
 
         final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
@@ -148,7 +161,7 @@ public class WalkingFrag extends Fragment {
 
                 Log.d("123","initial 들어옴");
                 mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
-                mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
+               // mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
                 mMapView.setDefaultCurrentLocationMarker();
                 mMapView.setShowCurrentLocationMarker(true);
 
@@ -406,6 +419,9 @@ public class WalkingFrag extends Fragment {
                 public void onClick(View view) {
 
                     onStop();
+                    mBaseTime = SystemClock.elapsedRealtime();
+                    mTimer.sendEmptyMessage(0);
+
 
                 }
             });//음악 링크 열어주기
@@ -416,7 +432,11 @@ public class WalkingFrag extends Fragment {
                 @Override
                 public void onClick(View view) {
 
+
                     onStop();
+                    mBaseTime = SystemClock.elapsedRealtime();
+                    mTimer.sendEmptyMessage(0);
+
                     //산책 카운트 시작하면 되지 않을까
 
                 }
@@ -555,10 +575,8 @@ public class WalkingFrag extends Fragment {
 
             Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
             TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
-            txtTitle.setText("북한산 마실 둘레길");
+            txtTitle.setText(selectName);
 
-            mBaseTime = SystemClock.elapsedRealtime();
-            mTimer.sendEmptyMessage(0);
 
             //아 산책로 네임 받아야댐
 
