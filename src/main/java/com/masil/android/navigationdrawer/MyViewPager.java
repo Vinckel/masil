@@ -41,7 +41,7 @@ import java.util.List;
 public class MyViewPager extends Fragment {
 
     Button btn_start;
-    private RoadData roaddata;
+    private ApplicationData roaddata;
 
 
     //static String[] id_list,name_list, loca_list, time_list,level_list,theme_list, length_list,detail_list;
@@ -58,6 +58,8 @@ public class MyViewPager extends Fragment {
     static String myJSON;
     static JSONArray schkr = null;
 
+    static final int memberId = 1;
+
     private static final String TAG_RESULTS = "result";
     private static final String db_id = "id";
     private static final String db_name = "name";
@@ -73,18 +75,26 @@ public class MyViewPager extends Fragment {
     private ViewPager mPager; //뷰페이저
     private LinearLayout mPageMark; //페이지 마크 (점 다섯개 그거)
     private MyPagerAdapter adapter;
-    int select_card;
+
+    int[] selectId;
+
+    static double lat, lon;
+
+
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        roaddata = (RoadData) getActivity().getApplicationContext();
+        roaddata = (ApplicationData) getActivity().getApplicationContext();
 
         //컨디션이랑 가용시간 필터 할 때 써야됨
         Bundle extra = getArguments();
         user_condition = extra.getString("param1");
         user_time = extra.getString("param2");
+
+        selectId = new int[5];
+        //Toast.makeText(getActivity(),user_condition+user_time,Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -95,10 +105,50 @@ public class MyViewPager extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
         txtTitle.setText("마실마실 콕");
+/*
+        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        if (lastKnownLocation != null) {
+            //lat = lastKnownLocation.getLatitude();
+           //lon = lastKnownLocation.getLongitude();
+            lat = 37.629254;
+            lon = 127.090701;//실습실 좌표
+
+        }
+        else {
+            Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
+*/
 
 
         Log.d("MyTag", "온크리에잇뷰 드러옴");
-        getData("http://condi.swu.ac.kr/schkr/receive_road.php");
+
+        int condition;
+
+        switch (user_condition)
+        {
+            case "좋음":
+                condition = 3;
+                break;
+            case "보통":
+                condition = 2;
+                break;
+            case "나쁨":
+                condition = 1;
+                break;
+            default:
+                condition = 0;
+                break;
+
+        }
+
+        int time = Integer.parseInt(user_time);
+
+        lat = 37.629254;
+        lon = 127.090701;//실습실 좌표
+
+        String mUrl = "http://condi.swu.ac.kr/schkr/receive_road_2.php?memberid="+memberId+"&condition="+condition+"&time="+time+"&xpoint="+lat+"&ypoint="+lon;
+        getData(mUrl);
 
         mPageMark = (LinearLayout) rootView.findViewById(R.id.page_mark);
         mPager = (ViewPager) rootView.findViewById(R.id.viewpager);
@@ -130,6 +180,8 @@ public class MyViewPager extends Fragment {
             public void onClick(View v) {
                 // 사실은 넘어갈때 번들 같이 넘겨서 무슨 산책로인지 확인하고 디비 가서 새로 불러와야되는것임 ㅇㅅㅇ
 
+                //Toast.makeText()
+
                 WalkingFrag frag = new WalkingFrag();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -140,6 +192,7 @@ public class MyViewPager extends Fragment {
 
         return rootView;
     }
+
 
     public void showList() {
         Log.d("MyTag", "쇼리스트 진입");
@@ -173,6 +226,7 @@ public class MyViewPager extends Fragment {
     }
 
     public void getData(String url) {
+
         class GetDataJSON extends AsyncTask<String, Void, String> {
             ProgressDialog progDialog = new ProgressDialog(getActivity());
 
@@ -242,6 +296,8 @@ public class MyViewPager extends Fragment {
 
             //첫 페이지 표시 이미지 이면 선택된 이미지로
             if (i == initPosition) {
+                //selectId = Integer.parseInt(roaddata.id_list[initPosition]);
+                //Toast.makeText(getActivity(),"지금 산책로 번호"+selectId,Toast.LENGTH_SHORT).show();
                 iv.setBackgroundResource(R.drawable.page_select);
                 iv.getLayoutParams().height = 40; //콩알 크기 dimen으로 정해놓고 쓰면 되게따...이거 뭔 단위냐...
                 iv.getLayoutParams().width = 40;

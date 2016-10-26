@@ -228,6 +228,13 @@ public class EditDiaryFrag extends Fragment {
             View view = mLayoutInflater.inflate(R.layout.ratingbar_dia,null);
             mBuilder.setView(view);
 
+            Spinner starspinner = (Spinner)view.findViewById(R.id.starspinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.rating, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            starspinner.setPrompt("★☆☆☆☆");
+            starspinner.setAdapter(adapter);
+
+
             btn_rating_next = (Button)view.findViewById(R.id.btn_rating_next);
             btn_rating_next.setOnClickListener(new View.OnClickListener() {
                 @Override

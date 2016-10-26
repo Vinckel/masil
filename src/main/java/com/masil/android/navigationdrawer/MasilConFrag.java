@@ -57,6 +57,8 @@ public class MasilConFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
+       // Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
+
         View rootView = inflater.inflate(R.layout.masilcon_frag, container, false);
 
         //상단바 바꾸기~~어예~~~
@@ -100,12 +102,8 @@ public class MasilConFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
-
-
                 String str = (String) cspinner.getSelectedItem();
                 select_condition = str;
-
                // Toast.makeText(getActivity(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
 
             }

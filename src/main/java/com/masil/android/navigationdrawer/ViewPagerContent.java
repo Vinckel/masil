@@ -1,7 +1,5 @@
 package com.masil.android.navigationdrawer;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,10 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.android.navigationdrawer.R;
-
-import static com.example.android.navigationdrawer.R.id.imageView1;
-import static com.example.android.navigationdrawer.R.id.pager_imageView1;
-import static com.example.android.navigationdrawer.R.id.road;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,13 +29,17 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private int num;
+    int num;
+    private int mId;
+
+
+
 
     ImageView bigimg,img1,img2, img3, img4, img5;
 
     private String theme, level, time, info;
     private TextView tvName, tvTag, tvDetail;
-    private RoadData roadData;
+    private ApplicationData roadData;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -72,7 +70,10 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
             num = getArguments().getInt(ARG_PARAM1);
         }
-        roadData = (RoadData) getActivity().getApplicationContext();
+        roadData = (ApplicationData) getActivity().getApplicationContext();
+
+
+
     }
 
     public void setTvName(String newText) {
@@ -101,12 +102,15 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
         img5.setOnClickListener(this);
 
 
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img1);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img2);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img3);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img4);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img5);
+        mId = Integer.parseInt(roadData.id_list[num]);
+
+
+        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img1);
+        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img2);
+        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img3);
+        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img4);
+        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img5);
 
         tvName = (TextView) v.findViewById(R.id.pager_name);
         tvName.setText(roadData.name_list[num]);

@@ -8,66 +8,73 @@
     android:rowCount="4"
     android:background="#f7f7f7">
 
-    <ImageView
-    android:layout_width="159.3dp"
-    android:layout_height="131.6dp"
-    android:layout_marginRight="3.5dp"
-        android:id="@+id/theme1"
 
-        android:layout_marginBottom="8.2dp"/>
-
-    <ImageView
-        android:layout_width="159.3dp"
-        android:layout_height="131.6dp"
-        android:layout_marginLeft="3.5dp"
-
-        android:id="@+id/theme2"
-       />
     <ImageView
         android:layout_width="159.3dp"
         android:layout_height="131.6dp"
         android:layout_marginRight="3.5dp"
-        android:id="@+id/theme3"
-
-        android:layout_marginBottom="8.2dp"/>
-
-    <ImageView
-        android:layout_width="159.3dp"
-        android:layout_height="131.6dp"
-        android:layout_marginLeft="3.5dp"
-
+        android:layout_marginBottom="8.2dp"
         android:id="@+id/theme4"
         />
-    <ImageView
-        android:layout_width="159.3dp"
-        android:layout_height="131.6dp"
-        android:layout_marginRight="3.5dp"
-        android:id="@+id/theme5"
-
-        android:layout_marginBottom="8.2dp"/>
 
     <ImageView
         android:layout_width="159.3dp"
         android:layout_height="131.6dp"
         android:layout_marginLeft="3.5dp"
+        android:id="@+id/theme7"
+        />
 
+
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginRight="3.5dp"
+        android:layout_marginBottom="8.2dp"
         android:id="@+id/theme6"
         />
     <ImageView
         android:layout_width="159.3dp"
         android:layout_height="131.6dp"
-        android:layout_marginRight="3.5dp"
-        android:id="@+id/theme7"
+        android:layout_marginLeft="3.5dp"
+        android:id="@+id/theme2"
+        />
 
-        android:layout_marginBottom="8.2dp"/>
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginRight="3.5dp"
+        android:layout_marginBottom="8.2dp"
+        android:id="@+id/theme8"
+        />
+
 
     <ImageView
         android:layout_width="159.3dp"
         android:layout_height="131.6dp"
         android:layout_marginLeft="3.5dp"
-
-        android:id="@+id/theme8"
+        android:id="@+id/theme3"
         />
+
+
+    <ImageView
+    android:layout_width="159.3dp"
+    android:layout_height="131.6dp"
+    android:layout_marginRight="3.5dp"
+        android:id="@+id/theme1"
+        android:layout_marginBottom="8.2dp"/>
+
+
+
+    <ImageView
+        android:layout_width="159.3dp"
+        android:layout_height="131.6dp"
+        android:layout_marginLeft="3.5dp"
+        android:id="@+id/theme5"
+
+        />
+
+
+
 
 
 </GridLayout>

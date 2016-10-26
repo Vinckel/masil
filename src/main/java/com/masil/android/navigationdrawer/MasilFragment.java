@@ -46,6 +46,8 @@ public class MasilFragment extends Fragment {
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.maintop));
         txtTitle.setText("");
 
+        //setHasOptionsMenu(false);
+
 
 
         btn_masil = (Button)rootView.findViewById(R.id.btn_masil);

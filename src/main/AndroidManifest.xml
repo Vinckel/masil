@@ -29,7 +29,7 @@
         android:label="MASILMASIL"
         android:theme="@style/NoActionCustom"
         android:largeHeap="true"
-        android:name="com.masil.android.navigationdrawer.RoadData">
+        android:name="com.masil.android.navigationdrawer.ApplicationData">
 
         <meta-data
             android:name="com.masil.android.navigationdrawer.MyGlideModule"

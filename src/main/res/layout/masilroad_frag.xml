@@ -6,107 +6,96 @@ android:layout_height="match_parent"
 android:background="#f7f7f7">
 
 
-    <TextView
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#727272"
-        android:layout_marginTop="10dp"
-        android:text="산책로 이름"
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-    android:id="@+id/masil_name"/>
-
-    <ImageView
-        android:background="#C9C9C9"
-        android:paddingBottom="2.65dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="324.25dp"
-        android:layout_height="169.9dp"
-        android:scaleType="fitStart"
+<TextView
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="산책로 이름"
+    android:textStyle="bold"
+    android:textColor="#727272"
+    android:layout_marginTop="12dp"
+    android:id="@+id/masil_name"
+    android:textSize="18sp"
+    android:layout_gravity="center_horizontal"/>
+<ImageView
+    android:layout_centerHorizontal="true"
     android:layout_below="@id/masil_name"
+    android:layout_marginTop="11.5dp"
+    android:layout_width="324.25dp"
+    android:layout_height="168.9dp"
+    android:scaleType="centerCrop"
     android:id="@+id/bigimage"
     />
 
 <LinearLayout
     android:id="@+id/mini_photos"
     android:layout_below="@id/bigimage"
-    android:layout_marginTop="4.25dp"
+    android:layout_marginTop="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal">
-
     <ImageView
-        android:layout_height="35.625dp"
+        android:layout_height="39.45dp"
         android:layout_width="61.7dp"
-        android:background="#C9C9C9"
-        android:scaleType="fitStart"
+        android:scaleType="center"
         android:id="@+id/imageView1"
         />
     <ImageView
-        android:layout_height="35.625dp"
+        android:layout_height="39.45dp"
         android:layout_width="61.7dp"
-        android:background="#C9C9C9"
-        android:scaleType="fitStart"
-        android:layout_marginLeft="3dp"
         android:id="@+id/imageView2"
+        android:scaleType="center"
+        android:layout_marginLeft="4dp"
         />
     <ImageView
+        android:layout_height="39.45dp"
+        android:layout_width="61.7dp"
         android:id="@+id/imageView3"
-        android:layout_height="35.625dp"
-        android:layout_width="62.2dp"
-        android:background="#C9C9C9"
-        android:scaleType="fitStart"
-
-        android:layout_marginLeft="3dp"
+        android:scaleType="center"
+        android:layout_marginLeft="4dp"
         />
     <ImageView
+        android:layout_height="39.45dp"
+        android:layout_width="61.7dp"
         android:id="@+id/imageView4"
-        android:layout_height="35.625dp"
-        android:layout_width="62.2dp"
-        android:background="#C9C9C9"
-        android:scaleType="fitStart"
-        android:layout_marginLeft="3dp"
+        android:scaleType="center"
+        android:layout_marginLeft="4dp"
         />
     <ImageView
+        android:layout_height="39.45dp"
+        android:layout_width="61.7dp"
         android:id="@+id/imageView5"
-        android:layout_height="35.625dp"
-        android:layout_width="62.2dp"
-        android:background="#C9C9C9"
-        android:scaleType="fitStart"
-        android:layout_marginLeft="3dp"
+        android:scaleType="center"
+        android:layout_marginLeft="4dp"
         />
 </LinearLayout>
 
 <TextView
     android:layout_below="@id/mini_photos"
-    android:id="@+id/textView_roadtag"
     android:text="태그들어갈자리"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="31.25dp"
     android:textColor="#84c67d"
     android:textSize="17sp"
-    android:layout_marginTop="15dp"
-    />
+    android:layout_marginTop="12dp"
+    android:id="@+id/textView_roadtag" />
 
 <ImageView
     android:layout_below="@id/textView_roadtag"
-    android:id="@+id/line"
     android:layout_height="wrap_content"
     android:layout_width="325dp"
     android:background="@drawable/line"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-
+    android:id="@+id/line"
     />
 <ScrollView
     android:layout_below="@id/line"
     android:layout_width="match_parent"
-    android:layout_height="194dp"
+    android:layout_height="200dp"
     android:layout_marginLeft="31.25dp"
     android:layout_marginRight="31.25dp"
     android:id="@+id/scrollView">
@@ -125,27 +114,24 @@ android:background="#f7f7f7">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="16sp"
-            android:text="별이다섯개"
-            android:textColor="#727272"
             android:layout_toEndOf="@id/txtrate"
+            android:textSize="16sp"
+            android:textColor="#727272"
+            android:text="별이다섯개"
             android:id="@+id/rating"
             />
         <TextView
-            android:layout_toEndOf="@id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="16sp"
             android:textColor="#afafaf"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@id/rating"
             android:text="(6.5/120명)"
             />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#727272"
             android:textSize="16sp"
             android:text="산책로 디테일"
             android:layout_below="@id/txtrate"

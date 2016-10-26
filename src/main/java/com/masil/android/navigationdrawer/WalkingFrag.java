@@ -10,6 +10,8 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
@@ -54,6 +56,11 @@ import java.net.URL;
  * Created by heeye on 2016-09-21.
  */
 public class WalkingFrag extends Fragment {
+    @Override
+    public void onDestroy() {
+        mTimer.removeMessages(0);
+        super.onDestroy();
+    }
 
     String myJSON;
     JSONArray schkr = null;
@@ -82,7 +89,10 @@ public class WalkingFrag extends Fragment {
 
     Button btn_finish;
 
-    TextView walkingtimetext;
+    static TextView walkingtimer; //타이머
+    static long mBaseTime; //기준 타임
+    static long mPauseTime; //일시정지 타임
+
 
     public static WalkingFrag newInstance(String param1, String param2, String param3, String param4, String param5){
         WalkingFrag frag = new WalkingFrag();
@@ -105,17 +115,18 @@ public class WalkingFrag extends Fragment {
 
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.walking_frag, container, false);
-        walkingtimetext = (TextView)rootView.findViewById(R.id.walkingtimetext);
+        walkingtimer = (TextView)rootView.findViewById(R.id.walkingtimer);
 
         mMapView = new MapView(getActivity());
         mPolyline = new MapPolyline();
         mpolypoint = new double[2][12];
-
 
         getPoint("http://condi.swu.ac.kr/schkr/receive_point.php");
 
@@ -228,6 +239,10 @@ public class WalkingFrag extends Fragment {
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                mTimer.removeMessages(0);
+                mPauseTime = SystemClock.elapsedRealtime(); //산책 마치기 버튼 누르면 일시정지...
+
 
                 FinishDialog mFDialog = new FinishDialog();
                 mFDialog.show(getFragmentManager(),"MYTAG");
@@ -453,6 +468,11 @@ public class WalkingFrag extends Fragment {
                 @Override
                 public void onClick(View view) {
                     //계속할래요
+                    //타이머 다시 시작 ㄱㄱ
+                    long now = SystemClock.elapsedRealtime();
+                    mBaseTime = mBaseTime + (now - mPauseTime);
+                    mTimer.sendEmptyMessage(0);
+
                     onStop();
                 }
             });
@@ -462,11 +482,12 @@ public class WalkingFrag extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    // 마칠래요 선택시시
+                    // 마칠래요 선택시
 
                    //산책 멈추고.....
+                    mTimer.removeMessages(0);
 
-                    //예시로 암거나 일단 넣는다
+                    //번들 예시로 암거나 일단 넣는다
                     wktime = "aaa";
                     wklength = "bbb";
                     wkcount = "ccc";
@@ -497,6 +518,7 @@ public class WalkingFrag extends Fragment {
             return mBuilder.create();
         }//onCreateDialog Finish
     }
+
     protected void setPoints() {
         Log.d("setPoint", "들어옴");
         try {
@@ -535,7 +557,10 @@ public class WalkingFrag extends Fragment {
             TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
             txtTitle.setText("북한산 마실 둘레길");
 
-            //아 이거 좀 이상한데 뿌 ㅇㅅㅇ
+            mBaseTime = SystemClock.elapsedRealtime();
+            mTimer.sendEmptyMessage(0);
+
+            //아 산책로 네임 받아야댐
 
 
         } catch (JSONException e) {
@@ -547,6 +572,12 @@ public class WalkingFrag extends Fragment {
 
     public void getPoint(String url){
         class GetDataJSON extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
             @Override
             protected String doInBackground(String... params) {
                 String uri = params[0];
@@ -573,6 +604,25 @@ public class WalkingFrag extends Fragment {
         }
         GetDataJSON g = new GetDataJSON();
         g.execute(url);
+    }
+
+    //타이머 재기 위한 핸들러
+    static Handler mTimer = new Handler(){
+
+        public void handleMessage(android.os.Message msg){
+
+            walkingtimer.setText(getEllapse());
+            mTimer.sendEmptyMessage(0);
+
+        }
+    };
+
+    static String getEllapse(){
+        long now = SystemClock.elapsedRealtime();
+        long ell = now - mBaseTime; //현재시간 - 기준시간
+
+        String sEll = String.format("%02d:%02d:%02d", ell/1000/60/60,ell/1000/60,(ell/1000)%60);
+        return sEll;
     }
 
 

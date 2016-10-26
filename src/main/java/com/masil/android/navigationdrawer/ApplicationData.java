@@ -2,13 +2,13 @@ package com.masil.android.navigationdrawer;
 
 import android.app.Application;
 
-import com.masil.android.common.logger.Log;
-
 /**
  * Created by heeye on 2016-10-17.
  */
 
-public class RoadData extends Application {
+public class ApplicationData extends Application {
+
+    int memid = 1; //지금 기본 1번 회원으로 ..
 
     String[] id_list = new String[5];
     String[] name_list = new String[5];
@@ -31,7 +31,7 @@ public class RoadData extends Application {
         loca_list[i] = loca;
         detail_list[i] = detail;
 
-        Log.d("MyTag", name_list[1] + name_list[3] + "setRoadData가 동작한다");
+       // Log.d("MyTag", name_list[1] + name_list[3] + "setRoadData가 동작한다");
 
     }//end of setRoadData
 
