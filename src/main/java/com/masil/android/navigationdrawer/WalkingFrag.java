@@ -66,12 +66,6 @@ import java.util.Set;
  * Created by heeye on 2016-09-21.
  */
 public class WalkingFrag extends Fragment {
-    @Override
-    public void onDestroy() {
-        mTimer.removeMessages(0);
-        super.onDestroy();
-    }
-
     String myJSON;
     JSONArray schkr = null;
     static double[][] mpolypoint;
@@ -134,6 +128,7 @@ public class WalkingFrag extends Fragment {
     @Override
     public void onDestroy() {
         mStore.disconnectService();
+        mTimer.removeMessages(0);
         super.onDestroy();
     }
 
