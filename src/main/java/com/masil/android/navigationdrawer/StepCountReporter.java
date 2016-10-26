@@ -35,7 +35,7 @@ import java.util.Calendar;
 public class StepCountReporter {
     private final HealthDataStore mStore;
     public static final String APP_TAG = "Masil";
-    public static final double calx = 0.03;
+    public static final double CALX = 0.03;
     public static long lastCheckedTime = 0L;
 
     public StepCountReporter(HealthDataStore store) {
@@ -94,7 +94,7 @@ public class StepCountReporter {
                 c = result.getResultCursor();
                 if (c != null) {
                     while (c.moveToNext()) {
-                        count += c.getInt(c.getColumnIndex(HealthConstants.StepCount.COUNT)) * calx;
+                        count += c.getInt(c.getColumnIndex(HealthConstants.StepCount.COUNT)) * CALX;
                     }
                 }
             } finally {
