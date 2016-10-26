@@ -51,10 +51,10 @@ public class StepCountReporter {
         HealthDataResolver resolver = new HealthDataResolver(mStore, null);
 
         // Set time range from start time of today to the current time
-        long startTime = getStartTimeOfToday();
+        long startTime = System.currentTimeMillis();
         long endTime = System.currentTimeMillis();
         Filter filter = Filter.and(Filter.greaterThanEquals(HealthConstants.StepCount.START_TIME, startTime),
-                                   Filter.lessThanEquals(HealthConstants.StepCount.START_TIME, endTime));
+                                   Filter.lessThanEquals(HealthConstants.StepCount.END_TIME, endTime));
 
         HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
                                                         .setDataType(HealthConstants.StepCount.HEALTH_DATA_TYPE)
