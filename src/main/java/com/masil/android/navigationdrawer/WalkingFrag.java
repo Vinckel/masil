@@ -133,7 +133,7 @@ public class WalkingFrag extends Fragment {
         public void onConnected() {
             Log.d(APP_TAG, "Health data service is connected.");
             HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
-//            mReporter = new StepCountReporter(mStore);
+            mReporter = new StepCountReporter(mStore);
 
             try {
                 // Check whether the permissions that this application needs are acquired
