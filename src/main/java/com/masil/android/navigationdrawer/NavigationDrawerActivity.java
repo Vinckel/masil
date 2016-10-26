@@ -77,7 +77,6 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
     private Context mContext;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
