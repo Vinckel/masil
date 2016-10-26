@@ -248,7 +248,7 @@ public class WalkingFrag extends Fragment {
         TextView stepCountTv = (TextView)getActivity().findViewById(R.id.calvaltext);
 
         // Display the today step count so far
-        stepCountTv.setText(count);
+        stepCountTv.setText(count + " kcal");
     }
 
 

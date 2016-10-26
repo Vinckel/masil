@@ -35,6 +35,8 @@ import java.util.Calendar;
 public class StepCountReporter {
     private final HealthDataStore mStore;
     public static final String APP_TAG = "Masil";
+    public static final double calx = 0.03;
+    public static long lastCheckedTime = 0L;
 
     public StepCountReporter(HealthDataStore store) {
         mStore = store;
@@ -43,6 +45,7 @@ public class StepCountReporter {
     public void start() {
         // Register an observer to listen changes of step count and get today step count
         HealthDataObserver.addObserver(mStore, HealthConstants.StepCount.HEALTH_DATA_TYPE, mObserver);
+        lastCheckedTime = System.currentTimeMillis();
         readTodayStepCount();
     }
 
@@ -51,10 +54,10 @@ public class StepCountReporter {
         HealthDataResolver resolver = new HealthDataResolver(mStore, null);
 
         // Set time range from start time of today to the current time
-        long startTime = System.currentTimeMillis();
+        long startTime = lastCheckedTime;
         long endTime = System.currentTimeMillis();
         Filter filter = Filter.and(Filter.greaterThanEquals(HealthConstants.StepCount.START_TIME, startTime),
-                                   Filter.lessThanEquals(HealthConstants.StepCount.END_TIME, endTime));
+                                   Filter.lessThanEquals(HealthConstants.StepCount.START_TIME, endTime));
 
         HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
                                                         .setDataType(HealthConstants.StepCount.HEALTH_DATA_TYPE)
@@ -84,14 +87,14 @@ public class StepCountReporter {
     private final HealthResultHolder.ResultListener<ReadResult> mListener = new HealthResultHolder.ResultListener<ReadResult>() {
         @Override
         public void onResult(ReadResult result) {
-            int count = 0;
+            double count = 0;
             Cursor c = null;
 
             try {
                 c = result.getResultCursor();
                 if (c != null) {
                     while (c.moveToNext()) {
-                        count += c.getInt(c.getColumnIndex(HealthConstants.StepCount.COUNT));
+                        count += c.getInt(c.getColumnIndex(HealthConstants.StepCount.COUNT)) * calx;
                     }
                 }
             } finally {
@@ -100,7 +103,7 @@ public class StepCountReporter {
                 }
             }
 
-            WalkingFrag.getInstance().drawStepCount(String.valueOf(count));
+            WalkingFrag.getInstance().drawStepCount(String.format("%.2f", count));
         }
     };
 
