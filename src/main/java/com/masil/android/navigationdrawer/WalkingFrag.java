@@ -280,127 +280,127 @@ public class WalkingFrag extends Fragment {
 
 
 
-//        mMapView = new MapView(getActivity());
-//        mPolyline = new MapPolyline();
-//        mpolypoint = new double[2][12];
-//
-//
-//        getPoint("http://condi.swu.ac.kr/schkr/receive_point.php");
-//
-//        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-//        String locationProvider = LocationManager.NETWORK_PROVIDER;
-//        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-//        if (lastKnownLocation != null) {
-//            lat = lastKnownLocation.getLatitude();
-//            lon = lastKnownLocation.getLongitude();
-//        }
-//        else {Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
-//
-//        mMapView.setDaumMapApiKey("a3df1310d2d475a4cca02b3a521dc8ab" );
-//        ViewGroup mapViewContainer = (ViewGroup)rootView.findViewById(R.id.map_view);
-//
-//        mMapView.setMapViewEventListener(new MapView.MapViewEventListener() {
-//            @Override
-//            public void onMapViewInitialized(MapView mapView) {
-//
-//                Log.d("123","initial 들어옴");
-//                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
-//                mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
-//                mMapView.setDefaultCurrentLocationMarker();
-//                mMapView.setShowCurrentLocationMarker(true);
-//
-//                mMapView.setCurrentLocationEventListener(new MapView.CurrentLocationEventListener() {
-//                    @Override
-//                    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
-//                        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-//                        mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
-//
-//                    }
-//
-//                    @Override
-//                    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCurrentLocationUpdateFailed(MapView mapView) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-//
-//                    }
-//                });
-//
-//
-//
-//
-//
-//              //  mMapView.addPolyline(mPolyline);
-//
-//
-//            }
-//
-//            @Override
-//            public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//
-//            @Override
-//            public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-//
-//            }
-//        });
-//
-//        mapViewContainer.addView(mMapView);
-//
-//        FeelingDialog mDialog = new FeelingDialog();
-//        mDialog.show(getFragmentManager(),"MYTAG");
-//
-//
-//
-//
-//
-//        btn_finish = (Button)rootView.findViewById(R.id.btn_finish);
-//        btn_finish.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                FinishDialog mFDialog = new FinishDialog();
-//                mFDialog.show(getFragmentManager(),"MYTAG");
-//            }
-//        });
+        mMapView = new MapView(getActivity());
+        mPolyline = new MapPolyline();
+        mpolypoint = new double[2][12];
+
+
+        getPoint("http://condi.swu.ac.kr/schkr/receive_point.php");
+
+        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        if (lastKnownLocation != null) {
+            lat = lastKnownLocation.getLatitude();
+            lon = lastKnownLocation.getLongitude();
+        }
+        else {Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
+
+        mMapView.setDaumMapApiKey("a3df1310d2d475a4cca02b3a521dc8ab" );
+        ViewGroup mapViewContainer = (ViewGroup)rootView.findViewById(R.id.map_view);
+
+        mMapView.setMapViewEventListener(new MapView.MapViewEventListener() {
+            @Override
+            public void onMapViewInitialized(MapView mapView) {
+
+                Log.d("123","initial 들어옴");
+                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
+                mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
+                mMapView.setDefaultCurrentLocationMarker();
+                mMapView.setShowCurrentLocationMarker(true);
+
+                mMapView.setCurrentLocationEventListener(new MapView.CurrentLocationEventListener() {
+                    @Override
+                    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
+                        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+                        mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
+
+                    }
+
+                    @Override
+                    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+
+                    }
+
+                    @Override
+                    public void onCurrentLocationUpdateFailed(MapView mapView) {
+
+                    }
+
+                    @Override
+                    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+
+                    }
+                });
+
+
+
+
+
+              //  mMapView.addPolyline(mPolyline);
+
+
+            }
+
+            @Override
+            public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
+
+            }
+
+            @Override
+            public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+
+            }
+
+            @Override
+            public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+
+            }
+
+            @Override
+            public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
+
+            }
+
+            @Override
+            public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
+
+            }
+
+            @Override
+            public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
+
+            }
+
+            @Override
+            public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+
+            }
+
+            @Override
+            public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+
+            }
+        });
+
+        mapViewContainer.addView(mMapView);
+
+        FeelingDialog mDialog = new FeelingDialog();
+        mDialog.show(getFragmentManager(),"MYTAG");
+
+
+
+
+
+        btn_finish = (Button)rootView.findViewById(R.id.btn_finish);
+        btn_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FinishDialog mFDialog = new FinishDialog();
+                mFDialog.show(getFragmentManager(),"MYTAG");
+            }
+        });
 
 
         return rootView;
