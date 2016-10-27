@@ -1,40 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="360dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingLeft="17.5dp"
     android:paddingRight="17.5dp"
-    android:background="@drawable/resultbg">
+    android:background="@drawable/resultbg"
+    android:gravity="center_horizontal"
+    >
+<TextView
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="2016.10.28 산책"
+    android:layout_marginTop="15dp"
+    android:textSize="17sp"
+    android:id="@+id/result_date"
+    />
 
     <ScrollView
+        android:layout_below="@id/result_date"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="449.5dp"
-        android:layout_marginTop="51.5dp">
-	<RelativeLayout
+        android:layout_height="442dp"
+        android:layout_marginTop="17dp"
+ >
+	<LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="산책 결과"
+        android:text="서울여대 사택길"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="봉화산 마실 둘레길"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76.75dp"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:id="@+id/road"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/road"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="17dp"
         android:text="00:00:00"
         android:id="@+id/timer"/>
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="26.25dp"
         android:layout_below="@id/timer"
@@ -43,121 +61,136 @@
         <ImageView
             android:layout_width="92dp"
             android:layout_height="26.25dp"
-            android:layout_marginLeft="50dp"/>
+            android:src="@drawable/button1"
+            />
         <ImageView
             android:layout_width="12dp"
             android:layout_height="14dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/jupiter"
             android:id="@+id/to"/>
         <ImageView
             android:layout_width="92dp"
             android:layout_height="26.25dp"
-            android:layout_toRightOf="@id/to"
-            android:layout_marginLeft="15dp"/>
-
-    </RelativeLayout>
-    <RelativeLayout
+            android:src="@drawable/button1"
+        />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_below="@id/feelchange"
-        android:layout_marginLeft="20.25dp"
-        android:layout_marginRight="20.25dp"
-        android:layout_marginTop="38.5dp"
+        android:layout_marginTop="36.5dp"
         android:id="@+id/parameter">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="산책 거리"
+            android:textSize="17sp"
             android:id="@+id/length"
-            android:layout_marginLeft="3dp"/>
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text="산책 걸음 수"
+            android:textSize="17sp"
+            android:layout_marginLeft="41dp"
+            android:layout_marginRight="34.5dp"
             android:id="@+id/walk"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:text="소모 칼로리"
-            android:layout_marginRight="8dp"/>
-    </RelativeLayout>
+            android:textSize="17sp"
+        />
+    </LinearLayout>
+
     <ImageView
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/parameter"
-        android:layout_marginTop="8dp"/>
-    <RelativeLayout
+        android:src="@drawable/line"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        />
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
     android:layout_below="@id/parameter"
-    android:layout_marginLeft="20.25dp"
-    android:layout_marginRight="20.25dp"
-    android:layout_marginTop="21.25dp"
     android:id="@+id/view">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00km"
+        android:text="0.00km"
+        android:textSize="17sp"
         android:id="@+id/lengthview"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="56dp"
         android:text="0000걸음"
+        android:textSize="17sp"
         android:id="@+id/walkview"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:textSize="17sp"
         android:text="000kcal"/>
-    </RelativeLayout>
+    </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="18.25dp"
         android:layout_marginTop="35.5dp"
-        android:layout_marginLeft="20.25dp"
         android:text="산책 후기"
+        android:textSize="17sp"
         android:id="@+id/review"/>
+        </RelativeLayout>
     <ImageView
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/review"
-        android:layout_marginTop="6.75dp"
-        android:id="@+id/centerline"/>
-    
+        android:src="@drawable/line"
+        android:layout_marginTop="6dp"
+        android:id="@+id/centerline"
+        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="17sp"
         android:layout_marginRight="20.25dp"
-        android:layout_marginLeft="20.25dp"
-        android:layout_marginTop="12.8dp"
+        android:layout_marginLeft="18.25dp"
+        android:layout_marginTop="8dp"
         android:layout_below="@id/centerline"
         android:id="@+id/review_text"
-        android:text="오늘은 봉화산 마실 둘레길을 걸었다."/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/review_text"
-        android:layout_marginTop="6.75dp"
-        android:background="@drawable/earth"/>
-	</RelativeLayout>
+        android:text="아무거나\n아\n무거나\n아무거\n나아무거나아무\n거나아무거나아무거나아무거나아무거\n나아무거나아무거나아무거\n나아무거나아무거나아무거나아무거나아무거나아무거나아\n무거나아무거나 서울여대사택길 걸음."/>
+
+	</LinearLayout>
     </ScrollView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="86.5dp"
         android:layout_alignParentBottom="true"
-        android:background="#45BECE">
+>
     <Button
         android:layout_width="131dp"
         android:layout_height="41dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_local_grid"
         android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
         android:id="@+id/btn_diary_finish"/>
     </RelativeLayout>
 

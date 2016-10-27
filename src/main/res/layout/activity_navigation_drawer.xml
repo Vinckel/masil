@@ -71,25 +71,47 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="88.5dp"
+            android:layout_marginTop="73.5dp"
             android:src="@drawable/prof"
             android:id="@+id/img_prof"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="마시리"
+            android:id="@+id/txtusername"
             android:textColor="#FFFFFF"
             android:layout_marginTop="15dp"
             android:layout_below="@id/img_prof"
             android:layout_centerHorizontal="true"
             android:textSize="17sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="57.5dp"
+            android:layout_below="@id/txtusername"
+            android:layout_marginTop="56.5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마이 페이지"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_centerInParent="true"
+            />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@drawable/shortline"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="4dp"
+                />
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_height="404.5dp"
+            android:layout_height="350dp"
             android:layout_width="263.5dp"
            android:layout_alignParentBottom="true"
             app:layoutManager="LinearLayoutManager"
-            android:divider="#999999"
+            android:divider="#dddddd"
             android:choiceMode="singleChoice"
             android:foregroundGravity="center_horizontal"
             android:id="@+id/menu_list"

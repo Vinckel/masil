@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="main_color">#0045BECE</color>
+    <color name="spinner_grey">#FFEFEFEF</color>
+    <color name="spinner_green">#FF72b26d</color>
 
 </resources>

@@ -36,11 +36,12 @@
     <Spinner
         android:layout_below="@id/tv"
         android:layout_marginTop="12dp"
+        android:dropDownVerticalOffset="22.1dp"
+        android:popupBackground="@null"
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_dropdown"
         android:layout_width="129dp"
         android:layout_height="22.5dp"
-        android:paddingLeft="40dp"
         android:id="@+id/feelingspinner"
         android:layout_gravity="center_horizontal" />
 

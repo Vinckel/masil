@@ -50,10 +50,10 @@
             android:layout_alignBottom="@id/height"
             android:layout_marginRight="30.25dp"
             android:layout_alignParentRight="true"
-            android:background="#dddddd"
+            android:textColor="#000000"
             android:textSize="17sp"
             android:inputType="number"
-            android:digits="01234567890"
+            android:background="#FFFFFF"
             android:id="@+id/editheight" />
         <EditText
             android:layout_width="100dp"
@@ -61,10 +61,10 @@
             android:layout_alignBottom="@id/weight"
             android:layout_marginRight="30.25dp"
             android:layout_alignParentRight="true"
-            android:background="#dddddd"
+            android:textColor="#000000"
             android:textSize="17sp"
             android:inputType="number"
-            android:digits="01234567890"
+            android:background="#FFFFFF"
             android:id="@+id/editweight" />
 
     </RelativeLayout>
@@ -101,6 +101,8 @@
         <Spinner
             android:layout_width="92dp"
             android:layout_height="21.5dp"
+            android:dropDownVerticalOffset="21.5dp"
+            android:popupBackground="@null"
             android:layout_alignBottom="@id/favor"
             android:layout_marginRight="30.25dp"
             android:layout_alignParentRight="true"
@@ -139,14 +141,6 @@
             android:layout_marginBottom="8dp"
             android:text="기쁠 때"/>
 
-        <Spinner
-            android:layout_width="92dp"
-            android:layout_height="21.5dp"
-            android:layout_alignBottom="@id/happy"
-            android:layout_marginRight="30.25dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_small_drop"
-            android:id="@+id/happyspin" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -164,6 +158,8 @@
             android:layout_alignBottom="@id/calm"
             android:layout_marginRight="30.25dp"
             android:layout_alignParentRight="true"
+            android:dropDownVerticalOffset="21.5dp"
+            android:popupBackground="@null"
             android:background="@drawable/btn_small_drop"
             android:id="@+id/calmspin" />
         <TextView
@@ -182,6 +178,8 @@
             android:layout_alignBottom="@id/bored"
             android:layout_marginRight="30.25dp"
             android:layout_alignParentRight="true"
+            android:dropDownVerticalOffset="21.5dp"
+            android:popupBackground="@null"
             android:background="@drawable/btn_small_drop"
             android:id="@+id/boredspin" />
         <TextView
@@ -200,6 +198,8 @@
             android:layout_alignBottom="@id/sad"
             android:layout_marginRight="30.25dp"
             android:layout_alignParentRight="true"
+            android:dropDownVerticalOffset="21.5dp"
+            android:popupBackground="@null"
             android:background="@drawable/btn_small_drop"
             android:id="@+id/sadspin" />
         <TextView
@@ -215,11 +215,25 @@
         <Spinner
             android:layout_width="92dp"
             android:layout_height="21.5dp"
-            android:layout_alignBottom="@id/angry"
             android:layout_marginRight="30.25dp"
-            android:layout_alignParentRight="true"
             android:background="@drawable/btn_small_drop"
-            android:id="@+id/angryspin" />
+            android:id="@+id/happyspin"
+            android:dropDownVerticalOffset="21.5dp"
+            android:popupBackground="@null"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/calmspin"
+            android:layout_marginStart="6dp" />
+
+        <Spinner
+            android:layout_width="92dp"
+            android:layout_height="21.5dp"
+            android:layout_marginRight="30.25dp"
+            android:dropDownVerticalOffset="21.5dp"
+            android:popupBackground="@null"
+            android:background="@drawable/btn_small_drop"
+            android:id="@+id/angryspin"
+            android:layout_alignBottom="@+id/angry"
+            android:layout_alignStart="@+id/sadspin" />
 
     </RelativeLayout>
 
@@ -228,16 +242,16 @@
     android:layout_height="match_parent"
     android:layout_alignParentBottom="true"
     android:layout_below="@id/music_view"
-    android:background="#dddddd"
+
     android:paddingBottom="24.39dp">
     
     <Button
         android:layout_width="156.5dp"
-        android:layout_height="41dp"
+        android:layout_height="41.5dp"
         android:id="@+id/btn_submit"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/fixfin"
+        android:background="@drawable/btn_submit"
         />
 </RelativeLayout>
 

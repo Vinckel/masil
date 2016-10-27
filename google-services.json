@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1038501141666",
+    "firebase_url": "https://masilmasil-a3bb6.firebaseio.com",
+    "project_id": "masilmasil-a3bb6",
+    "storage_bucket": "masilmasil-a3bb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038501141666:android:13dbfe0258e4a70e",
+        "android_client_info": {
+          "package_name": "com.example.android.navigationdrawer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038501141666-8nvrsoipnkcrlapckjo0uo0hot40dq5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmqcmI0A4ZV7goTy6fseCbobOEkyYNT-s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038501141666:android:f7bcc83568407a0d",
+        "android_client_info": {
+          "package_name": "com.masil.android.navigationdrawer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038501141666-8nvrsoipnkcrlapckjo0uo0hot40dq5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmqcmI0A4ZV7goTy6fseCbobOEkyYNT-s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
