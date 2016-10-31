@@ -59,6 +59,7 @@ public class ProfileFrag extends Fragment {
 
     static EditText editHeight, editWeight;
     static Spinner fav_level, happyspin, calmspin, boredspin, sadspin, angryspin;
+    static ArrayAdapter<CharSequence> adapter2,adapter3,adapter4,adapter5,adapter6;
 
     Button btn_submit;
 
@@ -95,7 +96,8 @@ public class ProfileFrag extends Fragment {
         });
 
         happyspin = (Spinner) rootView.findViewById(R.id.happyspin);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
+        adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
+        // ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
         adapter2.setDropDownViewResource(R.layout.spin_dropdown);
         happyspin.setPrompt("music");
         happyspin.setAdapter(adapter2);
@@ -114,7 +116,7 @@ public class ProfileFrag extends Fragment {
         });
 
         calmspin = (Spinner) rootView.findViewById(R.id.calmspin);
-        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
+        adapter3 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
         adapter3.setDropDownViewResource(R.layout.spin_dropdown);
         calmspin.setPrompt("music");
         calmspin.setAdapter(adapter3);
@@ -131,7 +133,7 @@ public class ProfileFrag extends Fragment {
             }
         });
        boredspin = (Spinner) rootView.findViewById(R.id.boredspin);
-        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
+       adapter4 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
         adapter4.setDropDownViewResource(R.layout.spin_dropdown);
         boredspin.setPrompt("music");
         boredspin.setAdapter(adapter4);
@@ -148,7 +150,7 @@ public class ProfileFrag extends Fragment {
         });
 
        sadspin = (Spinner) rootView.findViewById(R.id.sadspin);
-        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
+        adapter5 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
         adapter5.setDropDownViewResource(R.layout.spin_dropdown);
         sadspin.setPrompt("music");
         sadspin.setAdapter(adapter5);
@@ -166,7 +168,7 @@ public class ProfileFrag extends Fragment {
         });
 
         angryspin = (Spinner) rootView.findViewById(R.id.angryspin);
-        ArrayAdapter<CharSequence> adapter6 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
+        adapter6 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
         adapter6.setDropDownViewResource(R.layout.spin_dropdown);
         angryspin.setPrompt("music");
         angryspin.setAdapter(adapter6);
@@ -231,16 +233,17 @@ public class ProfileFrag extends Fragment {
                 String msad = c.getString(db_sad);
                 String mannoying = c.getString(db_annoying);
 
+
+
                 editHeight.setText(mheight+"");
                 editWeight.setText(mweight+"");
 
-                fav_level.setPrompt(""+mfavlevel);
-
-                happyspin.setPrompt(mhappy);
-                calmspin.setPrompt(mpeace);
-                boredspin.setPrompt(mboring);
-                sadspin.setPrompt(msad);
-                angryspin.setPrompt(mannoying);
+                fav_level.setSelection(mfavlevel-1);
+                happyspin.setSelection(adapter2.getPosition(mhappy));
+                calmspin.setSelection(adapter3.getPosition(mpeace));
+                boredspin.setSelection(adapter4.getPosition(mboring));
+                sadspin.setSelection(adapter5.getPosition(msad));
+                angryspin.setSelection(adapter6.getPosition(mannoying));
 
             }// end of for()
 

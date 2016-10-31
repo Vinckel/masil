@@ -41,7 +41,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1038501141666:android:f7bcc83568407a0d",
         "android_client_info": {
-          "package_name": "com.masil.android.navigationdrawer"
+          "package_name": "com.example.android.navigationdrawer"
         }
       },
       "oauth_client": [

@@ -64,6 +64,9 @@ public class MyViewPager extends Fragment {
     private static final String db_theme = "theme";
     private static final String db_loca = "loca";
     private static final String db_detail = "detail";
+    private static final String db_distance = "distance";
+    private static final String db_rating = "rating";
+    private static final String db_ratingNum = "ratingNum";
     // 뷰페이저에 필요한 것들....
 
     private int mPrevPosition; //이전에 선택되었던 포지션 값
@@ -217,12 +220,15 @@ public class MyViewPager extends Fragment {
                 int theme = c.getInt(db_theme);
                 String loca = c.getString(db_loca);
                 String detail = c.getString(db_detail);
+                double distance = c.getDouble(db_distance);
+                double rating = c.getDouble(db_rating);
+                int ratingNum = c.getInt(db_ratingNum);
 
-                roaddata.setRoadData(i, id, name, time, loca, level, theme, length, detail);
-                Log.d("MyTag", "showList for문 안에서 리스트 불러보는 중" + roaddata.name_list[i]);
+                roaddata.setRoadData(i, id, name, time, loca, level, theme, length, detail, distance,rating, ratingNum);
+               // Log.d("MyTag", "showList for문 안에서 리스트 불러보는 중" + roaddata.name_list[i]);
             }// end of for()
 
-            Log.d("MyTag", "showList에서 리스트 불러보는 중" + roaddata.name_list[0]);
+           // Log.d("MyTag", "showList에서 리스트 불러보는 중" + roaddata.name_list[0]);
         } catch (JSONException e) {
             e.printStackTrace();
         }

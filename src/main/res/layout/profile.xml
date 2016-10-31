@@ -222,7 +222,7 @@
             android:popupBackground="@null"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/calmspin"
-            android:layout_marginStart="6dp" />
+           />
 
         <Spinner
             android:layout_width="92dp"

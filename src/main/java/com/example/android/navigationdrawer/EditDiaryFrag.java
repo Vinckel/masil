@@ -33,6 +33,8 @@ import java.util.Locale;
  */
 public class EditDiaryFrag extends Fragment {
 
+    private static final String ARG_PARAM1 = "diarytxt";
+
     TextView txt_date;
     String currentDate;
     Button btn_diary_no, btn_diary_done;
@@ -80,6 +82,7 @@ public class EditDiaryFrag extends Fragment {
 
 
 
+
         btn_diary_no = (Button)rootView.findViewById(R.id.btn_diary_no);
         btn_diary_no.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +101,18 @@ public class EditDiaryFrag extends Fragment {
         btn_diary_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                String diaryTxt = editText.getText().toString();
+
                 //show diary 프래그먼트 보여줘야됨
                 ShowDiaryFrag frag = new ShowDiaryFrag();
+
+                Bundle args = new Bundle();
+                args.putString(ARG_PARAM1,diaryTxt);
+
+                frag.setArguments(args);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);

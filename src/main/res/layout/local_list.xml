@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="원하시는 지역을 선택해 주세요. (최대 5개)"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:id="@+id/txtview1"
+        android:layout_centerHorizontal="true"/>
+    <ListView
+        android:layout_below="@id/txtview1"
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
+        android:id="@+id/local_listview"
+        android:divider="#dddddd"
+        android:dividerHeight="1dp"></ListView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="87.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bgbottom">
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/btn_local_next"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

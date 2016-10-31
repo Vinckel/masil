@@ -16,6 +16,7 @@
         android:textColor="#727272"
         android:textSize="17sp"
         android:id="@+id/Popfintext"
+        android:gravity="center"
         android:layout_gravity="center_horizontal" />
 
     <Button

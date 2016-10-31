@@ -111,13 +111,13 @@ android:background="#f7f7f7">
             android:text="산책로 별점: "
             android:id="@+id/txtrate"/>
 
-        <TextView
+        <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/txtrate"
-            android:textSize="16sp"
-            android:textColor="#727272"
-            android:text="별이다섯개"
+            style="?android:attr/ratingBarStyleSmall"
+            android:stepSize="0.2"
+            android:max="5"
             android:id="@+id/rating"
             />
         <TextView
@@ -125,6 +125,7 @@ android:background="#f7f7f7">
             android:layout_height="wrap_content"
             android:textColor="#afafaf"
             android:textSize="16sp"
+            android:id="@+id/ratingNum_txt"
             android:layout_marginLeft="5dp"
             android:layout_toEndOf="@id/rating"
             android:text="(6.5/120명)"

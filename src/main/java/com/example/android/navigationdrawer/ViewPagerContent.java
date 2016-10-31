@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +38,8 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
     ImageView bigimg,img1,img2, img3, img4, img5;
 
     private String theme, level, time, info;
-    private TextView tvName, tvTag, tvDetail;
+    private TextView tvName, tvTag, tvDetail,tvRatingNum;
+    private RatingBar rating;
     private ApplicationData roadData;
 
 //    private OnFragmentInteractionListener mListener;
@@ -110,6 +112,15 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
         Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img3);
         Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img4);
         Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img5);
+
+        rating = (RatingBar) v.findViewById(R.id.pager_rating);
+        String mrate = String.format("%.2f" ,Double.parseDouble(roadData.rating_list[num]));
+        rating.setRating(Float.parseFloat(mrate));
+
+        tvRatingNum = (TextView) v.findViewById(R.id.pager_ratingNum);
+        String txt_rate = String.format("%.1f" ,Double.parseDouble(roadData.rating_list[num]));
+        tvRatingNum.setText("("+txt_rate+"/"+roadData.ratingNum_list[num]+"명 참여)");
+
 
         tvName = (TextView) v.findViewById(R.id.pager_name);
         tvName.setText(roadData.name_list[num]);
@@ -192,7 +203,15 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
         tvTag.setText("#"+theme+"\t#"+roadData.loca_list[num]);
 
         tvDetail = (TextView)v.findViewById(R.id.pager_detail);
-        info = "현재 위치와의 거리: \n난이도: "+level+"\n소요시간: "+time+"\n산책로 거리: "+roadData.length_list[num]+"km\n설명:\n"+roadData.detail_list[num];
+
+        double dist = Double.parseDouble(roadData.distance_list[num]);
+
+        String txt_dist = String.format("%.2f" , dist);
+        info = "현재 위치와의 거리: "+txt_dist+
+                "km\n난이도: "+level+
+                "\n소요시간: "+time+
+                "\n산책로 거리: "+roadData.length_list[num]+
+                "km\n설명:\n"+roadData.detail_list[num];
         tvDetail.setText(info);
 
 
@@ -204,19 +223,19 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
     public void onClick(View v) { //산책로 이미지 클릭했을때 큰사진으로 바뀌어야함...
         switch (v.getId()) {
             case R.id.pager_imageView1:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
                 break;
             case R.id.pager_imageView2:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
                 break;
             case R.id.pager_imageView3:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
                 break;
             case R.id.pager_imageView4:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
                 break;
             case R.id.pager_imageView5:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + (num + 1) + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
                 break;
         }
     }

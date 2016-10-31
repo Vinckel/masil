@@ -24,6 +24,10 @@ public class ThemeGridFrag extends Fragment implements View.OnClickListener{
 
     ImageView theme1,theme2, theme3,theme4, theme5, theme6, theme7, theme8;
 
+    private static final String ARG_PARAM1 = "themeId";
+
+    int themeId;
+
 
     @Nullable
     @Override
@@ -74,56 +78,60 @@ public class ThemeGridFrag extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 
         RoadListFrag frag = new RoadListFrag();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
+
+        Bundle args = new Bundle();
+
+
 
         switch(v.getId())
         {
             case R.id.theme1:
-
-
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 1;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme2:
-
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 2;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme3:
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 3;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme4:
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 4;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme5:
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 5;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme6:
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 6;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme7:
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 7;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
             case R.id.theme8:
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
+                themeId = 8;
+                args.putInt(ARG_PARAM1,themeId);
+                frag.setArguments(args);
                 break;
 
-        }
+        }//end of switch
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.content_frame, frag);
+        ft.commit();
 
 
     }

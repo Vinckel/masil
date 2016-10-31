@@ -7,4 +7,7 @@
     <dimen name="small_pop_widthsize">251.5dp</dimen>
     <dimen name="small_pop_heightsize">223.5dp</dimen>
 
+    <dimen name="prev_img_w">117.5dp</dimen>
+    <dimen name="prev_img_h">86.25dp</dimen>
+
 </resources>

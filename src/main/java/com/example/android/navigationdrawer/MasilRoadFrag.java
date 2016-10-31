@@ -8,13 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,13 +32,32 @@ import java.net.URL;
 /**
  * Created by heeye on 2016-09-21.
  */
-public class MasilRoadFrag extends Fragment implements View.OnClickListener {
+public class MasilRoadFrag extends Fragment{
+
+    private static final String ARG_PARAM1 = "selectId";
+    private static final String ARG_PARAM2 = "selectName";
+
+    int id;
+    String name="";
+    int time = 0;
+    double length = 0;
+    int level = 0;
+    int theme = 0;
+    String loca = "";
+    String detail = "";
+    double distance = 0;
+    double rating = 0;
+    int ratingNum = 0;
+
+    int selectId;
+    String selectName;
 
     Button btn_start;
 
     ImageView bigimg,img1,img2, img3, img4, img5;
 
-    TextView nameView, detailView, tagView;
+    TextView nameView, detailView, tagView, ratingTextView;
+    RatingBar ratingView;
     static String txt_tag, txt_name, txt_detail;
 
     String user_condition, user_time;
@@ -53,25 +73,27 @@ public class MasilRoadFrag extends Fragment implements View.OnClickListener {
     private static final String db_theme = "theme";
     private static final String db_loca = "loca";
     private static final String db_detail = "detail";
+    private static final String db_distance = "distance";
+    private static final String db_rating = "rating";
+    private static final String db_ratingNum = "ratingNum";
 
     static JSONArray schkr = null;
-
-    static String[] id_list,name_list, loca_list, time_list,
-            level_list,theme_list, length_list,detail_list;
-
-
-
+    private double lat,lon;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*
+
         Bundle extra = getArguments();
-        user_condition = extra.getString("param1");
-        user_time = extra.getString("param2");*/
+        selectId = extra.getInt("selectId");
+        selectName = extra.getString("selectName");
+
+        Toast.makeText(getActivity(),"넘어온 아이디"+selectId,Toast.LENGTH_SHORT).show();
+
 
     }
+
 
     @Nullable
     @Override
@@ -81,49 +103,29 @@ public class MasilRoadFrag extends Fragment implements View.OnClickListener {
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
-        toolbar.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.top));
-        txtTitle.setText("테마별 산책로");
+        toolbar.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.top));
+        txtTitle.setText(selectName);
 
-        id_list = new String[5];
-        time_list = new String[5];
-        name_list = new String[5];
-        loca_list = new String[5];
-        level_list = new String[5];
-        theme_list = new String[5];
-        length_list = new String[5];
-        detail_list = new String[5];
+        /*
+        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        if (lastKnownLocation != null) {
+            //lat = lastKnownLocation.getLatitude();
+           //lon = lastKnownLocation.getLongitude();
+            lat = 37.629254;
+            lon = 127.090701;//실습실 좌표
 
+        }
+        else {
+            Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
+*/
+        lat = 37.629254;
+        lon = 127.090701;//실습실 좌표
 
-/*
-        nameView = (TextView) rootView.findViewById(R.id.masil_name);
-        detailView = (TextView) rootView.findViewById(R.id.masil_detail);
-        tagView = (TextView) rootView.findViewById(R.id.textView_roadtag); //이걸 showlist로 옮겨보자 그랬더니 되었다...
-
-        */
-        bigimg = (ImageView) rootView.findViewById(R.id.bigimage);
-        img1 = (ImageView) rootView.findViewById(R.id.imageView1);
-        img2 = (ImageView) rootView.findViewById(R.id.imageView2);
-        img3 = (ImageView) rootView.findViewById(R.id.imageView3);
-        img4 = (ImageView) rootView.findViewById(R.id.imageView4);
-        img5 = (ImageView) rootView.findViewById(R.id.imageView5);
-
-        getData("http://condi.swu.ac.kr/schkr/receive_road.php");
-
-
-        img1.setOnClickListener(this);
-        img2.setOnClickListener(this);
-        img3.setOnClickListener(this);
-        img4.setOnClickListener(this);
-        img5.setOnClickListener(this);
-
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img1);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img2);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img3);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img4);
-        Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img5);
-
-
+        String sss = "http://condi.swu.ac.kr/schkr/receive_road_1.php?id="+selectId+"&xpoint="+lat+"&ypoint="+lon;
+        getData(sss);
+        //아이디랑 현재 우ㅣ치 보내야됨
 
 
 
@@ -133,6 +135,13 @@ public class MasilRoadFrag extends Fragment implements View.OnClickListener {
             public void onClick(View view) {
 
                 WalkingFrag frag = new WalkingFrag();
+
+                Bundle args = new Bundle();
+                args.putInt(ARG_PARAM1,selectId); //"selectId"로 보내는거임 걸로 받아야댐
+                args.putString(ARG_PARAM2,selectName);
+
+                frag.setArguments(args);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
@@ -144,30 +153,7 @@ public class MasilRoadFrag extends Fragment implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId())
-        {
-            case R.id.imageView1:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-                break;
-            case R.id.imageView2:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-                break;
-            case R.id.imageView3:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-                break;
-            case R.id.imageView4:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-                break;
-            case R.id.imageView5:
-                Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/1_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
-                break;
-
-        }
-
-    }
 
 
     public void showList() {
@@ -175,129 +161,188 @@ public class MasilRoadFrag extends Fragment implements View.OnClickListener {
 
         try {
 
+            String theme_txt="";
+            String level_txt="";
+            String time_txt="";
+
+
             JSONObject jsonObj = new JSONObject(myJSON);
             schkr = jsonObj.getJSONArray(TAG_RESULTS);
 
             for (int i = 0; i < schkr.length(); i++) {
                 JSONObject c = schkr.getJSONObject(i);
 
-                int id = c.getInt(db_id); //int타입인데 string으로 받아도 잘 받아와지는지 확인해야됨
-                String name = c.getString(db_name);
-                int time = c.getInt(db_time);
-                double length =c.getDouble(db_length);
-                int level = c.getInt(db_level);
-                int theme = c.getInt(db_theme);
-                String loca = c.getString(db_loca);
-                String detail = c.getString(db_detail);
+                 id = c.getInt(db_id);
+                 name = c.getString(db_name);
+                 time = c.getInt(db_time);
+                 length = c.getDouble(db_length);
+                 level = c.getInt(db_level);
+                 theme = c.getInt(db_theme);
+                 loca = c.getString(db_loca);
+                 detail = c.getString(db_detail);
+                 distance = c.getDouble(db_distance);
+                 rating = c.getDouble(db_rating);
+                ratingNum = c.getInt(db_ratingNum);
+
+
 
                 switch (theme) //테마 이름....
                 {
                     case 1:
-                        theme_list[i] = "역사 속 산책";
+                        theme_txt = "역사 속 산책";
                         break;
                     case 2:
-                        theme_list[i] = "물길 따라 산책";
+                        theme_txt = "물길 따라 산책";
                         break;
                     case 3:
-                        theme_list[i] = "숲길 산책";
+                        theme_txt = "숲길 산책";
                         break;
                     case 4:
-                        theme_list[i] = "골목골목 산책";
+                        theme_txt = "골목골목 산책";
                         break;
                     case 5:
-                        theme_list[i] = "캠퍼스 산책";
+                        theme_txt = "캠퍼스 산책";
                         break;
                     case 6:
-                        theme_list[i] = "데이트 산책";
+                        theme_txt = "데이트 산책";
                         break;
                     case 7:
-                        theme_list[i] = "꽃길 산책";
+                        theme_txt = "꽃길 산책";
                         break;
                     case 8:
-                        theme_list[i] = "미술관 옆 산책";
+                        theme_txt = "미술관 옆 산책";
                         break;
                     default:
-                        theme_list[i] = "테마에러입니다";
+                        theme_txt = "테마에러입니다";
                         break;
                 }
+
+
 
                 switch (level)
                 {
                     case 1:
-                        level_list[i] = "초급";
+                        level_txt = "초급";
                         break;
                     case 2:
-                        level_list[i] = "중급";
+                        level_txt = "중급";
                         break;
                     case 3:
-                        level_list[i] = "상급";
+                        level_txt = "상급";
                         break;
                     default:
-                        level_list[i] = "실패셈";
+                        level_txt = "실패셈";
                         break;
 
                 }
+
+
 
                 switch (time)
                 {
                     case 30:
-                        time_list[i] = "30분";
+                        time_txt = "30분";
                         break;
                     case 60:
-                        time_list[i] = "1시간";
+                        time_txt = "1시간";
                         break;
                     case 90:
-                        time_list[i] = "1시간 30분";
+                        time_txt = "1시간 30분";
                         break;
                     case 120:
-                        time_list[i] = "2시간";
+                        time_txt = "2시간";
                         break;
                     case 150:
-                        time_list[i] = "2시간 30분";
+                        time_txt = "2시간 30분";
                         break;
                     case 180:
-                        time_list[i] = "3시간";
+                        time_txt = "3시간";
                         break;
                     case 210:
-                        time_list[i] = "3시간 30분";
+                        time_txt = "3시간 30분";
                         break;
                     default:
-                        time_list[i] ="실패잼";
+                        time_txt ="실패잼";
                         break;
                 }
 
-
-
-
-                id_list[i] = String.valueOf(id); //int타입인데 string으로 받아도 잘 받아와지는지 확인해야됨
-                name_list[i] = name;
-                //time_list[i] = String.valueOf(time);
-                length_list[i] = String.valueOf(length);
-                //level_list[i] = String.valueOf(level);
-
-                loca_list[i] =loca;
-                detail_list[i] =detail;
-
-                //여기서 로그 찍으면 다섯개 다 받아지는데 위에 올라가서 가져오면 안됨 이유가 무엇?
             }// end of for()
 
-
+            ratingView = (RatingBar) getActivity().findViewById(R.id.rating);
+            ratingTextView = (TextView) getActivity().findViewById(R.id.ratingNum_txt);
             nameView = (TextView) getActivity().findViewById(R.id.masil_name);
             detailView = (TextView) getActivity().findViewById(R.id.masil_detail);
             tagView = (TextView) getActivity().findViewById(R.id.textView_roadtag);
 
-            txt_tag = "#"+ theme_list[0]+"\t\t#"+loca_list[0];
-            txt_name = name_list[0];
-            txt_detail = "현재 위치와의 거리: \n난이도: "+level_list[0]+
-                    "\n소요시간: "+time_list[0]+
-                    "\n산책로 거리: "+length_list[0]+"km"+
-                    "\n설명: \n"+detail_list[0];
+            String mrate = String.format("%.2f" ,rating);
+            ratingView.setRating(Float.parseFloat(mrate));
 
-            Log.d("MyTag","뭐가 없는걸까"+txt_tag+txt_name+txt_detail);
+            String txt_rate = String.format("%.1f" ,rating);
+            ratingTextView.setText("("+txt_rate+"/"+ratingNum+"명 참여)");
+
+            txt_tag = "#"+ theme_txt+"\t#"+loca;
+            txt_name = name;
+
+            String txt_dist = String.format("%.2f" , distance);
+
+            txt_detail = "현재 위치와의 거리: "+txt_dist +
+                    "km\n난이도: "+level_txt+
+                    "\n소요시간: "+time_txt+
+                    "\n산책로 거리: "+length +"km"+
+                    "\n설명: \n"+detail;
 
             tagView.setText(txt_tag);
             nameView.setText(txt_name);
             detailView.setText(txt_detail);
+
+            bigimg = (ImageView) getActivity().findViewById(R.id.bigimage);
+            img1 = (ImageView) getActivity().findViewById(R.id.imageView1);
+            img2 = (ImageView) getActivity().findViewById(R.id.imageView2);
+            img3 = (ImageView) getActivity().findViewById(R.id.imageView3);
+            img4 = (ImageView) getActivity().findViewById(R.id.imageView4);
+            img5 = (ImageView) getActivity().findViewById(R.id.imageView5);
+
+            Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+            Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img1);
+            Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img2);
+            Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img3);
+            Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img4);
+            Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(img5);
+
+            img1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Glide.with(getActivity()).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_1.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+
+                }
+            });
+            img2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Glide.with(getActivity()).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_2.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                }
+            });
+            img3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Glide.with(getActivity()).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_3.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                }
+            });
+            img4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Glide.with(getActivity()).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_4.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                }
+            });
+            img5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Glide.with(getActivity()).load("http://condi.swu.ac.kr/schkr/photo/" + id + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
+                }
+            });
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();

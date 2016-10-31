@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by heeye on 2016-09-22.
@@ -16,11 +17,25 @@ import android.widget.Button;
 public class ShowDiaryFrag extends Fragment {
 
     Button btn_diary_finish;
+    String diarytxt;
+    TextView review_text;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle extra = getArguments();
+        diarytxt = extra.getString("diarytxt");
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.showdiary, container, false);
+
+        review_text = (TextView) rootView.findViewById(R.id.review_text);
+        review_text.setText(diarytxt);
+
 
         btn_diary_finish = (Button) rootView.findViewById(R.id.btn_diary_finish);
         btn_diary_finish.setOnClickListener(new View.OnClickListener() {

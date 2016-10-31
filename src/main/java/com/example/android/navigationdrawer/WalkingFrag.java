@@ -1,13 +1,16 @@
 package com.example.android.navigationdrawer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +74,6 @@ public class WalkingFrag extends Fragment {
     JSONArray schkr = null;
     static double[][] mpolypoint;
     public static final String APP_TAG = "Masil";
-    ApplicationData appdata;
 
     private final int MENU_ITEM_PERMISSION_SETTING = 1;
     private static WalkingFrag mInstance = null;
@@ -107,7 +110,20 @@ public class WalkingFrag extends Fragment {
     int selectId;
     String selectName;
 
+    RelativeLayout cal; //시연용 가짜 팝업 버튼
 
+    static ApplicationData appdata;
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        FeelingDialog mDialog = new FeelingDialog();
+        mDialog.show(getFragmentManager(), "MYTAG");
+
+
+    }
 
     public static WalkingFrag newInstance(String param1, String param2, String param3, String param4, String param5){
         WalkingFrag frag = new WalkingFrag();
@@ -135,6 +151,12 @@ public class WalkingFrag extends Fragment {
 
         selectId = extra.getInt("selectId");
         selectName = extra.getString("selectName");
+
+
+
+
+
+
 
     }
 
@@ -408,11 +430,6 @@ public class WalkingFrag extends Fragment {
 
         mapViewContainer.addView(mMapView);
 
-        FeelingDialog mDialog = new FeelingDialog();
-        mDialog.show(getFragmentManager(),"MYTAG");
-
-
-
 
 
         btn_finish = (Button)rootView.findViewById(R.id.btn_finish);
@@ -430,10 +447,24 @@ public class WalkingFrag extends Fragment {
         });
 
 
+        cal = (RelativeLayout)rootView.findViewById(R.id.underbar);
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DoneFinishDialog mFDialog = new DoneFinishDialog();
+                mFDialog.show(getFragmentManager(),"MYTAG");
+            }
+        });
+
+
         return rootView;
     }//onCreateView WalkingClass
 
     public static class FeelingDialog extends DialogFragment  {
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+        }
 
         Button btn_pre, btn_next;
         ImageView startfeel_bg;
@@ -500,7 +531,7 @@ public class WalkingFrag extends Fragment {
                     String select_condition=null;
                     String select_time=null;
 
-                    onStop();
+                    dismiss();
                     MyViewPager frag = new MyViewPager();
 
                     Bundle args = new Bundle();
@@ -521,9 +552,11 @@ public class WalkingFrag extends Fragment {
                 @Override
                 public void onClick(View view) {
                     //다음 다이얼로그
-                    onStop();
-                    MusicDialog mMusicDialog = new MusicDialog();
-                    mMusicDialog.show(getFragmentManager(),"MYTAG");
+                        MusicDialog mMusicDialog = new MusicDialog();
+                        mMusicDialog.show(getFragmentManager(), "MYTAG");
+                    dismiss();
+
+
 
                 }
             });
@@ -570,6 +603,11 @@ public class WalkingFrag extends Fragment {
             }
         }
 
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+        }
+
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -586,7 +624,17 @@ public class WalkingFrag extends Fragment {
                 public void onClick(View view) {
                     mBaseTime = SystemClock.elapsedRealtime();
                     mTimer.sendEmptyMessage(0);
-                    onStop();
+
+
+
+                    String url ="http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425496&ref=kakao&snsGate=Y";
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    dismiss();
+
+
+
+                    //Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
 
 
 
@@ -601,15 +649,14 @@ public class WalkingFrag extends Fragment {
                     mBaseTime = SystemClock.elapsedRealtime();
                     mTimer.sendEmptyMessage(0);
 
-                    onStop();
+                    dismiss();
+                   // Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
 
 
                     //산책 카운트 시작하면 되지 않을까
 
                 }
             }); // 음악 안듣고 산책
-
-
             return mBuilder.create();
         }//onCreateDialog() MusicDia
     }//MusicDialog
@@ -660,7 +707,7 @@ public class WalkingFrag extends Fragment {
                     mBaseTime = mBaseTime + (now - mPauseTime);
                     mTimer.sendEmptyMessage(0);
 
-                    onStop();
+                    dismiss();
                 }
             });
 
@@ -697,7 +744,99 @@ public class WalkingFrag extends Fragment {
                     ft.replace(R.id.content_frame, frag);
                     ft.commit();
 
-                    onStop();
+                    dismiss();
+
+                }
+            });
+
+            return mBuilder.create();
+        }//onCreateDialog Finish
+    }
+
+    public static class DoneFinishDialog extends DialogFragment {
+
+        Button btn_finish_no, btn_finish_yes;
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            getDialog().setCanceledOnTouchOutside(true);
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+
+            int dialogWidth = getResources().getDimensionPixelSize(R.dimen.popup_widthsize);
+            int dialogHeight = getResources().getDimensionPixelSize(R.dimen.popup_heightsize);
+
+            if (getDialog() != null) {
+                Window window = getDialog().getWindow();
+                window.setLayout(dialogWidth, dialogHeight);
+                window.setGravity(Gravity.CENTER);
+            }
+        }
+
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+            LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
+            View view = mLayoutInflater.inflate(R.layout.realfin_dia,null);
+            mBuilder.setView(view);
+
+            btn_finish_no = (Button)view.findViewById(R.id.btn_finish_no);
+            btn_finish_no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //계속할래요
+                    //타이머 다시 시작 ㄱㄱ
+                    long now = SystemClock.elapsedRealtime();
+                    mBaseTime = mBaseTime + (now - mPauseTime);
+                    mTimer.sendEmptyMessage(0);
+
+                    dismiss();
+                }
+            });
+
+            btn_finish_yes = (Button)view.findViewById(R.id.btn_finish_yes);
+            btn_finish_yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    // 마칠래요 선택시
+
+                    //산책 멈추고.....
+                    mTimer.removeMessages(0);
+
+                    //번들 예시로 암거나 일단 넣는다
+                    wktime = "aaa";
+                    wklength = "bbb";
+                    wkcount = "ccc";
+                    calorie = "ddd";
+
+                    EditDiaryFrag frag = new EditDiaryFrag();
+
+                    Bundle args = new Bundle();
+                    args.putString(ARG_PARAM1,startfeel);
+                    args.putString(ARG_PARAM2,wktime);
+                    args.putString(ARG_PARAM3,wklength);
+                    args.putString(ARG_PARAM4,wkcount);
+                    args.putString(ARG_PARAM5,calorie);
+
+                    frag.setArguments(args);
+
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    ft.replace(R.id.content_frame, frag);
+                    ft.commit();
+
+                    dismiss();
 
                 }
             });

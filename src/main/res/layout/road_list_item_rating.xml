@@ -4,7 +4,7 @@
     android:layout_width="315dp"
     android:layout_height="101.15dp"
     android:orientation="vertical"
-    android:id="@+id/road_list_item"
+    android:id="@+id/road_list_item_rating"
     android:paddingBottom="12dp"
     android:layout_marginBottom="12dp">
 
@@ -63,16 +63,17 @@
             />
 
 
-        <TextView
+        <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/road_distance"
-            android:text="00.00km"
+            android:id="@+id/road_rating"
             android:layout_alignParentRight="true"
-            android:textSize="17sp"
-            android:textColor="#AAAAAA"
+            style="?android:attr/ratingBarStyleSmall"
+            android:stepSize="0.2"
+            android:max="5"
             android:layout_marginRight="2dp"
             android:layout_alignBottom="@id/road_loca"
+
             />
 
         <ImageView

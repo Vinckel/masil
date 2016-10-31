@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,21 +17,20 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 
 /**
- * Created by heeye on 2016-09-29.
+ * Created by heeye on 2016-10-31.
  */
 
-public class RoadListAdapter extends BaseAdapter
-{
-
+public class RoadListAdapterRating extends BaseAdapter {
 
     //가져온 정보 저장할 변수
     private RoadListInfo mRoad;
     private Context mContext;
 
-    TextView roadnameText, roadlocaText, roaddistText;
+    TextView roadnameText, roadlocaText;
+    RatingBar roadRatingbar;
     ImageView roadImage;
     int roadId;
-    LinearLayout road_list_item;
+    LinearLayout road_list_item_rating;
     RequestManager mRequestManager;
 
 
@@ -39,7 +39,7 @@ public class RoadListAdapter extends BaseAdapter
     private ArrayList<RoadListInfo> mRoadData;
 
 
-    public RoadListAdapter(Context context){
+    public RoadListAdapterRating(Context context){
         super();
         mContext = context;
         mRoadData = new ArrayList<RoadListInfo>();
@@ -75,33 +75,33 @@ public class RoadListAdapter extends BaseAdapter
 
         if (v == null) {
 
-            v = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.road_list_item, parent,false);
+            v = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.road_list_item_rating, parent,false);
         }
 
-        road_list_item = (LinearLayout)v.findViewById(R.id.road_list_item);
+        road_list_item_rating = (LinearLayout)v.findViewById(R.id.road_list_item_rating);
 
         roadlocaText = (TextView) v.findViewById(R.id.road_loca);
         roadnameText = (TextView) v.findViewById(R.id.road_name);
-        roaddistText = (TextView) v.findViewById(R.id.road_distance);
+        roadRatingbar = (RatingBar) v.findViewById(R.id.road_rating);
         roadImage = (ImageView) v.findViewById(R.id.road_img);
 
 
         mRoad = (RoadListInfo) getItem(position);
 
-        road_list_item.setTag(mRoad);
-
-
+        road_list_item_rating.setTag(mRoad);
 
 
         if (mRoad != null) {
             roadnameText.setText(mRoad.getmRoadName());
             roadlocaText.setText(mRoad.getmRoadLoca());
-            roaddistText.setText(mRoad.getmRoadDist());
+            String mRating = mRoad.getmRoadRating();
 
-           Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/16.png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
+            roadRatingbar.setRating(Float.parseFloat(mRating));
+
+            Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/16.png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
 
             //mRequestManager.load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
-           // road_list_item.setOnClickListener(this);
+
         }
         return v;
     }

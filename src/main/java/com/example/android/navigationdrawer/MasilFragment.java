@@ -80,7 +80,7 @@ public class MasilFragment extends Fragment {
         btn_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocalGridFrag frag = new LocalGridFrag();
+                LocalListFrag frag = new LocalListFrag();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
