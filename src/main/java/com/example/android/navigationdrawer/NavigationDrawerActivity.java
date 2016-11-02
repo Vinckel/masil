@@ -16,7 +16,10 @@
 
 package com.example.android.navigationdrawer;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -37,6 +40,8 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Calendar;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -81,14 +86,11 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         mContext = this;
-
 
         super.onCreate(savedInstanceState);
 
-
-
+        new AlarmHATT(getApplicationContext()).Alarm();
 
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -149,6 +151,7 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.content_frame, frag);
+            ft.addToBackStack(null);
             ft.commit();
         }
 
@@ -189,11 +192,11 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.content_frame, frag);
+                    ft.addToBackStack(null);
                     ft.commit();
                 break;
                 default:
                     return super.onOptionsItemSelected(item);
-
 
             }
 
@@ -218,10 +221,16 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
                 ft.commit();
                 break;
             case 1:
-                Toast.makeText(getApplicationContext(),"아직 아니야",Toast.LENGTH_SHORT).show();
+                DiaryListFrag frag2 = new DiaryListFrag();
+                FragmentManager fragmentManager2 = getSupportFragmentManager();
+                FragmentTransaction ft2 = fragmentManager2.beginTransaction();
+                ft2.replace(R.id.content_frame, frag2);
+                ft2.addToBackStack(null);
+                ft2.commit();
                 break;
             case 2:
                 Toast.makeText(getApplicationContext(),"아직 아니라고",Toast.LENGTH_SHORT).show();
@@ -257,6 +266,27 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+    public class AlarmHATT {
+        private Context context;
+        public AlarmHATT(Context context) {
+            this.context=context;
+
+        }
+        public void Alarm() {
+            AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(NavigationDrawerActivity.this, BroadcastD.class);
+
+            PendingIntent sender = PendingIntent.getBroadcast(NavigationDrawerActivity.this, 0, intent, 0);
+
+            Calendar calendar = Calendar.getInstance();
+            //알람시간 calendar에 set해주기
+
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 02, 55, 0);//1시 27분
+
+            //알람 예약
+            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+        }
     }
 
 }

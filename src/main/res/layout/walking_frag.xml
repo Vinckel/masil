@@ -108,6 +108,7 @@
                 android:text="00.00km"
                 android:layout_below="@id/walkingdistext"
                 android:layout_alignLeft="@id/walkingdistext"
+                android:id="@+id/txt_walking"
                 />
 
 
@@ -175,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/leftdistext"
                 android:layout_toEndOf="@id/leftdis"
-                android:text="남은 산책 거리"
+                android:text="걸음 수"
                 />
 
             <TextView
@@ -184,6 +185,7 @@
                 android:text="00.00km"
                 android:layout_below="@id/leftdistext"
                 android:layout_alignLeft="@id/leftdistext"
+                android:id="@+id/stepcountview"
                 />
 
 

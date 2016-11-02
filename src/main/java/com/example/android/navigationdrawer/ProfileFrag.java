@@ -63,6 +63,13 @@ public class ProfileFrag extends Fragment {
 
     Button btn_submit;
 
+    ApplicationData appdata;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        appdata = (ApplicationData) getActivity().getApplicationContext();
+    }
 
     @Nullable
     @Override
@@ -200,6 +207,7 @@ public class ProfileFrag extends Fragment {
 
                 try {
                     setProfile(memid, height, weight, favlevel, happy, peace, boring, sad, annoying);
+                    appdata.setMusic(happy,peace,boring,sad,annoying);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -306,8 +314,7 @@ public class ProfileFrag extends Fragment {
     }
 
     private void setProfile(int memid, double height, double weight, int favlevel, String happy, String peace, String boring, String sad, String annoying) throws UnsupportedEncodingException {
-       // String textSuffix = "?memberid="+memid+"&height="+height+"&weight="+weight+"&favlevel="+favlevel+"&happy="+happy+"&peace="+peace+"&boring="+boring+"&sad="+sad+"&annoying="+annoying;
-       // String urlSuffix = java.net.URLEncoder.encode(new String(textSuffix.getBytes("UTF-8")));
+
         String urlSuffix = "?memberid="+memid+"&height="+height+"&weight="+weight+"&favlevel="+favlevel+"&happy="+happy+"&peace="+peace+"&sad="+sad+"&boring="+boring+"&annoying="+annoying;
         class SettingPro extends AsyncTask<String, Void, String> {
 

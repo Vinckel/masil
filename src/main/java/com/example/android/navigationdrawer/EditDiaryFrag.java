@@ -2,7 +2,9 @@ package com.example.android.navigationdrawer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -33,14 +41,31 @@ import java.util.Locale;
  */
 public class EditDiaryFrag extends Fragment {
 
+    private static final String ADDDIARY_URL = "http://condi.swu.ac.kr/schkr/addDiary.php";
+
     private static final String ARG_PARAM1 = "diarytxt";
+    private static final String ARG_PARAM2 = "startfeel";
+    private static final String ARG_PARAM3 = "finishfeel";
+    private static final String ARG_PARAM4 = "wktime";
+    private static final String ARG_PARAM5 = "wklength";
+    private static final String ARG_PARAM6 = "wkcount";
+    private static final String ARG_PARAM7 = "calorie";
+    private static final String ARG_PARAM8 = "selectName";
+    private static final String ARG_PARAM9 = "selectId";
+
+    //별점 따로
+
+    int memberid = 1;
 
     TextView txt_date;
     String currentDate;
     Button btn_diary_no, btn_diary_done;
     EditText editText;
 
-    String startfeel, wktime, wklength, wkcount, calorie;
+    String diaryTxt;
+
+    static String startfeel, finishfeel, wktime, wklength, wkcount, calorie, selectName;
+    static int selectId, rating;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,8 +77,10 @@ public class EditDiaryFrag extends Fragment {
         wklength = extra.getString("wklength");
         wkcount = extra.getString("wkcount");
         calorie = extra.getString("calorie");
+        selectName = extra.getString("selectName");
+        selectId = extra.getInt("selectId");
 
-        Toast.makeText(getActivity(),startfeel+wktime+calorie,Toast.LENGTH_LONG);
+        //Toast.makeText(getActivity(),startfeel+wktime+calorie,Toast.LENGTH_LONG).show(); 다 넘어옴 ㅇㅇ
 
     }
 
@@ -82,41 +109,22 @@ public class EditDiaryFrag extends Fragment {
 
 
 
-
-        btn_diary_no = (Button)rootView.findViewById(R.id.btn_diary_no);
-        btn_diary_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //다음에 할래요 go 메인
-                MasilFragment frag = new MasilFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
-
-            }
-        });
-
         btn_diary_done = (Button)rootView.findViewById(R.id.btn_diary_done);
         btn_diary_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+              diaryTxt = editText.getText().toString();
 
-                String diaryTxt = editText.getText().toString();
+                try {
+                    selectName = selectName.replaceAll("\\p{Space}|\\p{Punct}", "");
+                    diaryTxt = diaryTxt.replaceAll("\\p{Space}|\\p{Punct}", "");
+                    addDiary(memberid,currentDate,selectId,selectName,diaryTxt,startfeel,finishfeel,wktime,wklength,wkcount,calorie,rating);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
-                //show diary 프래그먼트 보여줘야됨
-                ShowDiaryFrag frag = new ShowDiaryFrag();
 
-                Bundle args = new Bundle();
-                args.putString(ARG_PARAM1,diaryTxt);
-
-                frag.setArguments(args);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.content_frame, frag);
-                ft.commit();
             }
         });
 
@@ -138,7 +146,7 @@ public class EditDiaryFrag extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getDialog().setCanceledOnTouchOutside(true);
+            getDialog().setCanceledOnTouchOutside(false);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -175,6 +183,9 @@ public class EditDiaryFrag extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                    String str = (String) fspinner.getSelectedItem();
+                    finishfeel = str;
+
                 }
 
                 @Override
@@ -194,7 +205,7 @@ public class EditDiaryFrag extends Fragment {
                     //별점 다이얼로그
                     RatingDialog mRatingDia = new RatingDialog();
                     mRatingDia.show(getFragmentManager(),"MYTAG");
-                    onStop();
+                    dismiss();
                 }
             });
 
@@ -212,7 +223,7 @@ public class EditDiaryFrag extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getDialog().setCanceledOnTouchOutside(true);
+            getDialog().setCanceledOnTouchOutside(false);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -244,6 +255,19 @@ public class EditDiaryFrag extends Fragment {
             adapter.setDropDownViewResource(R.layout.spin_dropdown);
             starspinner.setPrompt("★☆☆☆☆");
             starspinner.setAdapter(adapter);
+            starspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    rating = position +1;
+
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
 
 
@@ -252,7 +276,7 @@ public class EditDiaryFrag extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    onStop();
+                    dismiss();
 
                 }
             });
@@ -260,4 +284,105 @@ public class EditDiaryFrag extends Fragment {
             return mBuilder.create();
         }
     }
+
+    private void addDiary(int memberid, String currentdate, final int selectid, final String selectname, String diarytxt, final String startfeel, final String finishfeel, final String wktime, final String wklength, final String wkcount, final String calorie, int rating) throws UnsupportedEncodingException {
+
+        String urlSuffix ="?memberid="+memberid+
+                "&currentdate="+currentdate+
+                "&selectid="+selectid+
+                "&selectname="+selectname+
+                "&diarytxt="+diarytxt+
+                "&startfeel="+startfeel+
+                "&finishfeel="+finishfeel+
+                "&wktime="+wktime+
+                "&wklength="+wklength+
+                "&wkcount="+wkcount+
+                "&calorie="+calorie+
+                "&rating="+rating;
+
+        Log.d("시발",urlSuffix);
+        class addPro extends AsyncTask<String, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(getActivity(), "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+
+                if (s.equals("success1success2")) {
+                    Toast.makeText(getActivity(), "전송 완료", Toast.LENGTH_SHORT).show();
+
+
+                    //show diary 프래그먼트 보여줘야됨
+                    ShowDiaryFrag frag = new ShowDiaryFrag();
+
+                    Bundle args = new Bundle();
+                    args.putString(ARG_PARAM1,diaryTxt);
+                    args.putString(ARG_PARAM2,startfeel);
+                    args.putString(ARG_PARAM3,finishfeel);
+                    args.putString(ARG_PARAM4,wktime);
+                    args.putString(ARG_PARAM5,wklength);
+                    args.putString(ARG_PARAM6,wkcount);
+                    args.putString(ARG_PARAM7,calorie);
+                    args.putString(ARG_PARAM8,selectName);
+                    args.putInt(ARG_PARAM9,selectId);
+
+                    frag.setArguments(args);
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    ft.replace(R.id.content_frame, frag);
+                    ft.addToBackStack(null);
+                    ft.commit();
+
+                }
+                else if (s.equals("errrrrroooooooooor")){
+                    Toast.makeText(getActivity(), "뭐가 비었는데?", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "몰라 에러야", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                String s = params[0];
+                BufferedReader bufferedReader = null;
+                Log.d("MyTag",s+"두인백그라운드 진입");
+                try {
+                    Log.d("MyTag",s+"두인백그라운드 try진입");
+
+                    URL url = new URL(ADDDIARY_URL + s);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String result;
+
+                    result = bufferedReader.readLine();
+
+                    Log.d("시발",result);
+
+                    return result;
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+
+        }//end of addPRo
+
+        addPro add = new addPro();
+        add.execute(urlSuffix);
+
+
+    }//addDiary
+
 }

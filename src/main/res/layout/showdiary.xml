@@ -8,190 +8,202 @@
     android:background="@drawable/resultbg"
     android:gravity="center_horizontal"
     >
-<TextView
-    android:layout_centerHorizontal="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="2016.10.28 산책"
-    android:layout_marginTop="15dp"
-    android:textSize="17sp"
-    android:id="@+id/result_date"
-    />
-
-    <ScrollView
-        android:layout_below="@id/result_date"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
-        android:layout_height="442dp"
-        android:layout_marginTop="17dp"
- >
-	<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-        android:gravity="center_horizontal"
-        >
-
     <TextView
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="서울여대 사택길"
-        android:layout_centerHorizontal="true"
+        android:text="2016.10.28 산책"
         android:layout_marginTop="15dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:id="@+id/road"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/road"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:textSize="17dp"
-        android:text="00:00:00"
-        android:id="@+id/timer"/>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="26.25dp"
-        android:layout_below="@id/timer"
-        android:layout_marginTop="15dp"
-        android:id="@+id/feelchange">
-        <ImageView
-            android:layout_width="92dp"
-            android:layout_height="26.25dp"
-            android:src="@drawable/button1"
-            />
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="14dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/jupiter"
-            android:id="@+id/to"/>
-        <ImageView
-            android:layout_width="92dp"
-            android:layout_height="26.25dp"
-            android:src="@drawable/button1"
+        android:textSize="17sp"
+        android:id="@+id/result_date"
         />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_below="@id/feelchange"
-        android:layout_marginTop="36.5dp"
-        android:id="@+id/parameter">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="산책 거리"
-            android:textSize="17sp"
-            android:id="@+id/length"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="산책 걸음 수"
-            android:textSize="17sp"
-            android:layout_marginLeft="41dp"
-            android:layout_marginRight="34.5dp"
-            android:id="@+id/walk"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="소모 칼로리"
-            android:textSize="17sp"
-        />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/parameter"
-        android:src="@drawable/line"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        />
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:layout_below="@id/parameter"
-    android:id="@+id/view">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0.00km"
-        android:textSize="17sp"
-        android:id="@+id/lengthview"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="53dp"
-        android:layout_marginRight="56dp"
-        android:text="0000걸음"
-        android:textSize="17sp"
-        android:id="@+id/walkview"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:text="000kcal"/>
-    </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="18.25dp"
-        android:layout_marginTop="35.5dp"
-        android:text="산책 후기"
-        android:textSize="17sp"
-        android:id="@+id/review"/>
-        </RelativeLayout>
-    <ImageView
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/line"
-        android:layout_marginTop="6dp"
-        android:id="@+id/centerline"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:layout_marginRight="20.25dp"
-        android:layout_marginLeft="18.25dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/centerline"
-        android:id="@+id/review_text"
-        android:text="아무거나\n아\n무거나\n아무거\n나아무거나아무\n거나아무거나아무거나아무거나아무거\n나아무거나아무거나아무거\n나아무거나아무거나아무거나아무거나아무거나아무거나아\n무거나아무거나 서울여대사택길 걸음."/>
-
-	</LinearLayout>
-    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="86.5dp"
         android:layout_alignParentBottom="true"
->
-    <Button
-        android:layout_width="131dp"
-        android:layout_height="41dp"
-        android:background="@drawable/btn_local_grid"
-        android:layout_marginBottom="24dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        >
+        <Button
+            android:layout_width="131dp"
+            android:layout_height="41dp"
+            android:background="@drawable/btn_local_grid"
+            android:layout_marginBottom="24dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
 
-        android:id="@+id/btn_diary_finish"/>
+            android:id="@+id/btn_diary_finish"/>
     </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="442dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/result_date"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="서울여대 사택길"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/road"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/road"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:textSize="17dp"
+                android:text="00:00:00"
+                android:id="@+id/timer"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="26.25dp"
+                android:layout_below="@id/timer"
+                android:layout_marginTop="15dp"
+                android:id="@+id/feelchange">
+                <TextView
+                    android:layout_width="92dp"
+                    android:layout_height="26.25dp"
+                    android:textSize="17sp"
+                    android:text="우울"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:background="@drawable/before"
+                    android:id="@+id/startfeel_txt"
+                    />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="14dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/to"
+                    android:id="@+id/to"/>
+                <TextView
+                    android:layout_width="92dp"
+                    android:layout_height="26.25dp"
+                    android:textSize="17sp"
+                    android:textColor="#ffffff"
+                    android:text="온화"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:background="@drawable/after"
+                    android:id="@+id/finishfeel_txt"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_below="@id/feelchange"
+                android:layout_marginTop="36.5dp"
+                android:id="@+id/parameter">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="산책 거리"
+                    android:textSize="17sp"
+                    android:id="@+id/length"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="산책 걸음 수"
+                    android:textSize="17sp"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginRight="34.5dp"
+                    android:id="@+id/walk"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="소모 칼로리"
+                    android:textSize="17sp"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/parameter"
+                android:src="@drawable/line"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_below="@id/parameter"
+                android:id="@+id/view">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00km"
+                    android:textSize="17sp"
+                    android:id="@+id/lengthview"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="53dp"
+                    android:layout_marginRight="56dp"
+                    android:text="0000걸음"
+                    android:textSize="17sp"
+                    android:id="@+id/walkview"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:text="000kcal"
+                    android:id="@+id/calview"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="18.25dp"
+                    android:layout_marginTop="35.5dp"
+                    android:text="산책 후기"
+                    android:textSize="17sp"
+                    android:id="@+id/review"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/line"
+                android:layout_marginTop="6dp"
+                android:id="@+id/centerline"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_marginRight="20.25dp"
+                android:layout_marginLeft="18.25dp"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/centerline"
+                android:id="@+id/review_text"
+                android:text="아무거나\n아\n무거나\n아무거\n나아무거나아무\n거나아무거나아무거나아무거나아무거\n나아무거나아무거나아무거\n나아무거나아무거나아무거나아무거나아무거나아무거나아\n무거나아무거나 서울여대사택길 걸음."/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

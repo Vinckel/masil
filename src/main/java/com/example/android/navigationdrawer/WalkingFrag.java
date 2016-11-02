@@ -33,7 +33,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,7 +72,12 @@ public class WalkingFrag extends Fragment {
     String myJSON;
     JSONArray schkr = null;
     static double[][] mpolypoint;
+
+
+
     public static final String APP_TAG = "Masil";
+
+    static int flag=0;
 
     private final int MENU_ITEM_PERMISSION_SETTING = 1;
     private static WalkingFrag mInstance = null;
@@ -82,7 +86,10 @@ public class WalkingFrag extends Fragment {
     private Set<HealthPermissionManager.PermissionKey> mKeySet;
     private StepCountReporter mReporter;
 
-    static String startfeel, wktime, wklength, wkcount, calorie;
+    static String txt_startfeel, txt_wktime, txt_wklength, txt_wkcount, txt_calorie;
+    static TextView calorieTv;
+    static TextView distanceTv;
+    static TextView stepCountTv;
 
     private static final String TAG_RESULTS = "result";
     private static final String db_id = "id";
@@ -95,6 +102,8 @@ public class WalkingFrag extends Fragment {
     private static final String ARG_PARAM3 = "wklength";
     private static final String ARG_PARAM4 = "wkcount";
     private static final String ARG_PARAM5 = "calorie";
+    private static final String ARG_PARAM6 = "selectName";
+    private static final String ARG_PARAM7 = "selectId";
 
 
     MapView mMapView;
@@ -107,17 +116,18 @@ public class WalkingFrag extends Fragment {
     static long mBaseTime; //기준 타임
     static long mPauseTime; //일시정지 타임
 
-    int selectId;
-    String selectName;
+    static int selectId;
+    static String selectName;
 
     RelativeLayout cal; //시연용 가짜 팝업 버튼
 
-    static ApplicationData appdata;
+    private static ApplicationData appdata;
 
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
 
         FeelingDialog mDialog = new FeelingDialog();
         mDialog.show(getFragmentManager(), "MYTAG");
@@ -125,14 +135,16 @@ public class WalkingFrag extends Fragment {
 
     }
 
-    public static WalkingFrag newInstance(String param1, String param2, String param3, String param4, String param5){
+    public static WalkingFrag newInstance(String param1, String param2, String param3, String param4, String param5,String param6,int param7){
         WalkingFrag frag = new WalkingFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1,param1);
         args.putString(ARG_PARAM2,param2);
-        args.putString(ARG_PARAM2,param3);
-        args.putString(ARG_PARAM2,param4);
-        args.putString(ARG_PARAM2,param5);
+        args.putString(ARG_PARAM3,param3);
+        args.putString(ARG_PARAM4,param4);
+        args.putString(ARG_PARAM5,param5);
+        args.putString(ARG_PARAM6,param6);
+        args.putInt(ARG_PARAM7,param7);
         frag.setArguments(args);
         return frag;
     }
@@ -147,16 +159,12 @@ public class WalkingFrag extends Fragment {
         super.onCreate(savedInstanceState);
         appdata = (ApplicationData) getActivity().getApplicationContext();
 
-        Bundle extra = getArguments();
 
+
+
+        Bundle extra = getArguments();
         selectId = extra.getInt("selectId");
         selectName = extra.getString("selectName");
-
-
-
-
-
-
 
     }
 
@@ -260,7 +268,7 @@ public class WalkingFrag extends Fragment {
                 Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = result.getResultMap();
 
                 if (resultMap.containsValue(Boolean.FALSE)) {
-                    drawStepCount("");
+                    drawStepNDistance("","","");
                     showPermissionAlarmDialog();
                 } else {
                     // Get the current step count and display it
@@ -281,14 +289,14 @@ public class WalkingFrag extends Fragment {
         alert.show();
     }
 
-    public void drawStepCount(String count){
-
-        TextView stepCountTv = (TextView)getActivity().findViewById(R.id.calvaltext);
+    public void drawStepNDistance(String calorie, String distance, String count){
 
         // Display the today step count so far
-        stepCountTv.setText(count + " kcal");
-    }
+        calorieTv.setText(calorie + "kcal");
+        distanceTv.setText(distance+"km");
+        stepCountTv.setText(count+"걸음");
 
+    }
 
 
     @Nullable
@@ -297,10 +305,14 @@ public class WalkingFrag extends Fragment {
 
         View rootView = inflater.inflate(R.layout.walking_frag, container, false);
         walkingtimer = (TextView)rootView.findViewById(R.id.walkingtimer);
+        calorieTv = (TextView)rootView.findViewById(R.id.calvaltext);
+        distanceTv = (TextView)rootView.findViewById(R.id.txt_walking);
+        stepCountTv = (TextView) rootView.findViewById(R.id.stepcountview);
 
         mInstance = this;
         mKeySet = new HashSet<HealthPermissionManager.PermissionKey>();
         mKeySet.add(new HealthPermissionManager.PermissionKey(HealthConstants.StepCount.HEALTH_DATA_TYPE, HealthPermissionManager.PermissionType.READ));
+
         HealthDataService healthDataService = new HealthDataService();
         try {
             healthDataService.initialize(getContext());
@@ -348,7 +360,7 @@ public class WalkingFrag extends Fragment {
             @Override
             public void onMapViewInitialized(MapView mapView) {
 
-                Log.d("123","initial 들어옴");
+
                 mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
                // mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
                 mMapView.setDefaultCurrentLocationMarker();
@@ -359,8 +371,8 @@ public class WalkingFrag extends Fragment {
                     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
                         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
                         mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
-
-                    }
+                        //이 부분에서 도착 지점과의 거리를 계산해주면 된다
+                }
 
                     @Override
                     public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
@@ -467,14 +479,14 @@ public class WalkingFrag extends Fragment {
         }
 
         Button btn_pre, btn_next;
-        ImageView startfeel_bg;
+
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getDialog().setCanceledOnTouchOutside(true);
+            getDialog().setCanceledOnTouchOutside(false);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -511,7 +523,8 @@ public class WalkingFrag extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                     String str = (String) fspinner.getSelectedItem();
-                    startfeel = str;
+                    txt_startfeel = str;
+                   // Toast.makeText(getActivity(),txt_startfeel,Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -527,11 +540,13 @@ public class WalkingFrag extends Fragment {
             btn_pre.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+/*
+뒤로가기랑 똑같은 기능으로 쳐야되는데
                     String select_condition=null;
                     String select_time=null;
 
                     dismiss();
+
                     MyViewPager frag = new MyViewPager();
 
                     Bundle args = new Bundle();
@@ -542,8 +557,9 @@ public class WalkingFrag extends Fragment {
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.content_frame, frag);
+                    ft.addToBackStack(null);
                     ft.commit();
-
+*/
 
                 }
             });
@@ -585,7 +601,7 @@ public class WalkingFrag extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getDialog().setCanceledOnTouchOutside(true);
+            getDialog().setCanceledOnTouchOutside(false);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -612,10 +628,12 @@ public class WalkingFrag extends Fragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
             LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
             View view = mLayoutInflater.inflate(R.layout.music_dia,null);
             mBuilder.setView(view);
+
 
             btn_music = (Button)view.findViewById(R.id.btn_music);
 
@@ -624,18 +642,34 @@ public class WalkingFrag extends Fragment {
                 public void onClick(View view) {
                     mBaseTime = SystemClock.elapsedRealtime();
                     mTimer.sendEmptyMessage(0);
+                    String url="";
 
+                    switch (txt_startfeel){
+                        case "기뻐요":
+                            url = appdata.playHappy();
+                            break;
+                        case "온화해요":
+                            url = appdata.playPeace();
+                            break;
+                        case "무료해요":
+                            url = appdata.playBoring();
+                            break;
+                        case "우울해요":
+                            url = appdata.playSad();
+                            break;
+                        case "짜증나요":
+                            url = appdata.playAngry();
+                            break;
+                    }
 
-
-                    String url ="http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425496&ref=kakao&snsGate=Y";
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(intent);
                     dismiss();
 
-
-
-                    //Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
-
+                    if(flag==1)
+                    {
+                        Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
+                    }
 
 
                 }
@@ -650,8 +684,10 @@ public class WalkingFrag extends Fragment {
                     mTimer.sendEmptyMessage(0);
 
                     dismiss();
-                   // Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
-
+                    if(flag==1)
+                    {
+                        Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
+                    }
 
                     //산책 카운트 시작하면 되지 않을까
 
@@ -670,7 +706,7 @@ public class WalkingFrag extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getDialog().setCanceledOnTouchOutside(true);
+            getDialog().setCanceledOnTouchOutside(false);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -721,20 +757,26 @@ public class WalkingFrag extends Fragment {
                    //산책 멈추고.....
                     mTimer.removeMessages(0);
 
+
+
                     //번들 예시로 암거나 일단 넣는다
-                    wktime = "aaa";
-                    wklength = "bbb";
-                    wkcount = "ccc";
-                    calorie = "ddd";
+                    txt_wktime = walkingtimer.getText().toString();
+                    txt_wklength = distanceTv.getText().toString();
+                    txt_wkcount = stepCountTv.getText().toString();//이거 수정되면 가져오면 될듯
+                    txt_calorie = calorieTv.getText().toString();
 
                     EditDiaryFrag frag = new EditDiaryFrag();
 
                     Bundle args = new Bundle();
-                    args.putString(ARG_PARAM1,startfeel);
-                    args.putString(ARG_PARAM2,wktime);
-                    args.putString(ARG_PARAM3,wklength);
-                    args.putString(ARG_PARAM4,wkcount);
-                    args.putString(ARG_PARAM5,calorie);
+                    args.putString(ARG_PARAM1,txt_startfeel);
+                    args.putString(ARG_PARAM2,txt_wktime);
+                    args.putString(ARG_PARAM3,txt_wklength);
+                    args.putString(ARG_PARAM4,txt_wkcount);
+                    args.putString(ARG_PARAM5,txt_calorie);
+                    args.putString(ARG_PARAM6,selectName);
+                    args.putInt(ARG_PARAM7,selectId);
+
+
 
                     frag.setArguments(args);
 
@@ -742,6 +784,7 @@ public class WalkingFrag extends Fragment {
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.content_frame, frag);
+                    ft.addToBackStack(null);
                     ft.commit();
 
                     dismiss();
@@ -762,7 +805,7 @@ public class WalkingFrag extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getDialog().setCanceledOnTouchOutside(true);
+            getDialog().setCanceledOnTouchOutside(false);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -813,20 +856,24 @@ public class WalkingFrag extends Fragment {
                     //산책 멈추고.....
                     mTimer.removeMessages(0);
 
+
+
                     //번들 예시로 암거나 일단 넣는다
-                    wktime = "aaa";
-                    wklength = "bbb";
-                    wkcount = "ccc";
-                    calorie = "ddd";
+                    txt_wktime = walkingtimer.getText().toString();
+                    txt_wklength = distanceTv.getText().toString();
+                    txt_wkcount = stepCountTv.getText().toString();//이거 수정되면 가져오면 될듯
+                    txt_calorie = calorieTv.getText().toString();
 
                     EditDiaryFrag frag = new EditDiaryFrag();
 
                     Bundle args = new Bundle();
-                    args.putString(ARG_PARAM1,startfeel);
-                    args.putString(ARG_PARAM2,wktime);
-                    args.putString(ARG_PARAM3,wklength);
-                    args.putString(ARG_PARAM4,wkcount);
-                    args.putString(ARG_PARAM5,calorie);
+                    args.putString(ARG_PARAM1,txt_startfeel);
+                    args.putString(ARG_PARAM2,txt_wktime);
+                    args.putString(ARG_PARAM3,txt_wklength);
+                    args.putString(ARG_PARAM4,txt_wkcount);
+                    args.putString(ARG_PARAM5,txt_calorie);
+                    args.putString(ARG_PARAM6,selectName);
+                    args.putInt(ARG_PARAM7,selectId);
 
                     frag.setArguments(args);
 
@@ -834,6 +881,7 @@ public class WalkingFrag extends Fragment {
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.content_frame, frag);
+                    ft.addToBackStack(null);
                     ft.commit();
 
                     dismiss();
@@ -869,7 +917,22 @@ public class WalkingFrag extends Fragment {
 
                 mPolyline.addPoint(MapPoint.mapPointWithGeoCoord(mpolypoint[0][i],mpolypoint[1][i]));
 
-            }
+                if(i==0){
+                    Location startP = new Location("startP");
+                    Location currentP = new Location("currentP");
+
+                    startP.setLatitude(x);
+                    startP.setLongitude(y);
+                    currentP.setLatitude(lat);
+                    currentP.setLongitude(lon);
+
+                    if(startP.distanceTo(currentP)>50){
+                        flag = 1;
+                    }//flag if
+                }//현위치랑 시작위치 거리 50미터 이내면 flag 값 바꿔서 멀다고 토스트 띄우기
+
+
+            }//end of for
 
             mMapView.addPolyline(mPolyline);
             mPolyline.setLineColor(Color.BLUE);

@@ -95,7 +95,7 @@ android:background="#f7f7f7">
 <ScrollView
     android:layout_below="@id/line"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="192dp"
     android:layout_marginLeft="31.25dp"
     android:layout_marginRight="31.25dp"
     android:id="@+id/scrollView">
@@ -114,21 +114,25 @@ android:background="#f7f7f7">
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/txtrate"
-            style="?android:attr/ratingBarStyleSmall"
-            android:stepSize="0.2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@id/txtrate"
+            android:layout_marginLeft="65dp"
+            style="@style/blueStarRating"
+            android:stepSize="0.5"
             android:max="5"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
             android:id="@+id/rating"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#afafaf"
+            android:layout_toEndOf="@id/txtrate"
+            android:layout_marginLeft="90dp"
             android:textSize="16sp"
-            android:id="@+id/ratingNum_txt"
-            android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@id/rating"
+            android:textColor="#afafaf"
             android:text="(6.5/120명)"
+            android:id="@+id/ratingNum_txt"
             />
         <TextView
             android:layout_width="wrap_content"

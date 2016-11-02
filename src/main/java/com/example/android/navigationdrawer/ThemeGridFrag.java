@@ -131,6 +131,7 @@ public class ThemeGridFrag extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.content_frame, frag);
+        ft.addToBackStack(null);
         ft.commit();
 
 

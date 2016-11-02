@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -76,6 +77,19 @@ public class LocalRoadListFrag extends Fragment {
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.top));
         txtTitle.setText("지역별 산책로");
 
+        Button btn_selectback = (Button) rootView.findViewById(R.id.list_linear);
+        btn_selectback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocalListFrag frag = new LocalListFrag();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
         //adapter = new RoadListAdapterRating(getActivity());
 
         roadList2 = (ListView) rootView.findViewById(R.id.listview2);
@@ -108,6 +122,7 @@ public class LocalRoadListFrag extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
                 ft.commit();
 
             }

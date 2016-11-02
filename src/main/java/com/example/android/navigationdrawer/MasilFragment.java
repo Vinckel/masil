@@ -60,9 +60,9 @@ public class MasilFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
                 ft.commit();
-                //Intent intent = new Intent(getActivity(), MasilConFrag.class);
-                //startActivity(intent);
+
             }
 });
 
@@ -73,6 +73,7 @@ public class MasilFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -84,6 +85,7 @@ public class MasilFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
                 ft.commit();
 
 

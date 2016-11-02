@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -63,6 +62,7 @@ public class MasilRoadFrag extends Fragment{
     String user_condition, user_time;
 
     static String myJSON;
+    static JSONArray schkr = null;
 
     private static final String TAG_RESULTS = "result";
     private static final String db_id = "id";
@@ -77,7 +77,7 @@ public class MasilRoadFrag extends Fragment{
     private static final String db_rating = "rating";
     private static final String db_ratingNum = "ratingNum";
 
-    static JSONArray schkr = null;
+
     private double lat,lon;
 
 
@@ -89,7 +89,7 @@ public class MasilRoadFrag extends Fragment{
         selectId = extra.getInt("selectId");
         selectName = extra.getString("selectName");
 
-        Toast.makeText(getActivity(),"넘어온 아이디"+selectId,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"넘어온 아이디"+selectId,Toast.LENGTH_SHORT).show();
 
 
     }
@@ -145,6 +145,7 @@ public class MasilRoadFrag extends Fragment{
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });

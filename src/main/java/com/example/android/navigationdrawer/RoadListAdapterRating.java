@@ -11,7 +11,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ public class RoadListAdapterRating extends BaseAdapter {
     ImageView roadImage;
     int roadId;
     LinearLayout road_list_item_rating;
-    RequestManager mRequestManager;
 
 
 
@@ -85,6 +83,8 @@ public class RoadListAdapterRating extends BaseAdapter {
         roadRatingbar = (RatingBar) v.findViewById(R.id.road_rating);
         roadImage = (ImageView) v.findViewById(R.id.road_img);
 
+       // Drawable drawable = roadRatingbar.getProgressDrawable();
+        //drawable.setColorFilter(Color.parseColor("#AAAAAA"), PorterDuff.Mode.SRC_ATOP);
 
         mRoad = (RoadListInfo) getItem(position);
 
@@ -98,9 +98,7 @@ public class RoadListAdapterRating extends BaseAdapter {
 
             roadRatingbar.setRating(Float.parseFloat(mRating));
 
-            Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/16.png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
-
-            //mRequestManager.load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
+            Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
 
         }
         return v;

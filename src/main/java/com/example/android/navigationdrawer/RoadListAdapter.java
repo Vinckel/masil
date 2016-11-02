@@ -96,12 +96,11 @@ public class RoadListAdapter extends BaseAdapter
         if (mRoad != null) {
             roadnameText.setText(mRoad.getmRoadName());
             roadlocaText.setText(mRoad.getmRoadLoca());
-            roaddistText.setText(mRoad.getmRoadDist());
+            roaddistText.setText(mRoad.getmRoadDist()+"km");
 
-           Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/16.png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
+           Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
 
-            //mRequestManager.load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
-           // road_list_item.setOnClickListener(this);
+
         }
         return v;
     }

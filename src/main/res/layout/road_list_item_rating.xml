@@ -1,29 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="315dp"
-    android:layout_height="101.15dp"
+    android:layout_width="match_parent"
+    android:layout_height="104dp"
     android:orientation="vertical"
     android:id="@+id/road_list_item_rating"
-    android:paddingBottom="12dp"
-    android:layout_marginBottom="12dp">
+
+    >
 
     <RelativeLayout
-        android:layout_width="315dp"
-        android:layout_height="89.15dp"
-        android:background="@drawable/list"
-
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
         >
 
         <ImageView
-            android:layout_width="8dp"
-            android:layout_height="9.5dp"
+            android:layout_width="19.35dp"
+            android:layout_height="18.04dp"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15.5dp"
+            android:src="@drawable/greenstar"
+            />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/road_rating"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:stepSize="0.5"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            style="@style/starRatingBar"
+            android:max="5"
+            android:layout_marginTop="48dp"
+
+            />
+
+        <TextView
+            android:text="|"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:id="@+id/road_bar"
+            android:textSize="17sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="110dp"
+            android:layout_alignBottom="@id/road_rating"
+            android:layout_marginLeft="15dp"
+
+            />
+
+
+        <TextView
+            android:text="LOCA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:id="@+id/road_loca"
+            android:textSize="17sp"
+            android:layout_alignBottom="@+id/road_rating"
+            android:layout_toStartOf="@+id/road_bar"
+
+            />
+
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="19dp"
+            android:layout_marginRight="7dp"
+            android:scaleType="centerInside"
             android:src="@drawable/marker"
             android:id="@+id/marker"
-            android:layout_marginTop="41dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/road_img"
-            android:layout_marginStart="40.75dp" />
+            android:layout_alignBottom="@+id/road_rating"
+            android:layout_toStartOf="@+id/road_loca"
+            />
 
         <TextView
             android:text="WOWOWOWOWOWOW"
@@ -34,51 +86,17 @@
             android:textSize="18sp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="9.25dp"
+            android:layout_marginRight="20dp"
             android:textColor="#727272"
             android:id="@+id/road_name" />
 
-        <TextView
-            android:text="LOCA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#AAAAAA"
-            android:id="@+id/road_loca"
-            android:textSize="17sp"
-            android:layout_alignBottom="@+id/marker"
-            android:layout_toEndOf="@+id/marker"
-            android:layout_marginStart="5dp"
-            />
-        <TextView
-            android:text="|"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#AAAAAA"
-            android:id="@+id/road_bar"
-            android:textSize="17sp"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/road_loca"
-            android:layout_alignBottom="@id/road_loca"
-            android:layout_marginStart="5dp"
-            />
 
 
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/road_rating"
-            android:layout_alignParentRight="true"
-            style="?android:attr/ratingBarStyleSmall"
-            android:stepSize="0.2"
-            android:max="5"
-            android:layout_marginRight="2dp"
-            android:layout_alignBottom="@id/road_loca"
 
-            />
 
         <ImageView
-            android:layout_width="117.5dp"
-            android:layout_height="86.25dp"
+            android:layout_width="144dp"
+            android:layout_height="104dp"
             android:src="@drawable/photo"
             android:id="@+id/road_img"
             android:layout_alignParentTop="true"

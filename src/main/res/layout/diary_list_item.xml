@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="104dp"
+    android:id="@+id/diary_list_item">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="104dp">
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/blueStarRating"
+            android:layout_alignParentRight="true"
+
+            android:layout_marginTop="25.6dp"
+            android:stepSize="0.5"
+            android:max="5"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:id="@+id/d_rating"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="#AAAAAA"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="48dp"
+            android:layout_marginRight="20dp"
+            android:text="이거는 산책 날짜"
+            android:id="@+id/d_date"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:textColor="#727272"
+            android:text="산책로 이름"
+            android:id="@+id/d_roadname"
+            />
+        <ImageView
+            android:layout_width="144dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/photo"
+            android:id="@+id/d_roadimg"
+            android:scaleType="fitXY"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

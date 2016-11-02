@@ -61,7 +61,7 @@ public class StepCountReporter {
 
         HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
                                                         .setDataType(HealthConstants.StepCount.HEALTH_DATA_TYPE)
-                                                        .setProperties(new String[] {HealthConstants.StepCount.COUNT})
+                                                        .setProperties(new String[] {HealthConstants.StepCount.CALORIE,HealthConstants.StepCount.DISTANCE,HealthConstants.StepCount.COUNT})
                                                         .setFilter(filter)
                                                         .build();
 
@@ -87,14 +87,23 @@ public class StepCountReporter {
     private final HealthResultHolder.ResultListener<ReadResult> mListener = new HealthResultHolder.ResultListener<ReadResult>() {
         @Override
         public void onResult(ReadResult result) {
-            double count = 0;
+            double mdistance = 0; // 미터로 반환 되네......
+            double distance = 0;
+            double calorie = 0;
+            int count = 0 ;
             Cursor c = null;
 
             try {
                 c = result.getResultCursor();
                 if (c != null) {
                     while (c.moveToNext()) {
-                        count += c.getInt(c.getColumnIndex(HealthConstants.StepCount.COUNT)) * CALX;
+                        calorie += c.getInt(c.getColumnIndex(HealthConstants.StepCount.CALORIE));
+                        mdistance += c.getDouble(c.getColumnIndex(HealthConstants.StepCount.DISTANCE));
+                        count += c.getInt(c.getColumnIndex(HealthConstants.StepCount.COUNT));
+
+                        Log.d("에스헬스","미터로는 "+mdistance);
+                        distance = mdistance/1000;
+                        Log.d("에스헬스","이거는 칼로리고 "+String.valueOf(calorie)+"\n이거는 거리인데"+String.format("%.2f", distance));
                     }
                 }
             } finally {
@@ -103,7 +112,7 @@ public class StepCountReporter {
                 }
             }
 
-            WalkingFrag.getInstance().drawStepCount(String.format("%.2f", count));
+            WalkingFrag.getInstance().drawStepNDistance(String.valueOf((int)calorie),String.format("%.2f", distance),String.valueOf(count));
         }
     };
 

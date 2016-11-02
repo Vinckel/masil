@@ -53,14 +53,7 @@
     android:background="@drawable/bgbottom"
     android:layout_centerHorizontal="true"
     android:orientation="horizontal">
-    <Button
-        android:layout_width="125dp"
-        android:layout_height="37.5dp"
-        android:layout_marginTop="24.2dp"
-        android:id="@+id/btn_diary_no"
-        android:background="@drawable/later"
 
-         />
 
     <Button
         android:layout_width="127.25dp"
