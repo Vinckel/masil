@@ -648,7 +648,7 @@ public class WalkingFrag extends Fragment {
                         case "기뻐요":
                             url = appdata.playHappy();
                             break;
-                        case "온화해요":
+                        case "평온해요":
                             url = appdata.playPeace();
                             break;
                         case "무료해요":

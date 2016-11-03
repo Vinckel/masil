@@ -12,10 +12,10 @@ public class ApplicationData extends Application {
     int memid = 1; //지금 기본 1번 회원으로 ..
 
     String happyurl ="http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425496&ref=kakao&snsGate=Y";
-    String peaceurl = "";
-    String boringurl = "";
-    String sadurl = "";
-    String randomurl = "";
+    String peaceurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425912&ref=kakao&snsGate=Y";
+    String boringurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423426561&ref=kakao&snsGate=Y";
+    String sadurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423426784&ref=kakao&snsGate=Y";
+    String randomurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425496&ref=kakao&snsGate=Y";
 
 
     String[] id_list = new String[5];

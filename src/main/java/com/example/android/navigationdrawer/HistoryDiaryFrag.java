@@ -132,9 +132,9 @@ public class HistoryDiaryFrag extends Fragment {
                         startfeel = "기쁨";
                         startfeel_txt.setText("기쁨");
                         break;
-                    case "온화해요":
-                        startfeel = "온화";
-                        startfeel_txt.setText("온화");
+                    case "평온해요":
+                        startfeel = "평온";
+                        startfeel_txt.setText("평온");
                         break;
                     case "무료해요":
                         startfeel = "무료";
@@ -154,9 +154,9 @@ public class HistoryDiaryFrag extends Fragment {
                         finishfeel = "기쁨";
                         finishfeel_txt.setText("기쁨");
                         break;
-                    case "온화해요":
-                        finishfeel = "온화";
-                        finishfeel_txt.setText("온화");
+                    case "평온해요":
+                        finishfeel = "평온";
+                        finishfeel_txt.setText("평온");
                         break;
                     case "무료해요":
                         finishfeel = "무료";

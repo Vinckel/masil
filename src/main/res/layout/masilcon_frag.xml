@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:textAlignment="center"
-        android:text="오늘 마시리님의 컨디션과\n산책 가능시간은 어떻게 되시나요?"
+        android:text="오늘 마시리님의 신체상태와\n산책 가능시간은 어떻게 되시나요?"
         android:id="@+id/textView"
         android:textSize="16sp"
         android:layout_marginBottom="103dp"
@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/battery"
-        android:layout_width="32dp"
-        android:layout_height="18dp"
+        android:layout_width="30dp"
+        android:layout_height="17dp"
         android:src="@drawable/battery"
         android:layout_marginLeft="43.5dp"
         android:layout_below="@id/textView"/>
@@ -30,8 +30,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="나의 컨디션"
-        android:layout_marginLeft="10.625dp"
+        android:text="나의 신체상태"
+        android:layout_marginLeft="7.625dp"
         android:layout_below="@id/textView"
         android:layout_toEndOf="@id/battery"
         android:textSize="16sp"

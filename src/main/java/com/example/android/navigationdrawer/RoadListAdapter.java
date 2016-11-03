@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -32,6 +34,7 @@ public class RoadListAdapter extends BaseAdapter
     int roadId;
     LinearLayout road_list_item;
     RequestManager mRequestManager;
+    ToggleButton bookmark;
 
 
 
@@ -84,6 +87,7 @@ public class RoadListAdapter extends BaseAdapter
         roadnameText = (TextView) v.findViewById(R.id.road_name);
         roaddistText = (TextView) v.findViewById(R.id.road_distance);
         roadImage = (ImageView) v.findViewById(R.id.road_img);
+        bookmark = (ToggleButton) v.findViewById(R.id.bookmark1);
 
 
         mRoad = (RoadListInfo) getItem(position);
@@ -97,6 +101,18 @@ public class RoadListAdapter extends BaseAdapter
             roadnameText.setText(mRoad.getmRoadName());
             roadlocaText.setText(mRoad.getmRoadLoca());
             roaddistText.setText(mRoad.getmRoadDist()+"km");
+            bookmark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked == true){ //토글 ON일때 그러니까 북마크 체크하는 것ㅇㅇ
+                        bookmark.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.greenstar));
+                    }
+                    else { //토글 off 북마크 체크 해제
+                        bookmark.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.graystar));
+
+                    }
+                }
+            });
 
            Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
 
