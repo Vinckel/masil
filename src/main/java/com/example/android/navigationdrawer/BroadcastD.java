@@ -27,7 +27,7 @@ public class BroadcastD extends BroadcastReceiver {
                 .setTicker("마실마실")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("마실마실")
-                .setContentText("걸어라 용사여")
+                .setContentText("오늘은 권장 걸음 수에 도달하지 못했어요! 산책으로 권장 걸음 수 채워 보시는 게 어떠세요?")
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)

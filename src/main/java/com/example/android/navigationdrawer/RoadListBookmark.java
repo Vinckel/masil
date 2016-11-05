@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,33 +27,30 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by heeye on 2016-10-05.
+ * Created by heeye on 2016-11-05.
  */
 
-public class LocalRoadListFrag extends Fragment {
+public class RoadListBookmark extends Fragment {
 
     private static final String ARG_PARAM1 = "selectId";
     private static final String ARG_PARAM2= "selectName";
 
-    int selectCount;
-    String[] selectArray;
-
-
-
     static String myRJSON;
     static JSONArray rschkr = null;
 
-    ListView roadList2;
+    ListView roadListB;
     RoadListAdapterRating adapter;
 
     RoadListInfo[] r;
+
+    int memberid = 1;
 
     private static final String TAG_RESULTS = "result";
     private static final String db_id = "id";
     private static final String db_name = "name";
     private static final String db_loca = "loca";
     private static final String db_rating = "rating";
-    //private static final String db_bookmark = "bookmark";
+    private static final String db_bookmark = "bookmark";
 
     ApplicationData appdata;
 
@@ -63,56 +59,27 @@ public class LocalRoadListFrag extends Fragment {
         super.onCreate(savedInstanceState);
 
         appdata = (ApplicationData) getActivity().getApplicationContext();
-
-        Bundle extra = getArguments();
-        selectCount = extra.getInt("selectCount");
-        selectArray = new String[selectCount];
-        selectArray = extra.getStringArray("selectArray");
-        for(int i = 0; i<selectCount; i++){
-            //Log.d("BTag","번들 확인 중"+selectArray[i]);
-        }
-
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.road_list_local_view, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.road_list_bookmark, container, false);
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.top));
-        txtTitle.setText("지역별 산책로");
+        txtTitle.setText("가보고 싶은 산책로");
 
-        Button btn_selectback = (Button) rootView.findViewById(R.id.list_linear);
-        btn_selectback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocalListFrag frag = new LocalListFrag();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.content_frame, frag);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+        roadListB = (ListView) rootView.findViewById(R.id.listview_bookmark);
 
+        String getP = "http://condi.swu.ac.kr/schkr/getRoadBookmarkList.php?memberid="+memberid;
 
-
-        roadList2 = (ListView) rootView.findViewById(R.id.listview2);
-
-
-
-        String getP = "http://condi.swu.ac.kr/schkr/getLocalRoadList.php?selectCount="+selectCount;
-        for(int i = 0; i<selectCount; i++){
-            getP = getP + "&selectArray[]="+selectArray[i];
-        }
-        Log.d("MyTag",getP);
         getRoadList(getP);
 
-        roadList2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        roadListB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 RoadListInfo selected = (RoadListInfo)adapter.getItem(position);
 
                 int selID = selected.getmRoadId();
@@ -131,7 +98,6 @@ public class LocalRoadListFrag extends Fragment {
                 ft.replace(R.id.content_frame, frag);
                 ft.addToBackStack(null);
                 ft.commit();
-
             }
         });
 
@@ -143,7 +109,7 @@ public class LocalRoadListFrag extends Fragment {
 
             adapter = new RoadListAdapterRating(getActivity());
 
-            roadList2.setAdapter(adapter);
+            roadListB.setAdapter(adapter);
             Log.d("RoadTag", "어댑터 셋 해줬음");
 
             Log.d("RoadTag", "쇼로드리스트 진입");
@@ -228,5 +194,4 @@ public class LocalRoadListFrag extends Fragment {
         GetRoadListJSON g = new GetRoadListJSON();
         g.execute(url);
     }
-
 }

@@ -20,8 +20,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="15.5dp"
-            android:src="@drawable/greenstar"
-            />
+            android:src="@drawable/graystar"
+            android:id="@+id/bookmark2"/>
 
         <RatingBar
             android:layout_width="wrap_content"

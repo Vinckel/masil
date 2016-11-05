@@ -362,7 +362,7 @@ public class WalkingFrag extends Fragment {
 
 
                 mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
-               // mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
+                mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
                 mMapView.setDefaultCurrentLocationMarker();
                 mMapView.setShowCurrentLocationMarker(true);
 
@@ -370,7 +370,15 @@ public class WalkingFrag extends Fragment {
                     @Override
                     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
                         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+
+                        Log.d("LocaTag","위치 옮겨진거"+mapPointGeo.latitude);
                         mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
+
+                        if(appdata.checkingFinish(mapPointGeo.latitude,mapPointGeo.longitude)){
+                            //여기 도착한거임 팝업 띄우면 댐
+                            DoneFinishDialog mFDialog = new DoneFinishDialog();
+                            mFDialog.show(getFragmentManager(),"MYTAG");
+                        }
                         //이 부분에서 도착 지점과의 거리를 계산해주면 된다
                 }
 
@@ -929,7 +937,13 @@ public class WalkingFrag extends Fragment {
                     if(startP.distanceTo(currentP)>50){
                         flag = 1;
                     }//flag if
+
                 }//현위치랑 시작위치 거리 50미터 이내면 flag 값 바꿔서 멀다고 토스트 띄우기
+
+                if(i==11){
+                    appdata.setFinish(x,y);
+                    Log.d("MyTag", "마지막 점은~~~~~~~~~~~"+x+" , "+y);
+                }
 
 
             }//end of for

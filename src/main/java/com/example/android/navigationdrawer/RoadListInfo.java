@@ -10,9 +10,10 @@ public class RoadListInfo {
     private String mRoadDist;
     private int mRoadId;
     private String mRoadRating;
+    private boolean mBookmark;
 
 
-    RoadListInfo(int flag, String roadloca, String roadname, String str, int roadid)
+    RoadListInfo(int flag, String roadloca, String roadname, String str, int roadid, boolean bookmark)
     {
         switch (flag){
             case 1: //거리나오는리스트
@@ -20,12 +21,14 @@ public class RoadListInfo {
                 mRoadName = roadname;
                 mRoadDist = str;
                 mRoadId = roadid;
+                mBookmark = bookmark;
                 break;
             case 2://별점나오는리스트
                 mRoadLoca = roadloca;
                 mRoadName = roadname;
                 mRoadRating = str;
                 mRoadId = roadid;
+                mBookmark = bookmark;
                 break;
         }
 
@@ -67,5 +70,13 @@ public class RoadListInfo {
 
     public void setmRoadRating(String mRoadRating) {
         this.mRoadRating = mRoadRating;
+    }
+
+    public boolean getmBookmark() {
+        return mBookmark;
+    }
+
+    public void setmBookmark(boolean mBookmark) {
+        this.mBookmark = mBookmark; //여기서 연결하면 되지 않을까 php로
     }
 }

@@ -28,6 +28,7 @@ public class RoadListAdapterRating extends BaseAdapter {
     TextView roadnameText, roadlocaText;
     RatingBar roadRatingbar;
     ImageView roadImage;
+    ImageView roadBookmark;
     int roadId;
     LinearLayout road_list_item_rating;
 
@@ -82,9 +83,8 @@ public class RoadListAdapterRating extends BaseAdapter {
         roadnameText = (TextView) v.findViewById(R.id.road_name);
         roadRatingbar = (RatingBar) v.findViewById(R.id.road_rating);
         roadImage = (ImageView) v.findViewById(R.id.road_img);
+        roadBookmark = (ImageView) v.findViewById(R.id.bookmark2);
 
-       // Drawable drawable = roadRatingbar.getProgressDrawable();
-        //drawable.setColorFilter(Color.parseColor("#AAAAAA"), PorterDuff.Mode.SRC_ATOP);
 
         mRoad = (RoadListInfo) getItem(position);
 
@@ -96,7 +96,12 @@ public class RoadListAdapterRating extends BaseAdapter {
             roadlocaText.setText(mRoad.getmRoadLoca());
             String mRating = mRoad.getmRoadRating();
 
+           // Log.d("MyTag","북마크 잘 받아오는건가"+mRoad.getmBookmark()+"아이디"+mRoad.getmRoadId());
+
             roadRatingbar.setRating(Float.parseFloat(mRating));
+            if(mRoad.getmBookmark()){
+                roadBookmark.setImageResource(R.drawable.greenstar);
+            }
 
             Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
 

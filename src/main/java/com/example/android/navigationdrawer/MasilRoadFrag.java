@@ -1,5 +1,6 @@
 package com.example.android.navigationdrawer;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -25,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -35,6 +39,13 @@ public class MasilRoadFrag extends Fragment{
 
     private static final String ARG_PARAM1 = "selectId";
     private static final String ARG_PARAM2 = "selectName";
+
+    private static final String ADD_URL = "http://condi.swu.ac.kr/schkr/addBookmark.php";
+    private static final String DEL_URL = "http://condi.swu.ac.kr/schkr/delBookmark.php";
+
+    ApplicationData appdata;
+
+    int memberid = 1;
 
     int id;
     String name="";
@@ -56,6 +67,7 @@ public class MasilRoadFrag extends Fragment{
     ImageView bigimg,img1,img2, img3, img4, img5;
 
     TextView nameView, detailView, tagView, ratingTextView;
+    ImageView bookmarkView;
     RatingBar ratingView;
     static String txt_tag, txt_name, txt_detail;
 
@@ -88,6 +100,8 @@ public class MasilRoadFrag extends Fragment{
         Bundle extra = getArguments();
         selectId = extra.getInt("selectId");
         selectName = extra.getString("selectName");
+
+        appdata = (ApplicationData)getActivity().getApplicationContext();
 
         //Toast.makeText(getActivity(),"넘어온 아이디"+selectId,Toast.LENGTH_SHORT).show();
 
@@ -125,8 +139,43 @@ public class MasilRoadFrag extends Fragment{
 
         String sss = "http://condi.swu.ac.kr/schkr/receive_road_1.php?id="+selectId+"&xpoint="+lat+"&ypoint="+lon;
         getData(sss);
-        //아이디랑 현재 우ㅣ치 보내야됨
 
+        bookmarkView = (ImageView) rootView.findViewById(R.id.road_bookmark);
+        //아이디랑 현재 우ㅣ치 보내야됨
+        bookmarkView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str;
+                if((bookmarkView.getTag()).equals("off")){//북마크 체크 ㄴㄴ면
+                    //add url로 memberid 랑 roadid
+
+
+                    try {
+                        addBookmark(memberid,selectId);
+                        bookmarkView.setTag("on");//setTag on
+                        bookmarkView.setImageResource(R.drawable.greenstar);//view도 green으로 해줘야댐
+                        String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;//appdata.getBookmarkList로 그거 리샛해준다 업데이트라는말
+                        appdata.getBookmarkList(getP);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{ //북마크 체크 ㅇㅇ면
+
+                    try {
+                        delBookmark(memberid,selectId);
+                        bookmarkView.setTag("off");//setTag on
+                        bookmarkView.setImageResource(R.drawable.graystar);//view도 gray으로 해줘야댐
+                        String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;//appdata.getBookmarkList로 그거 리샛해준다 업데이트라는말
+                        appdata.getBookmarkList(getP);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
 
 
         btn_start = (Button) rootView.findViewById(R.id.btn_start);
@@ -274,9 +323,17 @@ public class MasilRoadFrag extends Fragment{
             nameView = (TextView) getActivity().findViewById(R.id.masil_name);
             detailView = (TextView) getActivity().findViewById(R.id.masil_detail);
             tagView = (TextView) getActivity().findViewById(R.id.textView_roadtag);
+            bookmarkView = (ImageView) getActivity().findViewById(R.id.road_bookmark);
 
-            String mrate = String.format("%.2f" ,rating);
+            if(appdata.checkBookmark(id)){//true 체크된거면
+                bookmarkView.setImageResource(R.drawable.greenstar);
+                bookmarkView.setTag("on");
+            }
+            //Log.d("Book","태그가 잘 출력되나"+bookmarkView.getTag());
+
+           String mrate = String.format("%.2f" ,rating);
             ratingView.setRating(Float.parseFloat(mrate));
+
 
             String txt_rate = String.format("%.1f" ,rating);
             ratingTextView.setText("("+txt_rate+"/"+ratingNum+"명 참여)");
@@ -384,7 +441,123 @@ public class MasilRoadFrag extends Fragment{
         g.execute(url);
     }
 
+    private void addBookmark(int memberid, int roadid) throws UnsupportedEncodingException {
 
+        String urlSuffix = "?memberid="+memberid+"&roadid="+roadid;
+        class AddB extends AsyncTask<String, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(getActivity(), "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+
+
+                if (s.equals("success")) {
+                    Toast.makeText(getActivity(), "북마크 추가", Toast.LENGTH_SHORT).show();
+            }
+                else {
+                    Toast.makeText(getActivity(), "몰라 에러야", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                String s = params[0];
+                BufferedReader bufferedReader = null;
+                Log.d("MyTag",s+"두인백그라운드 진입");
+                try {
+                    Log.d("MyTag",s+"두인백그라운드 try진입");
+
+                    URL url = new URL(ADD_URL + s);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String result;
+
+                    result = bufferedReader.readLine();
+
+                    return result;
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+
+        }
+
+        AddB se = new AddB();
+        se.execute(urlSuffix);
+
+
+    }
+
+    private void delBookmark (int memberid, int roadid) throws UnsupportedEncodingException {
+
+        String urlSuffix = "?memberid="+memberid+"&roadid="+roadid;
+        class DelB extends AsyncTask<String, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(getActivity(), "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+
+
+                if (s.equals("success")) {
+                    Toast.makeText(getActivity(), "북마크 삭제", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "몰라 에러야", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                String s = params[0];
+                BufferedReader bufferedReader = null;
+                Log.d("MyTag",s+"두인백그라운드 진입");
+                try {
+                    Log.d("MyTag",s+"두인백그라운드 try진입");
+
+                    URL url = new URL(DEL_URL + s);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String result;
+
+                    result = bufferedReader.readLine();
+
+                    return result;
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+
+        }
+
+        DelB se = new DelB();
+        se.execute(urlSuffix);
+
+
+    }
 
 
 }

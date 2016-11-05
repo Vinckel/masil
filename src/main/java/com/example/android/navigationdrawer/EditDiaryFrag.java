@@ -52,7 +52,16 @@ public class EditDiaryFrag extends Fragment {
     private static final String ARG_PARAM7 = "calorie";
     private static final String ARG_PARAM8 = "selectName";
     private static final String ARG_PARAM9 = "selectId";
-
+/*
+    private static final String IMG_FILE_PATH = "imgfilepath";
+    private static final String IMG_TITLE = "imgtitle";
+    private static final String IMG_ORIENTATION = "imgorientation";
+    ​
+    private final int REQ_CODE_SELECT_IMAGE = 1001;
+    private String mImgPath = null;
+    private String mImgTitle = null;
+    private String mImgOrient = null;​
+*/
     //별점 따로
 
     int memberid = 1;
@@ -60,6 +69,7 @@ public class EditDiaryFrag extends Fragment {
     TextView txt_date;
     String currentDate;
     Button btn_diary_no, btn_diary_done;
+    Button btn_addphoto;
     EditText editText;
 
     String diaryTxt;
@@ -88,14 +98,21 @@ public class EditDiaryFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View rootView = inflater.inflate(R.layout.diary_edit, container, false);
+
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
 
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.top));
         txtTitle.setText("산책 정리하기");
 
-        View rootView = inflater.inflate(R.layout.diary_edit, container, false);
+        btn_addphoto = (Button) rootView.findViewById(R.id.btn_addphoto);
+        btn_addphoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
 
         txt_date = (TextView) rootView.findViewById(R.id.txt_date);
 
@@ -135,8 +152,65 @@ public class EditDiaryFrag extends Fragment {
         return  rootView;
 
     }//onCreateView() EditDiaryFrag
+/*
+    private void getGallery() {
+        Intent intent = new Intent(Intent.Action_get);
+        ​
+        // 안드로이드 KitKat(level 19)부터는 ACTION_PICK 이용​
+        if(Build.VERSION.SDK_INT >= 19) {
+            intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);​
+        }​
+        else{
+            intent = new Intent(Intent.ACTION_GET_ACCOUNT);​
+        }​
+        intent.setType("image/*");
+        startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);​
+    }​​
+            ​
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // 선택된 사진을 받아 서버에 업로드한다
+        if (requestCode == REQ_CODE_SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                getImageNameToUri(uri);
+                ​
+                try {
+                    Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    ImageView ​img = (ImageView)findViewById(R.id.imageview);
+                    img.setImageBitmap(bm);​
+                }​
+                catch(Exception e) {​
+                    e.printStackTrace();​
+                }​
+            }​
+        }​
+    }​
 
-    public static class FinishFeelDia extends DialogFragment {
+    // URI 정보를 이용하여 사진 정보 가져온다
+    private void getImageNameToUri(Uri data) {
+        String[] proj = {
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.TITLE,
+                MediaStore.Images.Media.ORIENTATION​
+        }​​;
+
+        Cursor cursor = this.getContentResolver().query(data, proj, null, null, null);
+        ​cursor.moveToFirst();
+        ​
+        ​int column_data = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        int column_title = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
+        int column_orientation = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.ORIENTATION);
+        ​
+        mImgPath = cursor.getString(​column_data);
+        mImgTitle = cursor.getString(​column_title);
+        mImgOrient = cursor.getString(​column_orientation);​
+    }​ ​
+}​
+*/
+
+
+public static class FinishFeelDia extends DialogFragment {
 
         Button btn_diary_next;
 

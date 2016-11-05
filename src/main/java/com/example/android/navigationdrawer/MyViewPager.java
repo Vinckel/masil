@@ -154,7 +154,9 @@ public class MyViewPager extends Fragment {
 
         initPageMark(0);
 
+
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }

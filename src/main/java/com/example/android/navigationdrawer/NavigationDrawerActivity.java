@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -36,10 +37,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONArray;
 
 import java.util.Calendar;
 
@@ -82,13 +84,25 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
     private String[] mPlanetTitles;
     private Context mContext;
 
+    int memberid = 1;
+
+    static String myRJSON;
+    static JSONArray rschkr = null;
+
+    private static final String TAG_RESULTS = "result";
+    private static final String db_roadid = "roadid";
+
+    ApplicationData appdata;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mContext = this;
-
         super.onCreate(savedInstanceState);
+        mContext = this;
+        appdata = (ApplicationData) getApplicationContext();
+
 
         new AlarmHATT(getApplicationContext()).Alarm();
 
@@ -101,7 +115,6 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
         //toolbar.hideOverflowMenu();
         setSupportActionBar(toolbar);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
-
 
 
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
@@ -157,6 +170,10 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
 
         FirebaseMessaging.getInstance().subscribeToTopic("walk");
         FirebaseInstanceId.getInstance().getToken();
+
+        String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;
+        appdata.getBookmarkList(getP);
+
     }
 
 
@@ -213,29 +230,29 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
     private void selectItem(int position) {
         // update the main content by replacing fragments
 
+        Fragment frag = null;
+
 
         switch (position)
         {
             case 0:
-                ProfileFrag frag = new ProfileFrag();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.content_frame, frag);
-                ft.addToBackStack(null);
-                ft.commit();
+                frag = new ProfileFrag();
+
                 break;
             case 1:
-                DiaryListFrag frag2 = new DiaryListFrag();
-                FragmentManager fragmentManager2 = getSupportFragmentManager();
-                FragmentTransaction ft2 = fragmentManager2.beginTransaction();
-                ft2.replace(R.id.content_frame, frag2);
-                ft2.addToBackStack(null);
-                ft2.commit();
+                frag = new DiaryListFrag();
+
                 break;
             case 2:
-                Toast.makeText(getApplicationContext(),"아직 아니라고",Toast.LENGTH_SHORT).show();
+                frag = new RoadListBookmark();
                 break;
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.content_frame, frag);
+        ft.addToBackStack(null);
+        ft.commit();
 
         // update selected item title, then close the drawer
         getSupportActionBar().setTitle(mPlanetTitles[position]);
@@ -287,6 +304,10 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
             //알람 예약
             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
         }
+
+
     }
+
+
 
 }

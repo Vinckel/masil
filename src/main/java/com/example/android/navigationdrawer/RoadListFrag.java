@@ -44,7 +44,10 @@ public class RoadListFrag extends Fragment {
     static JSONArray rschkr = null;
 
     ListView roadList;
-    static RoadListAdapter adapter;
+    RoadListAdapter adapter;
+
+    ApplicationData appdata;
+
 
     RoadListInfo[] r;
 
@@ -53,11 +56,14 @@ public class RoadListFrag extends Fragment {
     private static final String db_name = "name";
     private static final String db_loca = "loca";
     private static final String db_distance = "distance";
+    private static final String db_bookmark = "bookmark";
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        appdata = (ApplicationData) getActivity().getApplicationContext();
 
         Bundle extra = getArguments();
         selectThemeId = extra.getInt("themeId"); //선택한 테마 아이디
@@ -133,9 +139,12 @@ public class RoadListFrag extends Fragment {
         String getP = "http://condi.swu.ac.kr/schkr/getThemeRoadList.php?themeid="+selectThemeId+"&xpoint="+lat+"&ypoint="+lon;
         getRoadList(getP);
 
+
         roadList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
 
                 RoadListInfo selected = (RoadListInfo)adapter.getItem(position);
                 int selID = selected.getmRoadId();
@@ -154,10 +163,8 @@ public class RoadListFrag extends Fragment {
                 ft.replace(R.id.content_frame, frag);
                 ft.addToBackStack(null);
                 ft.commit();
-
             }
         });
-
         return rootView;
     }
 
@@ -183,10 +190,12 @@ public class RoadListFrag extends Fragment {
                 String name = c.getString(db_name);
                 String loca = c.getString(db_loca);
                 double dist = c.getDouble(db_distance);
+                boolean bookmark = appdata.checkBookmark(id);
 
                 String txt_dist = String.format("%.2f" , dist);
+                //저 로드 리스트 인포가 수정되겠지
 
-                r[i] = new RoadListInfo(1,loca,name,txt_dist, id);
+                r[i] = new RoadListInfo(1,loca,name,txt_dist, id, bookmark);
                 adapter.add(r[i]);
 
             }// end of for()
