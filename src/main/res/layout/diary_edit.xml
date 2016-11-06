@@ -24,12 +24,18 @@
         android:textAlignment="center"
          />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="396dp"
+        android:id="@+id/editbox"
+        android:layout_below="@id/txt_datebox"
+        android:background="#fcfcfc">
+
 
     <EditText
         android:gravity="top"
-        android:layout_below="@id/txt_datebox"
         android:layout_width="match_parent"
-        android:layout_height="396dp"
+        android:layout_height="wrap_content"
         android:id="@+id/edit_diary"
         android:background="#fcfcfc"
         android:textSize="17sp"
@@ -37,10 +43,15 @@
         android:paddingLeft="17.5dp"
         android:paddingTop="10dp"
         android:textColorHint="#DDDDDD"
-        android:hint="오늘의 산책을 정리해보세요."/>
+        android:inputType="textMultiLine"
+
+        android:layout_weight="1"
+        android:maxLines="200"
+        android:hint="오늘의 산책을 정리해보세요."
+        android:bufferType="spannable"/> </LinearLayout>
 
     <Button
-        android:layout_below="@id/edit_diary"
+        android:layout_below="@id/editbox"
         android:layout_width="match_parent"
         android:layout_height="53.25dp"
         android:background="@drawable/add"

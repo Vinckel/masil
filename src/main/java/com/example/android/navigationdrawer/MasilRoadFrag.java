@@ -152,10 +152,11 @@ public class MasilRoadFrag extends Fragment{
 
                     try {
                         addBookmark(memberid,selectId);
-                        bookmarkView.setTag("on");//setTag on
-                        bookmarkView.setImageResource(R.drawable.greenstar);//view도 green으로 해줘야댐
+
                         String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;//appdata.getBookmarkList로 그거 리샛해준다 업데이트라는말
                         appdata.getBookmarkList(getP);
+
+
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -164,10 +165,11 @@ public class MasilRoadFrag extends Fragment{
 
                     try {
                         delBookmark(memberid,selectId);
-                        bookmarkView.setTag("off");//setTag on
-                        bookmarkView.setImageResource(R.drawable.graystar);//view도 gray으로 해줘야댐
+
                         String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;//appdata.getBookmarkList로 그거 리샛해준다 업데이트라는말
                         appdata.getBookmarkList(getP);
+
+
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -462,9 +464,14 @@ public class MasilRoadFrag extends Fragment{
 
                 if (s.equals("success")) {
                     Toast.makeText(getActivity(), "북마크 추가", Toast.LENGTH_SHORT).show();
+                    bookmarkView.setTag("on");//setTag on
+                    bookmarkView.setImageResource(R.drawable.greenstar);//view도 green으로 해줘야댐
             }
+                else if(s.equals("errrrrroooooooooor")){
+                    Toast.makeText(getActivity(),"뭐가 비었단다",Toast.LENGTH_SHORT).show();
+                }
                 else {
-                    Toast.makeText(getActivity(), "몰라 에러야", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "추가 실패셈", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -521,9 +528,14 @@ public class MasilRoadFrag extends Fragment{
 
                 if (s.equals("success")) {
                     Toast.makeText(getActivity(), "북마크 삭제", Toast.LENGTH_SHORT).show();
+                    bookmarkView.setTag("off");//setTag on
+                    bookmarkView.setImageResource(R.drawable.graystar);//view도 gray으로 해줘야댐
+                }
+                else if(s.equals("errrrrroooooooooor")){
+                    Toast.makeText(getActivity(),"뭐가 비었단다",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), "몰라 에러야", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "삭제 실패셈", Toast.LENGTH_SHORT).show();
                 }
 
             }
