@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class BroadcastD extends BroadcastReceiver {
@@ -19,7 +20,11 @@ public class BroadcastD extends BroadcastReceiver {
        // throw new UnsupportedOperationException("Not yet implemented");
         NotificationManager notificationmanager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, NavigationDrawerActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification.Builder mBuilder = new Notification.Builder(context);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        NotificationCompat.InboxStyle ib = new NotificationCompat.InboxStyle();
+
+        ib.addLine("걸음 수가 부족해요! 지금 산책 갈까요?");
+        //ib.addLine("지금 산책 나가보실래요?");
 
         Log.d("MyTag", String.valueOf(System.currentTimeMillis()));
 
@@ -27,9 +32,9 @@ public class BroadcastD extends BroadcastReceiver {
                 .setTicker("마실마실")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("마실마실")
-                .setContentText("오늘은 권장 걸음 수에 도달하지 못했어요! 산책으로 권장 걸음 수 채워 보시는 게 어떠세요?")
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                 .setContentIntent(pendingIntent)
+                .setStyle(ib)
                 .setAutoCancel(true)
                 .setNumber(1);
         notificationmanager.notify(111, mBuilder.build());

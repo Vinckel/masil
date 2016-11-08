@@ -34,7 +34,7 @@ public class ApplicationData extends Application {
     String peaceurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425912&ref=kakao&snsGate=Y";
     String boringurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423426561&ref=kakao&snsGate=Y";
     String sadurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423426784&ref=kakao&snsGate=Y";
-    String randomurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423425496&ref=kakao&snsGate=Y";
+    String randomurl = "http://m.app.melon.com/landing/playList.htm?type=ply&plylstTypeCode=M20001&memberKey=11312353&plylstSeq=423886215&ref=kakao&snsGate=Y";
 
 
     String[] id_list = new String[5];

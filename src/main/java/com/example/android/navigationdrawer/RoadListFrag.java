@@ -1,6 +1,9 @@
 package com.example.android.navigationdrawer;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -112,28 +116,25 @@ public class RoadListFrag extends Fragment {
 
         roadList = (ListView) rootView.findViewById(R.id.listview1);
 
-/*
+
 //현재 위치 구하는 함수지렁 지금은 무조건 실습실이지렁
         final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
         Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
         if (lastKnownLocation != null) {
-            //lat = lastKnownLocation.getLatitude();
-            //lon = lastKnownLocation.getLongitude();
-            lat = 37.629254;
-            lon = 127.090701;//실습실 좌표
+            lat = lastKnownLocation.getLatitude();
+            lon = lastKnownLocation.getLongitude();
+           // lat = 37.629254;
+           // lon = 127.090701;//실습실 좌표
 
         }
         else {
-            Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
-
-
-        */
+            Toast.makeText(getActivity(),"error: can't get location",Toast.LENGTH_LONG).show();}
 
 
 
-        lat = 37.629254;
-        lon = 127.090701;//실습실 좌표
+       // lat = 37.629254;
+       // lon = 127.090701;//실습실 좌표
 
 
         String getP = "http://condi.swu.ac.kr/schkr/getThemeRoadList.php?themeid="+selectThemeId+"&xpoint="+lat+"&ypoint="+lon;

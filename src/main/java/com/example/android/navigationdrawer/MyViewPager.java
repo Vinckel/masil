@@ -2,6 +2,9 @@ package com.example.android.navigationdrawer;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,20 +108,20 @@ public class MyViewPager extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
         txtTitle.setText("마실마실 콕");
-/*
+
         final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
         Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
         if (lastKnownLocation != null) {
-            //lat = lastKnownLocation.getLatitude();
-           //lon = lastKnownLocation.getLongitude();
-            lat = 37.629254;
-            lon = 127.090701;//실습실 좌표
+            lat = lastKnownLocation.getLatitude();
+            lon = lastKnownLocation.getLongitude();
+           // lat = 37.629254;
+           // lon = 127.090701;//실습실 좌표
 
         }
         else {
-            Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
-*/
+            Toast.makeText(getActivity(),"error: can't get location",Toast.LENGTH_LONG).show();}
+
 
 
         Log.d("MyTag", "온크리에잇뷰 드러옴");
@@ -143,8 +147,8 @@ public class MyViewPager extends Fragment {
 
         int time = Integer.parseInt(user_time);
 
-        lat = 37.629254;
-        lon = 127.090701;//실습실 좌표
+        //lat = 37.629254;
+        //lon = 127.090701;//실습실 좌표
 
         String mUrl = "http://condi.swu.ac.kr/schkr/receive_road_2.php?memberid="+memberId+"&condition="+condition+"&time="+time+"&xpoint="+lat+"&ypoint="+lon;
         getData(mUrl);

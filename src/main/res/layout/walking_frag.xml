@@ -161,17 +161,17 @@
 
 
             <ImageView
-                android:layout_width="20.19dp"
-                android:layout_height="4.55dp"
+                android:layout_width="25dp"
+                android:layout_height="30dp"
                 android:layout_alignLeft="@id/halfline2"
-                android:layout_marginLeft="23.1dp"
+                android:layout_marginLeft="22.5dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/leftdis"
-                android:src="@drawable/remain"/>
+                android:src="@drawable/fooot"/>
 
             <TextView
                 android:layout_marginTop="17dp"
-                android:layout_marginLeft="20.25dp"
+                android:layout_marginLeft="22.25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/leftdistext"

@@ -13,6 +13,7 @@ dependencies {
     compile files('src/main/jniLibs/glide-3.7.0.jar')
     compile 'com.google.firebase:firebase-messaging:9.6.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+
 }
 
 // The sample build uses multiple directories to

@@ -335,8 +335,6 @@ public class WalkingFrag extends Fragment {
         }
 
 
-
-
         mMapView = new MapView(getActivity());
         mPolyline = new MapPolyline();
         mpolypoint = new double[2][12];
@@ -350,26 +348,30 @@ public class WalkingFrag extends Fragment {
         if (lastKnownLocation != null) {
             lat = lastKnownLocation.getLatitude();
             lon = lastKnownLocation.getLongitude();
+           // lat = 37.629254;
+           // lon = 127.090701;
         }
-        else {Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
+        else {Toast.makeText(getActivity(),"error: can't get location",Toast.LENGTH_LONG).show();}
 
         mMapView.setDaumMapApiKey("a3df1310d2d475a4cca02b3a521dc8ab" );
         ViewGroup mapViewContainer = (ViewGroup)rootView.findViewById(R.id.map_view);
+       // mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
 
         mMapView.setMapViewEventListener(new MapView.MapViewEventListener() {
             @Override
             public void onMapViewInitialized(MapView mapView) {
 
-
+               // mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
                 mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
                 mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat,lon),true);
-                mMapView.setDefaultCurrentLocationMarker();
+                //mMapView.setDefaultCurrentLocationMarker(R.drawa);
                 mMapView.setShowCurrentLocationMarker(true);
 
                 mMapView.setCurrentLocationEventListener(new MapView.CurrentLocationEventListener() {
                     @Override
                     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
                         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+                        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
 
                         Log.d("LocaTag","위치 옮겨진거"+mapPointGeo.latitude);
                         mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude), true);
@@ -384,6 +386,7 @@ public class WalkingFrag extends Fragment {
 
                     @Override
                     public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+                        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
 
                     }
 
@@ -414,6 +417,7 @@ public class WalkingFrag extends Fragment {
 
             @Override
             public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
 
             }
 
@@ -580,8 +584,6 @@ public class WalkingFrag extends Fragment {
                         mMusicDialog.show(getFragmentManager(), "MYTAG");
                     dismiss();
 
-
-
                 }
             });
             view.setOnTouchListener(new View.OnTouchListener() {
@@ -648,6 +650,7 @@ public class WalkingFrag extends Fragment {
             btn_music.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     mBaseTime = SystemClock.elapsedRealtime();
                     mTimer.sendEmptyMessage(0);
                     String url="";
@@ -676,7 +679,18 @@ public class WalkingFrag extends Fragment {
 
                     if(flag==1)
                     {
-                        Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                try {
+                                    Thread.sleep(10000);
+                                    Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                        //Toast.makeText(getActivity(),"현재 시작점과의 위치가 멀어요!",Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -747,7 +761,9 @@ public class WalkingFrag extends Fragment {
                 public void onClick(View view) {
                     //계속할래요
                     //타이머 다시 시작 ㄱㄱ
+
                     long now = SystemClock.elapsedRealtime();
+
                     mBaseTime = mBaseTime + (now - mPauseTime);
                     mTimer.sendEmptyMessage(0);
 
@@ -861,6 +877,8 @@ public class WalkingFrag extends Fragment {
 
                     // 마칠래요 선택시
 
+                    // 마칠래요 선택시
+
                     //산책 멈추고.....
                     mTimer.removeMessages(0);
 
@@ -883,6 +901,8 @@ public class WalkingFrag extends Fragment {
                     args.putString(ARG_PARAM6,selectName);
                     args.putInt(ARG_PARAM7,selectId);
 
+
+
                     frag.setArguments(args);
 
 
@@ -893,6 +913,7 @@ public class WalkingFrag extends Fragment {
                     ft.commit();
 
                     dismiss();
+
 
                 }
             });
@@ -930,11 +951,16 @@ public class WalkingFrag extends Fragment {
                     Location currentP = new Location("currentP");
 
                     startP.setLatitude(x);
+                    //Log.d("쉬발",startP.getLatitude()+"스타트피");
                     startP.setLongitude(y);
+                    //Log.d("쉬발",startP.getLongitude()+"스타트피");
                     currentP.setLatitude(lat);
+                    //Log.d("쉬발",currentP.getLatitude()+"커런트피");
                     currentP.setLongitude(lon);
+                   //Log.d("쉬발",currentP.getLongitude()+"커런트피");
 
                     if(startP.distanceTo(currentP)>50){
+                       //Toast.makeText(getActivity(),"지금 거리가"+startP.distanceTo(currentP),Toast.LENGTH_SHORT).show();
                         flag = 1;
                     }//flag if
 
@@ -955,6 +981,8 @@ public class WalkingFrag extends Fragment {
             MapPointBounds mapPointBounds = new MapPointBounds(mPolyline.getMapPoints());
             int padding = 100; // px
             mMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+
+            mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving);
 
             Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
             TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);

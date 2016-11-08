@@ -33,13 +33,14 @@ public class ThemeGridFrag extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View rootView = inflater.inflate(R.layout.theme_grid, container, false);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
         TextView txtTitle = (TextView) toolbar.findViewById(R.id.txt_toolbar);
 
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.top));
         txtTitle.setText("테마별 산책로");
 
-        View rootView = inflater.inflate(R.layout.theme_grid, container, false);
+
 
         theme1 = (ImageView)rootView.findViewById(R.id.theme1);
         theme2 = (ImageView)rootView.findViewById(R.id.theme2);

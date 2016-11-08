@@ -328,7 +328,7 @@ public class MasilRoadFrag extends Fragment{
             bookmarkView = (ImageView) getActivity().findViewById(R.id.road_bookmark);
 
             if(appdata.checkBookmark(id)){//true 체크된거면
-                bookmarkView.setImageResource(R.drawable.greenstar);
+                bookmarkView.setImageResource(R.drawable.fiil_mark);
                 bookmarkView.setTag("on");
             }
             //Log.d("Book","태그가 잘 출력되나"+bookmarkView.getTag());
@@ -465,7 +465,7 @@ public class MasilRoadFrag extends Fragment{
                 if (s.equals("success")) {
                     Toast.makeText(getActivity(), "북마크 추가", Toast.LENGTH_SHORT).show();
                     bookmarkView.setTag("on");//setTag on
-                    bookmarkView.setImageResource(R.drawable.greenstar);//view도 green으로 해줘야댐
+                    bookmarkView.setImageResource(R.drawable.fiil_mark);//view도 green으로 해줘야댐
             }
                 else if(s.equals("errrrrroooooooooor")){
                     Toast.makeText(getActivity(),"뭐가 비었단다",Toast.LENGTH_SHORT).show();
@@ -493,6 +493,7 @@ public class MasilRoadFrag extends Fragment{
                     result = bufferedReader.readLine();
 
                     return result;
+
                 } catch (Exception e) {
                     return null;
                 }
@@ -529,7 +530,7 @@ public class MasilRoadFrag extends Fragment{
                 if (s.equals("success")) {
                     Toast.makeText(getActivity(), "북마크 삭제", Toast.LENGTH_SHORT).show();
                     bookmarkView.setTag("off");//setTag on
-                    bookmarkView.setImageResource(R.drawable.graystar);//view도 gray으로 해줘야댐
+                    bookmarkView.setImageResource(R.drawable.empty_mark);//view도 gray으로 해줘야댐
                 }
                 else if(s.equals("errrrrroooooooooor")){
                     Toast.makeText(getActivity(),"뭐가 비었단다",Toast.LENGTH_SHORT).show();

@@ -3,15 +3,11 @@ package com.example.android.navigationdrawer;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,14 +25,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -46,7 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by heeye on 2016-09-22.
@@ -65,18 +58,14 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM8 = "selectName";
     private static final String ARG_PARAM9 = "selectId";
 
-   // public static final String UPLOAD_URL = "http://condi.swu.ac.kr/schkr/upload.php";
-    public static final String UPLOAD_KEY = "image";
-    public static final String TAG = "MY MESSAGE";
+    private Uri fileUri;
+    String filePath;
+    Uri selectedImage;
+    Bitmap photo;
+    String ba1;
+    static String result;
+    //public static String URL = "http://condi.swu.ac.kr/schkr/diaryphoto";
 
-    private int PICK_IMAGE_REQUEST = 1;
-
-
-    //private ImageView imageView;
-
-    private Bitmap bitmap;
-
-    private Uri filePath;
 
     //별점 따로
 
@@ -88,6 +77,7 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
     Button btn_addphoto;
     EditText editText;
     RelativeLayout scrollV;
+    ImageView diary_imgView;
 
     String diaryTxt;
 
@@ -107,7 +97,7 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
         selectName = extra.getString("selectName");
         selectId = extra.getInt("selectId");
 
-        bitmap = null;
+       //bitmap = null;
 
         //Toast.makeText(getActivity(),startfeel+wktime+calorie,Toast.LENGTH_LONG).show(); 다 넘어옴 ㅇㅇ
 
@@ -129,7 +119,9 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
         btn_addphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser();
+                //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+              // photoPickerIntent.setType("image/*");
+               // startActivityForResult(photoPickerIntent, 1);
             }
         });
 
@@ -143,6 +135,8 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
         editText = (EditText) rootView.findViewById(R.id.edit_diary);
         editText.setSelection(editText.length());
 
+        diary_imgView = (ImageView) rootView.findViewById(R.id.diary_imgView);
+
 
         btn_diary_done = (Button) rootView.findViewById(R.id.btn_diary_done);
         btn_diary_done.setOnClickListener(this);
@@ -155,56 +149,90 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
 
     }//onCreateView()
 
-    private void showFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    } // end of showFileChooser
-
+/*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) if (resultCode == Activity.RESULT_OK) {
+            selectedImage = data.getData();
+            photo = (Bitmap) data.getExtras().get("data");
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            // Cursor to get image uri to display
 
-            filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                //imageView.setImageBitmap(bitmap); programical ..? 하게 이미지뷰를 추가해보자 ^^;
-                //LinearLayout picLL = new LinearLayout(getActivity());
-                editText.append("\n");
-                Bitmap b = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-                Drawable d = new BitmapDrawable(b);
-                d.setBounds(0,0,bitmap.getWidth(),bitmap.getHeight());
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
-                editText.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.battery),  null);
 
-               // Spannable span = editText.getText();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            filePath = cursor.getString(columnIndex);
+            cursor.close();
 
-               //span.setSpan(new ImageSpan(bitmap),editText.getSelectionStart(),bitmap.getHeight(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                /*
-                picLL.layout(0, 0, 100, 100);
-                picLL.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
-                picLL.setOrientation(LinearLayout.HORIZONTAL);
-                ImageView myImage = new ImageView(getActivity());
-                myImage.setImageBitmap(bitmap);
-                picLL.addView(myImage);*/
+            String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }//try-catch
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            ImageView imageView = (ImageView) getActivity().findViewById(R.id.diary_imgView);
+            imageView.setImageBitmap(photo);
 
-        }//end of if
-    }//onActivityResult
+            if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
+                //FINE
+            } else {
+                //NOT IN REQUIRED FORMAT
+            }
 
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
+            final HttpClient httpclient = new DefaultHttpClient();
+            final HttpPost httppost = new HttpPost("http://condi.swu.ac.kr/schkr/diaryphoto");
+
+
+            class uploading extends AsyncTask {
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                }
+
+                @Override
+                protected Object doInBackground(Object[] params) {
+
+                    MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                    if (filePath != null) {
+                        File file = new File(filePath);
+                        Log.d("EDIT USER PROFILE", "UPLOAD: file length = " + file.length());
+                        Log.d("EDIT USER PROFILE", "UPLOAD: file exist = " + file.exists());
+                        mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
+                    }
+                    httppost.setEntity((HttpEntity) mpEntity);
+                    HttpResponse response = null;
+                    try {
+                        response = httpclient.execute(httppost);
+                        result = EntityUtils.toString(response.getEntity());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                    return null;
+                }
+            }
+
+            uploading up = new uploading();
+            up.execute();
+
+            //image_name_tv.setText(filePath);
+
+
+
+        }
     }
+
+*/
+
 
 
     public static class FinishFeelDia extends DialogFragment {
@@ -387,10 +415,10 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
+                //Toast.makeText(getActivity(), s,Toast.LENGTH_SHORT).show();
 
                 if (s.equals("success1success2")) {
                     Toast.makeText(getActivity(), "전송 완료", Toast.LENGTH_SHORT).show();
-
 
                     //show diary 프래그먼트 보여줘야됨
                     ShowDiaryFrag frag = new ShowDiaryFrag();
@@ -414,15 +442,16 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
                     ft.addToBackStack(null);
                     ft.commit();
 
+
                 }
                 else if (s.equals("errrrrroooooooooor")){
-                    Toast.makeText(getActivity(), "뭐가 비었는데?", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "fill all", Toast.LENGTH_SHORT).show();
                 }
                 else if (s.equals("error in photo")){
-                    Toast.makeText(getActivity(), "사진새끼", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "사진 에러", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), "몰라 에러야", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "에러", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -467,8 +496,9 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
         try {
             selectName = selectName.replaceAll("\\p{Space}|\\p{Punct}", "");
             diaryTxt = diaryTxt.replaceAll("\\p{Space}|\\p{Punct}", "");
-            String strImage = getStringImage(bitmap);
-            addDiary(memberid, currentDate, selectId, selectName, diaryTxt, startfeel, finishfeel, wktime, wklength, wkcount, calorie, rating,strImage);
+            //String strImage = getStringImage(bitmap);
+            String strImage = null;
+            addDiary(memberid, currentDate, selectId, selectName, diaryTxt, startfeel, finishfeel, wktime, wklength, wkcount, calorie, rating, strImage);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
