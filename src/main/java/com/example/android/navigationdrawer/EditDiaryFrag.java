@@ -1,13 +1,17 @@
 package com.example.android.navigationdrawer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -31,7 +35,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -39,6 +57,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 
 
 /**
@@ -57,6 +76,7 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM7 = "calorie";
     private static final String ARG_PARAM8 = "selectName";
     private static final String ARG_PARAM9 = "selectId";
+    private static final String ARG_PARAM10 = "selectImg";
 
     private Uri fileUri;
     String filePath;
@@ -119,9 +139,9 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
         btn_addphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-              // photoPickerIntent.setType("image/*");
-               // startActivityForResult(photoPickerIntent, 1);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+              photoPickerIntent.setType("image/*");
+               startActivityForResult(photoPickerIntent, 1);
             }
         });
 
@@ -149,13 +169,13 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
 
     }//onCreateView()
 
-/*
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) if (resultCode == Activity.RESULT_OK) {
             selectedImage = data.getData();
-            photo = (Bitmap) data.getExtras().get("data");
+            //photo = (Bitmap) data.getExtras().get("data");
 
             // Cursor to get image uri to display
 
@@ -170,9 +190,13 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
 
             String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
 
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            //Bitmap photo = (Bitmap) data.getExtras().get("data");
             ImageView imageView = (ImageView) getActivity().findViewById(R.id.diary_imgView);
-            imageView.setImageBitmap(photo);
+            //imageView.setImageBitmap(BitmapFactory.decodeFile(String.valueOf(selectedImage)));
+            Glide.with(this).load(selectedImage).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+
+            //imageView.setImageMatrix(Image);
+           // imageView.setImageBitmap(photo);
 
             if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
                 //FINE
@@ -181,7 +205,7 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
             }
 
             final HttpClient httpclient = new DefaultHttpClient();
-            final HttpPost httppost = new HttpPost("http://condi.swu.ac.kr/schkr/diaryphoto");
+            final HttpPost httppost = new HttpPost("http://condi.swu.ac.kr/schkr/diaryphoto.php");
 
 
             class uploading extends AsyncTask {
@@ -199,18 +223,24 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
                 @Override
                 protected Object doInBackground(Object[] params) {
 
-                    MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+                    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                    //MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
                     if (filePath != null) {
                         File file = new File(filePath);
                         Log.d("EDIT USER PROFILE", "UPLOAD: file length = " + file.length());
                         Log.d("EDIT USER PROFILE", "UPLOAD: file exist = " + file.exists());
-                        mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
+                        builder.addPart("addimg", new FileBody(file));
+                        httppost.setEntity(builder.build());
+                       // mpEntity.addPart("avatar", new FileBody(file, "application/octet"));
                     }
-                    httppost.setEntity((HttpEntity) mpEntity);
+
                     HttpResponse response = null;
                     try {
                         response = httpclient.execute(httppost);
                         result = EntityUtils.toString(response.getEntity());
+                        Log.d("MyTag","result: "+result);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -230,8 +260,6 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
 
         }
     }
-
-*/
 
 
 
@@ -433,6 +461,7 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
                     args.putString(ARG_PARAM7,calorie);
                     args.putString(ARG_PARAM8,selectName);
                     args.putInt(ARG_PARAM9,selectId);
+                    args.putString(ARG_PARAM10, String.valueOf(selectedImage));
 
                     frag.setArguments(args);
 
@@ -498,6 +527,9 @@ public class EditDiaryFrag extends Fragment implements View.OnClickListener {
             diaryTxt = diaryTxt.replaceAll("\\p{Space}|\\p{Punct}", "");
             //String strImage = getStringImage(bitmap);
             String strImage = null;
+            if(result!="null"){
+                strImage = result;
+            }
             addDiary(memberid, currentDate, selectId, selectName, diaryTxt, startfeel, finishfeel, wktime, wklength, wkcount, calorie, rating, strImage);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

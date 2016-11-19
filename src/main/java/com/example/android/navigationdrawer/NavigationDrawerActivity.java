@@ -38,9 +38,6 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import org.json.JSONArray;
 
 import java.util.Calendar;
@@ -168,8 +165,8 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
             ft.commit();
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("walk");
-        FirebaseInstanceId.getInstance().getToken();
+        //FirebaseMessaging.getInstance().subscribeToTopic("walk");
+        //FirebaseInstanceId.getInstance().getToken();
 
         String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;
         appdata.getBookmarkList(getP);

@@ -4,12 +4,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,8 +43,10 @@ public class HistoryDiaryFrag extends Fragment {
     String wkcount= "";
     String calorie= "";
     String diarytxt= "";
+    String img ="";
 
     TextView name_txt,review_text, timer_txt,length_txt,count_txt,calorie_txt,startfeel_txt, finishfeel_txt,date_txt;
+    ImageView show_img;
 
     static String myJSON;
     static JSONArray schkr = null;
@@ -52,6 +61,7 @@ public class HistoryDiaryFrag extends Fragment {
     private static final String db_wkcount = "wkcount";
     private static final String db_calorie = "calorie";
     private static final String db_diarytxt = "diarytxt";
+    private static final String db_image = "image";
 
 
     @Override
@@ -80,6 +90,20 @@ public class HistoryDiaryFrag extends Fragment {
         startfeel_txt = (TextView) rootView.findViewById(R.id.startfeel_txt);
         finishfeel_txt = (TextView) rootView.findViewById(R.id.finishfeel_txt);
         date_txt = (TextView) rootView.findViewById(R.id.result_date);
+        show_img = (ImageView) rootView.findViewById(R.id.show_img);
+
+        Button btn_ok = (Button) rootView.findViewById(R.id.btn_diary_finish);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DiaryListFrag frag = new DiaryListFrag();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_frame, frag);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
 
 
 
@@ -116,6 +140,8 @@ public class HistoryDiaryFrag extends Fragment {
                 wkcount = c.getString(db_wkcount);
                 calorie = c.getString(db_calorie);
                 diarytxt = c.getString(db_diarytxt);
+                img = c.getString(db_image);
+
 
                 date_txt.setText(currentdate);
                 review_text.setText(diarytxt);
@@ -125,6 +151,11 @@ public class HistoryDiaryFrag extends Fragment {
                 count_txt.setText(wkcount);
                 calorie_txt.setText(calorie);
                 date_txt.setText(currentdate+" 산책");
+                if(img!="null"){
+                    Glide.with(this).load("http://condi.swu.ac.kr/schkr/"+img).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(show_img);
+
+                }
+
 
 
                 switch(startfeel){

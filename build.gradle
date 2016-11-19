@@ -13,6 +13,10 @@ dependencies {
     compile files('src/main/jniLibs/glide-3.7.0.jar')
     compile 'com.google.firebase:firebase-messaging:9.6.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile('org.apache.httpcomponents:httpmime:4.3.6') {
+        exclude module: 'httpclient'
+    }
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
 
 }
 
@@ -38,6 +42,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
     sourceSets {
 
         main {
@@ -51,5 +61,6 @@ android {
         androidTest.java.srcDirs = ['tests/src']
     }
 
+    useLibrary 'org.apache.http.legacy'
+
 }
-apply plugin: 'com.google.gms.google-services'

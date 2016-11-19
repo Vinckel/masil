@@ -191,17 +191,20 @@
                 android:layout_marginTop="6dp"
                 android:id="@+id/centerline"
                 />
-
             <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:layout_marginRight="20.25dp"
+            android:layout_marginLeft="18.25dp"
+            android:layout_marginTop="8dp"
+            android:id="@+id/review_text"
+            />
+            <ImageView
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:layout_marginRight="20.25dp"
-                android:layout_marginLeft="18.25dp"
-                android:layout_marginTop="8dp"
-                android:layout_below="@id/centerline"
-                android:id="@+id/review_text"
-                android:text="아무거나\n아\n무거나\n아무거\n나아무거나아무\n거나아무거나아무거나아무거나아무거\n나아무거나아무거나아무거\n나아무거나아무거나아무거나아무거나아무거나아무거나아\n무거나아무거나 서울여대사택길 걸음."/>
+                android:id="@+id/show_img"/>
 
         </LinearLayout>
     </ScrollView>

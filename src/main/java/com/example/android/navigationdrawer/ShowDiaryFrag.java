@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,11 +31,12 @@ public class ShowDiaryFrag extends Fragment {
 
 
     Button btn_diary_finish;
-    String startfeel, finishfeel, wktime, wklength, wkcount, calorie, selectName;
+    String startfeel, finishfeel, wktime, wklength, wkcount, calorie, selectName, selectImg;
     String diarytxt, resultdate;
     TextView name_txt,review_text, timer_txt,length_txt,count_txt,calorie_txt,startfeel_txt, finishfeel_txt,date_txt;
     private String currentDate;
     int selectId;
+    ImageView show_img;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class ShowDiaryFrag extends Fragment {
         calorie = extra.getString("calorie");
         selectName = extra.getString("selectName");
         selectId = extra.getInt("selectId");
+        selectImg = extra.getString("selectImg");
 
     }
 
@@ -69,6 +75,12 @@ public class ShowDiaryFrag extends Fragment {
         startfeel_txt = (TextView) rootView.findViewById(R.id.startfeel_txt);
         finishfeel_txt = (TextView) rootView.findViewById(R.id.finishfeel_txt);
         date_txt = (TextView) rootView.findViewById(R.id.result_date);
+        show_img = (ImageView) rootView.findViewById(R.id.show_img);
+
+        String imggg = "http://condi.swu.ac.kr/schkr/"+selectImg;
+
+        Glide.with(this).load(selectImg).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(show_img);
+
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd", Locale.KOREA);
         Date currentTime = new Date();
@@ -128,7 +140,7 @@ public class ShowDiaryFrag extends Fragment {
         }
 
 
-        //멤버 아이디 랑 같이 저것만 보내면 되나 . . .
+
 
 
         btn_diary_finish = (Button) rootView.findViewById(R.id.btn_diary_finish);
