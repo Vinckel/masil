@@ -1,6 +1,9 @@
 package com.example.android.navigationdrawer;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -66,7 +69,7 @@ public class MasilRoadFrag extends Fragment{
 
     ImageView bigimg,img1,img2, img3, img4, img5;
 
-    TextView nameView, detailView, tagView, ratingTextView;
+    TextView nameView, detailView, tagView, ratingTextView, tagView2;
     ImageView bookmarkView;
     RatingBar ratingView;
     static String txt_tag, txt_name, txt_detail;
@@ -120,7 +123,7 @@ public class MasilRoadFrag extends Fragment{
         toolbar.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.top));
         txtTitle.setText(selectName);
 
-        /*
+
         final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.NETWORK_PROVIDER;
         Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
@@ -132,11 +135,11 @@ public class MasilRoadFrag extends Fragment{
 
         }
         else {
-            Toast.makeText(getActivity(),"noooooooooooooo",Toast.LENGTH_LONG).show();}
-*/
+            Toast.makeText(getActivity(),"error: can't get location",Toast.LENGTH_LONG).show();}
+        /*
         lat = 37.629254;
         lon = 127.090701;//실습실 좌표
-
+*/
         String sss = "http://condi.swu.ac.kr/schkr/receive_road_1.php?id="+selectId+"&xpoint="+lat+"&ypoint="+lon;
         getData(sss);
 
@@ -325,6 +328,7 @@ public class MasilRoadFrag extends Fragment{
             nameView = (TextView) getActivity().findViewById(R.id.masil_name);
             detailView = (TextView) getActivity().findViewById(R.id.masil_detail);
             tagView = (TextView) getActivity().findViewById(R.id.textView_roadtag);
+            tagView2 = (TextView) getActivity().findViewById(R.id.textView_roadtag2);
             bookmarkView = (ImageView) getActivity().findViewById(R.id.road_bookmark);
 
             if(appdata.checkBookmark(id)){//true 체크된거면
@@ -340,8 +344,14 @@ public class MasilRoadFrag extends Fragment{
             String txt_rate = String.format("%.1f" ,rating);
             ratingTextView.setText("("+txt_rate+"/"+ratingNum+"명 참여)");
 
-            txt_tag = "#"+ theme_txt+"\t#"+loca;
+            txt_tag = "#"+ theme_txt;
             txt_name = name;
+
+            tagView.setText(txt_tag);
+
+            tagView2.setText(loca);
+
+
 
             String txt_dist = String.format("%.2f" , distance);
 
@@ -351,7 +361,7 @@ public class MasilRoadFrag extends Fragment{
                     "\n산책로 거리: "+length +"km"+
                     "\n설명: \n"+detail;
 
-            tagView.setText(txt_tag);
+
             nameView.setText(txt_name);
             detailView.setText(txt_detail);
 

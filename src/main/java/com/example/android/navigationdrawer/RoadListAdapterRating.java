@@ -100,7 +100,7 @@ public class RoadListAdapterRating extends BaseAdapter {
 
             roadRatingbar.setRating(Float.parseFloat(mRating));
             if(mRoad.getmBookmark()){
-                roadBookmark.setImageResource(R.drawable.greenstar);
+                roadBookmark.setImageResource(R.drawable.fiil_mark);
             }
 
             Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);

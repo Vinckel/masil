@@ -1,71 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/loginbg"
-
+    android:orientation="vertical"
     >
+    <TextView
+        android:layout_marginTop="280dp"
+        android:layout_marginLeft="85.5dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="ID"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"/>
+    <EditText
+        android:paddingLeft="13dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="214.25dp"
+        android:layout_height="31.39dp"
+        android:layout_marginLeft="72.5dp"
+        android:background="@drawable/editbox_bg"
+        android:layout_marginBottom="15.5dp"/>
+    <TextView
 
-    <Button
-        android:layout_width="213.15dp"
-        android:layout_height="56.15dp"
-        android:id="@+id/btn_loging"
-        android:background="@drawable/loging"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="317.5dp"
-        />
-
-    <Button
-        android:layout_width="213.15dp"
-        android:layout_height="56.15dp"
-        android:layout_marginTop="14.5dp"
-        android:id="@+id/btn_loginm"
-        android:background="@drawable/loginm"
-        android:layout_below="@id/btn_loging"
-        android:layout_centerHorizontal="true"
-        />
-
-
-    <CheckBox
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/btn_loginm"
-        android:layout_marginLeft="111dp"
-        android:background="#ffffff"/>
-
-    <!--승연아 그 체크박스 이미지....어떻게 바꿔야할까..몰라서 그냥 둘게...-->
+        android:layout_marginLeft="85.5dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="PASSWORD"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"/>
+    <EditText
+        android:paddingLeft="13dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="214.25dp"
+        android:layout_height="31.39dp"
+        android:layout_marginLeft="72.5dp"
+        android:background="@drawable/editbox_bg"
+        android:layout_marginBottom="22dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="11.5dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:layout_height="19.75dp"
+            android:layout_width="19.75dp"
+            android:button="@null"
+            android:background="@drawable/custom_roundcheck"
+            />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_marginTop="15.5dp"
+        android:layout_marginLeft="9.2dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="141.25dp"
+        android:layout_width="wrap_content"
         android:text="로그인 상태 유지"
-        android:textColor="#ffffff"
-        android:id="@+id/textlog"
-        android:layout_below="@id/btn_loginm"/>
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"/>
 
-    <TextView
+        </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15.5dp"
-        android:layout_centerHorizontal="true"
-        android:text="마실마실이 처음이신가요?"
-        android:textColor="#ffffff"
-        android:layout_below="@id/textlog"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="27dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마실마실이 처음이신가요?"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"/>
+        <TextView
+            android:layout_marginLeft="9dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textColor="#FFFFFF"
+            android:id="@+id/txt_join"
+            android:textSize="15sp"/>
+
+        </LinearLayout>
+    <Button
+        android:layout_width="144.75dp"
+        android:layout_height="41.06dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/login_btn"
+        android:id="@+id/login_btn"/>
 
 
-    <!-- 회원가입을 "마실마실이 처음이신가요?" 옆에 밑줄 그어서 두고 싶어요......사이 여백은 9.75dp
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15.5dp"
-        android:layout_centerHorizontal="true"
-        android:text="회원가입"
-        android:textColor="#ffffff"
-        android:layout_below="@id/textlog"/>
--->
 
-</RelativeLayout>
+</LinearLayout>

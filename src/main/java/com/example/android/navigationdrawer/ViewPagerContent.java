@@ -1,16 +1,26 @@
 package com.example.android.navigationdrawer;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +41,11 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
     private String mParam2;
     int num;
     private int mId;
+    ImageView bookmarkView;
+    int memberid = 1;
+
+    private static final String ADD_URL = "http://condi.swu.ac.kr/schkr/addBookmark.php";
+    private static final String DEL_URL = "http://condi.swu.ac.kr/schkr/delBookmark.php";
 
 
 
@@ -38,7 +53,7 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
     ImageView bigimg,img1,img2, img3, img4, img5;
 
     private String theme, level, time, info;
-    private TextView tvName, tvTag, tvDetail,tvRatingNum;
+    private TextView tvName, tvTag, tvDetail,tvRatingNum, tvTag2;
     private RatingBar rating;
     private ApplicationData roadData;
 
@@ -200,7 +215,9 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
 
 
         tvTag = (TextView) v.findViewById(R.id.pager_roadtag);
-        tvTag.setText("#"+theme+"\t#"+roadData.loca_list[num]);
+        tvTag.setText("#"+theme);
+        tvTag2 = (TextView) v.findViewById(R.id.pager_roadtag2);
+        tvTag2.setText(roadData.loca_list[num]);
 
         tvDetail = (TextView)v.findViewById(R.id.pager_detail);
 
@@ -213,6 +230,46 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
                 "\n산책로 거리: "+roadData.length_list[num]+
                 "km\n설명:\n"+roadData.detail_list[num];
         tvDetail.setText(info);
+
+        bookmarkView = (ImageView) v.findViewById(R.id.pager_bookmark);
+        //아이디랑 현재 우ㅣ치 보내야됨
+        bookmarkView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str;
+                if((bookmarkView.getTag()).equals("off")){//북마크 체크 ㄴㄴ면
+                    //add url로 memberid 랑 roadid
+
+
+                    try {
+                        addBookmark(memberid,mId);
+
+                        String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;//appdata.getBookmarkList로 그거 리샛해준다 업데이트라는말
+                        roadData.getBookmarkList(getP);
+
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{ //북마크 체크 ㅇㅇ면
+
+                    try {
+                        delBookmark(memberid,mId);
+
+                        String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;//appdata.getBookmarkList로 그거 리샛해준다 업데이트라는말
+                        roadData.getBookmarkList(getP);
+
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
+
 
 
 
@@ -238,6 +295,135 @@ public class ViewPagerContent extends Fragment implements View.OnClickListener {
                 Glide.with(this).load("http://condi.swu.ac.kr/schkr/photo/" + mId + "_5.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(bigimg);
                 break;
         }
+    }
+
+    private void addBookmark(int memberid, int roadid) throws UnsupportedEncodingException {
+
+        String urlSuffix = "?memberid="+memberid+"&roadid="+roadid;
+        class AddB extends AsyncTask<String, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(getActivity(), "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+
+
+                if (s.equals("success")) {
+                    Toast.makeText(getActivity(), "북마크 추가", Toast.LENGTH_SHORT).show();
+                    bookmarkView.setTag("on");//setTag on
+                    bookmarkView.setImageResource(R.drawable.fiil_mark);//view도 green으로 해줘야댐
+                }
+                else if(s.equals("errrrrroooooooooor")){
+                    Toast.makeText(getActivity(),"뭐가 비었단다",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "추가 실패셈", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                String s = params[0];
+                BufferedReader bufferedReader = null;
+                Log.d("MyTag",s+"두인백그라운드 진입");
+                try {
+                    Log.d("MyTag",s+"두인백그라운드 try진입");
+
+                    URL url = new URL(ADD_URL + s);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String result;
+
+                    result = bufferedReader.readLine();
+
+                    return result;
+
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+
+        }
+
+        AddB se = new AddB();
+        se.execute(urlSuffix);
+
+
+    }
+
+    private void delBookmark (int memberid, int roadid) throws UnsupportedEncodingException {
+
+        String urlSuffix = "?memberid="+memberid+"&roadid="+roadid;
+        class DelB extends AsyncTask<String, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(getActivity(), "Please Wait", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+
+
+                if (s.equals("success")) {
+                    Toast.makeText(getActivity(), "북마크 삭제", Toast.LENGTH_SHORT).show();
+                    bookmarkView.setTag("off");//setTag on
+                    bookmarkView.setImageResource(R.drawable.empty_mark);//view도 gray으로 해줘야댐
+                }
+                else if(s.equals("errrrrroooooooooor")){
+                    Toast.makeText(getActivity(),"뭐가 비었단다",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "삭제 실패셈", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                String s = params[0];
+                BufferedReader bufferedReader = null;
+                Log.d("MyTag",s+"두인백그라운드 진입");
+                try {
+                    Log.d("MyTag",s+"두인백그라운드 try진입");
+
+                    URL url = new URL(DEL_URL + s);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String result;
+
+                    result = bufferedReader.readLine();
+
+                    return result;
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+
+        }
+
+        DelB se = new DelB();
+        se.execute(urlSuffix);
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {

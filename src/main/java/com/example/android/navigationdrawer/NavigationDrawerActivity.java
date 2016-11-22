@@ -21,6 +21,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +41,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 
 /**
@@ -81,15 +89,29 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
     private String[] mPlanetTitles;
     private Context mContext;
 
-    int memberid = 1;
+    static String myPJSON;
+    static JSONArray pschkr = null;
+
+    static final int memberid = 1;
 
     static String myRJSON;
     static JSONArray rschkr = null;
 
-    private static final String TAG_RESULTS = "result";
+   // private static final String TAG_RESULTS = "result";
     private static final String db_roadid = "roadid";
 
     ApplicationData appdata;
+
+    private static final String TAG_RESULTS = "result";
+    private static final String db_memberid = "memberid";
+    private static final String db_height = "height";
+    private static final String db_weight = "weight";
+    private static final String db_favlevel = "favlevel";
+    private static final String db_happy = "happy";
+    private static final String db_peace = "peace";
+    private static final String db_boring = "boring";
+    private static final String db_sad = "sad";
+    private static final String db_annoying = "annoying";
 
 
 
@@ -171,6 +193,12 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
         String getP = "http://condi.swu.ac.kr/schkr/getBookmark.php?memberid="+memberid;
         appdata.getBookmarkList(getP);
 
+        String getProfile = "http://condi.swu.ac.kr/schkr/getProfile.php?memberid="+memberid;
+        getProfile(getProfile);
+
+
+
+
     }
 
 
@@ -216,6 +244,83 @@ public class NavigationDrawerActivity extends AppCompatActivity implements MenuA
 
         }
          return super.onOptionsItemSelected(item);
+    }
+
+    public void showProfile() {
+        try {
+            JSONObject jsonObj = new JSONObject(myPJSON);
+            pschkr = jsonObj.getJSONArray(TAG_RESULTS);
+
+
+            for (int i = 0; i < pschkr.length(); i++) {
+                JSONObject c = pschkr.getJSONObject(i);
+
+                int mid = c.getInt(db_memberid);
+                double mheight = c.getDouble(db_height);
+                double mweight = c.getDouble(db_weight);
+                int mfavlevel = c.getInt(db_favlevel);
+                String mhappy = c.getString(db_happy);
+                String mpeace = c.getString(db_peace);
+                String mboring = c.getString(db_boring);
+                String msad = c.getString(db_sad);
+                String mannoying = c.getString(db_annoying);
+
+                appdata.setMusic(mhappy,mpeace,mboring,msad,mannoying);
+
+
+            }// end of for()
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getProfile(String url) {
+
+        class GetProfileJSON extends AsyncTask<String, Void, String> {
+
+
+            @Override
+            public void onPreExecute() {
+
+                super.onPreExecute();
+                //로딩 넣기
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                String uri = params[0];
+                BufferedReader bufferedReader = null;
+                try {
+                    Log.d("MyTag", "겟프로필 진입");
+                    URL url = new URL(uri);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    StringBuilder sb = new StringBuilder();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json + "\n");
+                    }
+                    return sb.toString().trim();
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            public void onPostExecute(String result) {
+                //로딩 없애기
+                myPJSON = result;
+                showProfile();
+
+            }
+        }
+        GetProfileJSON g = new GetProfileJSON();
+        g.execute(url);
     }
 
     /* The click listener for RecyclerView in the navigation drawer */

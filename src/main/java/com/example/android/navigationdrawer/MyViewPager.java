@@ -113,8 +113,8 @@ public class MyViewPager extends Fragment {
         String locationProvider = LocationManager.NETWORK_PROVIDER;
         Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
         if (lastKnownLocation != null) {
-            lat = lastKnownLocation.getLatitude();
-            lon = lastKnownLocation.getLongitude();
+           // lat = lastKnownLocation.getLatitude();
+           // lon = lastKnownLocation.getLongitude();
            // lat = 37.629254;
            // lon = 127.090701;//실습실 좌표
 
@@ -147,14 +147,16 @@ public class MyViewPager extends Fragment {
 
         int time = Integer.parseInt(user_time);
 
-        //lat = 37.629254;
-        //lon = 127.090701;//실습실 좌표
+        lat = 37.576475;
+        lon = 127.001422;
+
 
         String mUrl = "http://condi.swu.ac.kr/schkr/receive_road_2.php?memberid="+memberId+"&condition="+condition+"&time="+time+"&xpoint="+lat+"&ypoint="+lon;
         getData(mUrl);
 
         mPageMark = (LinearLayout) rootView.findViewById(R.id.page_mark);
         mPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+
 
         initPageMark(0);
 
@@ -230,6 +232,11 @@ public class MyViewPager extends Fragment {
                 double distance = c.getDouble(db_distance);
                 double rating = c.getDouble(db_rating);
                 int ratingNum = c.getInt(db_ratingNum);
+
+                if(i==0){
+                    selectId = id;
+                    selectName = name;
+                }
 
                 roaddata.setRoadData(i, id, name, time, loca, level, theme, length, detail, distance,rating, ratingNum);
                // Log.d("MyTag", "showList for문 안에서 리스트 불러보는 중" + roaddata.name_list[i]);

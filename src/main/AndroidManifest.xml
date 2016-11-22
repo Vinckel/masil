@@ -19,8 +19,10 @@
     android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
     <application
@@ -49,12 +51,15 @@
         </activity>
         <activity
             android:name=".NavigationDrawerActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
         <receiver
             android:name=".BroadcastD"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".JoinActivity"></activity>
     </application>
 
 </manifest>

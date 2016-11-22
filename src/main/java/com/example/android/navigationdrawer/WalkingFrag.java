@@ -129,6 +129,8 @@ public class WalkingFrag extends Fragment {
         super.onAttach(activity);
 
 
+
+
         FeelingDialog mDialog = new FeelingDialog();
         mDialog.show(getFragmentManager(), "MYTAG");
 
@@ -552,6 +554,10 @@ public class WalkingFrag extends Fragment {
             btn_pre.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    getActivity().onBackPressed();
+                    //여기 고쳐봣음~ 돌려보자~
+
 /*
 뒤로가기랑 똑같은 기능으로 쳐야되는데
                     String select_condition=null;

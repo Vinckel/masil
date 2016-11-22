@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="17.5dp"
-    android:paddingRight="17.5dp"
-    android:background="@drawable/resultbg"
+    android:background="@drawable/resultbg2"
     android:gravity="center_horizontal"
     >
     <TextView
@@ -17,22 +15,6 @@
         android:textSize="17sp"
         android:id="@+id/result_date"
         />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="86.5dp"
-        android:layout_alignParentBottom="true"
-        >
-        <Button
-            android:layout_width="131dp"
-            android:layout_height="41dp"
-            android:background="@drawable/btn_local_grid"
-            android:layout_marginBottom="24dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-
-            android:id="@+id/btn_diary_finish"/>
-    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -103,104 +85,127 @@
                     android:id="@+id/finishfeel_txt"
                     />
             </LinearLayout>
-            <LinearLayout
+
+            <RelativeLayout
+                android:layout_marginLeft="17.5dp"
+                android:layout_marginRight="17.5dp"
+                android:layout_marginTop="32dp"
+                android:paddingRight="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="53dp"
                 android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_below="@id/feelchange"
-                android:layout_marginTop="36.5dp"
-                android:id="@+id/parameter">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:background="@drawable/gridbox"
+                android:layout_gravity="center"
+                android:gravity="center_vertical">
+                <LinearLayout
+                    android:layout_width="114dp"
                     android:layout_height="wrap_content"
-                    android:text="산책 거리"
-                    android:textSize="17sp"
-                    android:id="@+id/length"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="산책 걸음 수"
-                    android:textSize="17sp"
-                    android:layout_marginLeft="41dp"
-                    android:layout_marginRight="34.5dp"
-                    android:id="@+id/walk"/>
+                    android:orientation="vertical"
+                    android:id="@+id/centerbox"
+                    android:layout_centerInParent="true"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="산책 걸음 수"
+                        android:textColor="#9e9e9e"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/walk"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0000걸음"
+                        android:textSize="17sp"
+                        android:id="@+id/walkview"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="114dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/centerbox"
+                android:gravity="center">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="소모 칼로리"
+                    android:textColor="#9e9e9e"
+                    android:layout_marginBottom="12dp"
                     android:textSize="17sp"
                     />
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="325dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/parameter"
-                android:src="@drawable/line"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_below="@id/parameter"
-                android:id="@+id/view">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00km"
-                    android:textSize="17sp"
-                    android:id="@+id/lengthview"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="53dp"
-                    android:layout_marginRight="56dp"
-                    android:text="0000걸음"
-                    android:textSize="17sp"
-                    android:id="@+id/walkview"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:text="000kcal"
                     android:id="@+id/calview"/>
+
             </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="114dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/centerbox">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="산책 거리"
+                        android:textColor="#9e9e9e"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/length"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00km"
+                        android:textSize="17sp"
+                        android:id="@+id/lengthview"/>
+                    </LinearLayout>
+
+
+            </RelativeLayout>
+
+
             <RelativeLayout
+                android:layout_marginTop="38dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="27dp"
+                android:paddingLeft="17.5dp"
+                android:layout_marginLeft="17.5dp"
+                android:layout_marginRight="17.5dp"
+                android:background="@drawable/diarybox"
+                android:paddingRight="17.5dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18.25dp"
-                    android:layout_marginTop="35.5dp"
                     android:text="산책 후기"
+                    android:textColor="#9e9e9e"
                     android:textSize="17sp"
                     android:id="@+id/review"/>
             </RelativeLayout>
-            <ImageView
-                android:layout_width="325dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/line"
-                android:layout_marginTop="6dp"
-                android:id="@+id/centerline"
-                />
+
+
             <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
-            android:layout_marginRight="20.25dp"
-            android:layout_marginLeft="18.25dp"
+            android:layout_marginRight="22.5dp"
+            android:layout_marginLeft="22.5dp"
             android:layout_marginTop="8dp"
             android:id="@+id/review_text"
             />
             <ImageView
+                android:layout_marginRight="22.5dp"
+                android:layout_marginLeft="22.5dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -208,5 +213,22 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="86.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#5eaec7">
+        <Button
+            android:layout_width="131dp"
+            android:layout_height="41dp"
+            android:background="@drawable/btn_local_grid"
+            android:layout_marginBottom="24dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+
+            android:id="@+id/btn_diary_finish"/>
+    </RelativeLayout>
 
 </RelativeLayout>

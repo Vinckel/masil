@@ -133,10 +133,6 @@ public class RoadListFrag extends Fragment {
 
 
 
-       // lat = 37.629254;
-       // lon = 127.090701;//실습실 좌표
-
-
         String getP = "http://condi.swu.ac.kr/schkr/getThemeRoadList.php?themeid="+selectThemeId+"&xpoint="+lat+"&ypoint="+lon;
         getRoadList(getP);
 

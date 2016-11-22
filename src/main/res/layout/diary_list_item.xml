@@ -10,14 +10,13 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/blueStarRating"
             android:layout_alignParentRight="true"
-
             android:layout_marginTop="25.6dp"
             android:stepSize="0.5"
-            android:max="5"
             android:scaleX="0.7"
             android:scaleY="0.7"
+            style="@style/starRatingBar"
+            android:max="5"
             android:id="@+id/d_rating"
             />
         <TextView

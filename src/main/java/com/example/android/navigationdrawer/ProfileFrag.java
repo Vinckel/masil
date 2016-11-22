@@ -156,7 +156,7 @@ public class ProfileFrag extends Fragment {
             }
         });
 
-       sadspin = (Spinner) rootView.findViewById(R.id.sadspin);
+        sadspin = (Spinner) rootView.findViewById(R.id.sadspin);
         adapter5 = ArrayAdapter.createFromResource(getActivity(), R.array.music, R.layout.spin);
         adapter5.setDropDownViewResource(R.layout.spin_dropdown);
         sadspin.setPrompt("music");
@@ -203,7 +203,6 @@ public class ProfileFrag extends Fragment {
             public void onClick(View v) {
                 height = Double.parseDouble(editHeight.getText().toString());
                 weight = Double.parseDouble(editWeight.getText().toString());
-
 
                 try {
                     setProfile(memid, height, weight, favlevel, happy, peace, boring, sad, annoying);

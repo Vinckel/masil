@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -104,15 +103,10 @@ public class RoadListAdapter extends BaseAdapter
             //flag = appdata.checkBookmark(mRoad.getmRoadId());
            // Log.d("MyTag","북마크 잘 받아오는건가"+mRoad.getmBookmark()+"아이디"+mRoad.getmRoadId());
             if(mRoad.getmBookmark()){
-                roadBookmark.setImageResource(R.drawable.greenstar);
+                roadBookmark.setImageResource(R.drawable.fiil_mark);
             }
             Glide.with(mContext).load("http://condi.swu.ac.kr/schkr/prevphoto/" + mRoad.getmRoadId() + ".png").diskCacheStrategy(DiskCacheStrategy.SOURCE).into(roadImage);
-            roadBookmark.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "이거 선택이"+mRoad.getmRoadId(), Toast.LENGTH_SHORT).show();
-                }
-            });
+
             
             
         }

@@ -14,19 +14,19 @@
         >
 
         <ImageView
-            android:layout_width="19.35dp"
-            android:layout_height="18.04dp"
+            android:layout_width="70.5dp"
+            android:layout_height="27.165dp"
             android:scaleType="fitXY"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="15.5dp"
-            android:src="@drawable/graystar"
+            android:src="@drawable/btn_trans"
             android:id="@+id/bookmark2"/>
 
         <RatingBar
+            android:id="@+id/road_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/road_rating"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:stepSize="0.5"
